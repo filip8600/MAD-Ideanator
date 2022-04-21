@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/item_btn_option"
+        android:id="@+id/round_option_item"
         android:layout_width="325dp"
         android:layout_height="76dp"
         android:layout_marginTop="16dp"

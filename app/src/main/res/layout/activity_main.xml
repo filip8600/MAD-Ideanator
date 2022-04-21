@@ -7,7 +7,7 @@
     tools:context=".mainActivity.MainActivity">
 
     <TextView
-        android:id="@+id/txtName"
+        android:id="@+id/main_txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -17,10 +17,10 @@
         android:textSize="48sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/main_txtWelcome" />
 
     <TextView
-        android:id="@+id/txtWelcome"
+        android:id="@+id/main_txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+        app:layout_constraintTop_toBottomOf="@+id/main_txtName" />
 
     <Button
         android:id="@+id/mainBtnCreate"
@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mainBtnJoin" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/main_img_logo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="100dp"
