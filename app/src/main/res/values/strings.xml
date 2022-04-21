@@ -4,4 +4,5 @@
     <string name="welcome">Welcome to</string>
     <string name="createGame">Create Game</string>
     <string name="joinGame">Join Game</string>
+    <string name="round_txt">Round #</string>
 </resources>
