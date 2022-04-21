@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Ideainator</string>
-    <string name="app_name_Split">【ＩＤＥＡ】\n【ＩＮＡＴＯＲ】</string>
+    <string name="app_name" translatable="false">Ideainator</string>
+    <string name="app_name_Split" translatable="false">【ＩＤＥＡ】\n【ＩＮＡＴＯＲ】</string>
     <string name="welcome">Welcome to</string>
     <string name="createGame">Create Game</string>
     <string name="joinGame">Join Game</string>
     <string name="joinHeadline">Join an existing game....</string>
     <string name="writeCode">Insert the game code:</string>
-    <string name="CodeHint">1234</string>
+    <string name="CodeHint" translatable="false">1234</string>
     <string name="startButton">Lets Gooo!</string>
 </resources>
