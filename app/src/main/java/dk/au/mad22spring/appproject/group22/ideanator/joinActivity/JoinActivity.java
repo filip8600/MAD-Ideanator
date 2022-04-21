@@ -5,22 +5,24 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
-import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
 
 public class JoinActivity extends AppCompatActivity {
     private Button joinButton;
     private EditText textBox;
     private ActivityResultLauncher<Intent> launcher;
+    private JoinActivityViewModel viewmodel;
 
 
     @Override
@@ -30,6 +32,10 @@ public class JoinActivity extends AppCompatActivity {
         setupUI();
         setupListeners();
         setupLauncher();
+
+        viewmodel = new ViewModelProvider(this).get(JoinActivityViewModel.class);
+
+
     }
 
     private void setupLauncher() {
@@ -62,7 +68,17 @@ public class JoinActivity extends AppCompatActivity {
         //Todo: Check validity
         Intent intent = new Intent(this, LobbyActivity.class);
         intent.putExtra(getString(R.string.joincode),textBox.getText());
-        launcher.launch(intent);
+
+        viewmodel.JoinGame(textBox.getText().toString(),this);
+        viewmodel.JoinGame.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean == true){
+                    launcher.launch(intent);
+                }
+            }
+        });
+
     }
 
 
