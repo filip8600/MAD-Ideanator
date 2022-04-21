@@ -3,6 +3,7 @@ package dk.au.mad22spring.appproject.group22.ideanator;
 public class Player {
     private String imgUrl;
     private String name;
+    private Boolean isAdmin;
 
     public String getImgUrl() {
         return imgUrl;
@@ -18,6 +19,14 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     public Player(){};
