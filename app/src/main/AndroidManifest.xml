@@ -10,7 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ideanator">
         <activity
-            android:name=".MainActivity"
+            android:name=".voteActivity.VoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".roundActivity.RoundActivity"
+            android:exported="false" />
+        <activity
+            android:name=".lobbyActivity.LobbyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".finalActivity.FinalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".joinActivity.JoinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainActivity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
