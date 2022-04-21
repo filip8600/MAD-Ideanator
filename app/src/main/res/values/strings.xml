@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Ideanator</string>
+    <string name="app_name">Ideainator</string>
+    <string name="app_name_Split">【ＩＤＥＡ】\n【ＩＮＡＴＯＲ】</string>
+    <string name="welcome">Welcome to</string>
+    <string name="createGame">Create Game</string>
+    <string name="joinGame">Join Game</string>
 </resources>
