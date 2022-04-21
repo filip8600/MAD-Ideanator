@@ -6,4 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".lobbyActivity.LobbyActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lobby"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="371dp" />
+
+    <Button
+        android:id="@+id/LobbyBtnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        tools:layout_editor_absoluteX="146dp"
+        tools:layout_editor_absoluteY="182dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
