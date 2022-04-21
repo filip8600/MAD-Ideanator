@@ -11,6 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
+import dk.au.mad22spring.appproject.group22.ideanator.Firebase;
+import dk.au.mad22spring.appproject.group22.ideanator.Game;
+import dk.au.mad22spring.appproject.group22.ideanator.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
@@ -18,7 +26,9 @@ import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivit
 public class MainActivity extends AppCompatActivity {
     private Button joinButton, createButton;
     private ActivityResultLauncher<Intent> launcher;
-
+    Firebase firebase=new Firebase();
+    Game game=new Game();
+    ArrayList<Player> playerList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
         setupUI();
         setupListeners();
         setupLauncher();
+
+        Player player1=new Player();
+        player1.setName("bob");
+        playerList.add(player1);
+
+        game.setPlayers(playerList);
+
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference myRef=database.getReference("Ideainator/Games/"+"123");
+
+        myRef.setValue(game);
     }
 
     private void setupLauncher() {
