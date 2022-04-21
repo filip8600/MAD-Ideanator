@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -69,15 +70,17 @@ public class JoinActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LobbyActivity.class);
         intent.putExtra(getString(R.string.joincode),textBox.getText());
 
-        viewmodel.JoinGame(textBox.getText().toString(),this);
-        viewmodel.JoinGame.observe(this, new Observer<Boolean>() {
+        viewmodel.JoinGame(textBox.getText().toString(),this,intent,launcher);
+
+        /*viewmodel.JoinGame.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean == true){
                     launcher.launch(intent);
+                    viewmodel.JoinGame.removeObserver(this);
                 }
             }
-        });
+        });*/
 
     }
 

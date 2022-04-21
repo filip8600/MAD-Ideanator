@@ -1,9 +1,11 @@
 package dk.au.mad22spring.appproject.group22.ideanator.joinActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -26,10 +28,11 @@ import dk.au.mad22spring.appproject.group22.ideanator.Player;
 public class JoinActivityViewModel extends ViewModel {
 
     Firebase firebase = new Firebase();
-    public MutableLiveData<Boolean> JoinGame = new MutableLiveData<>();
+    //public MutableLiveData<Boolean> JoinGame = new MutableLiveData<>();
+    //private ActivityResultLauncher<Intent> launcher;
 
 
-    public void JoinGame(String roomid, Context app){
+    public void JoinGame(String roomid, Context app,Intent intent, ActivityResultLauncher<Intent> launcher){
 
         DatabaseReference myRef = firebase.getInstance().getReference("Ideainator/Games/"+roomid);
 
@@ -68,7 +71,8 @@ public class JoinActivityViewModel extends ViewModel {
                                 player.setName("Peter");
                                 players.add(player);
                                 myRef.setValue(players);
-                                JoinGame.setValue(true);
+                                launcher.launch(intent);
+                                //JoinGame.setValue(true);
                             }
                             else {
                                 Toast.makeText(app, "Game already started", Toast.LENGTH_SHORT).show();
@@ -78,7 +82,7 @@ public class JoinActivityViewModel extends ViewModel {
                 }
                 else {
                     Toast.makeText(app, "No such room", Toast.LENGTH_SHORT).show();
-                    JoinGame.setValue(false);
+                    //JoinGame.setValue(false);
                 }
             }
         });

@@ -20,6 +20,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivit
 public class MainActivity extends AppCompatActivity {
     private Button joinButton, createButton, debugFinalShortcut;
     private ActivityResultLauncher<Intent> launcher;
+    
 
 
     @Override

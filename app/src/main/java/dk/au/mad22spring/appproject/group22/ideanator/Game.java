@@ -6,6 +6,7 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<String> questions;
     private ArrayList<String> options;
+    //private int RoundCounter??
 
     public enum gameState {
         LOBBY,
@@ -17,6 +18,7 @@ public class Game {
     private gameState state = gameState.LOBBY;
 
     public Game() {
+
     }
 
     public ArrayList<Player> getPlayers() {
