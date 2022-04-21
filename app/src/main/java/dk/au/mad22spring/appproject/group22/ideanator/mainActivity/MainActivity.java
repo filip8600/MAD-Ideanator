@@ -12,11 +12,12 @@ import android.view.View;
 import android.widget.Button;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private Button joinButton, createButton;
+    private Button joinButton, createButton, debugFinalShortcut;
     private ActivityResultLauncher<Intent> launcher;
 
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupUI() {
         joinButton=findViewById(R.id.mainBtnJoin);
         createButton=findViewById(R.id.mainBtnCreate);
+        debugFinalShortcut=findViewById(R.id.MainBtnFinal);
     }
 
     private void setupListeners() {
@@ -58,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
                 createGame();
             }
         });
+        debugFinalShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFinal();
+            }
+        });
+    }
+
+    private void goToFinal() {
+        Intent intent = new Intent(this, FinalActivity.class);
+        launcher.launch(intent);
     }
 
     private void createGame() {

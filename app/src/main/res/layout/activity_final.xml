@@ -5,17 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".finalActivity.FinalActivity">
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
 
-        <TextView style="?android:textAppearanceMedium"
-            android:padding="16dp"
-            android:lineSpacingMultiplier="1.2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TestTestTestTestTestTestTestTestTest\nTestTestTestTestTest\nTestTestTest" />
-    </ScrollView>
+    <TextView
+        android:id="@+id/FinalTxtHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="@string/winnerIdeas"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/FinalFragmentContainerView"
+        android:name="dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FinalTxtHeader">
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+
+        </androidx.viewpager.widget.ViewPager>
+
+
+    <TextView
+        android:id="@+id/FinalTxtNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="TextView"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/FinalTxtHeader"
+        app:layout_constraintTop_toTopOf="@+id/FinalTxtHeader"
+        tools:text="3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
