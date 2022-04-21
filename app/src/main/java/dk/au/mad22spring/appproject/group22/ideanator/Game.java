@@ -7,7 +7,7 @@ public class Game {
     private ArrayList<String> questions;
     private ArrayList<String> options;
 
-    enum gameState {
+    public enum gameState {
         LOBBY,
         ROUND,
         VOTE,
