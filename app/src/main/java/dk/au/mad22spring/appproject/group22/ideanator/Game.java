@@ -1,10 +1,12 @@
 package dk.au.mad22spring.appproject.group22.ideanator;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Player> players;
-    private ArrayList<String> questions;
+    private ArrayList<String> problems;
     private ArrayList<String> options;
     //private int RoundCounter??
 
@@ -18,7 +20,9 @@ public class Game {
     private gameState state = gameState.LOBBY;
 
     public Game() {
-
+        players = new ArrayList<>();
+        problems = new ArrayList<>();
+        options = new ArrayList<>();
     }
 
     public ArrayList<Player> getPlayers() {
@@ -29,12 +33,12 @@ public class Game {
         this.players = players;
     }
 
-    public ArrayList<String> getQuestions() {
-        return questions;
+    public ArrayList<String> getProblems() {
+        return problems;
     }
 
-    public void setQuestions(ArrayList<String> questions) {
-        this.questions = questions;
+    public void setProblems(ArrayList<String> problems) {
+        this.problems = problems;
     }
 
     public ArrayList<String> getOptions() {

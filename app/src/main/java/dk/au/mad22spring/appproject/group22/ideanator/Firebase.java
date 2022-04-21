@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class Firebase {
 
+    //TODO MAKE THIS SINGLETON
     public Game theGame;
 
     public Firebase(){

@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,13 +21,14 @@ import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivit
 public class MainActivity extends AppCompatActivity {
     private Button joinButton, createButton, debugFinalShortcut;
     private ActivityResultLauncher<Intent> launcher;
-    
+    private MainActivityViewModel viewmodel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewmodel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         setupUI();
         setupListeners();
         setupLauncher();
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createGame() {
         Intent intent = new Intent(this, LobbyActivity.class);
+        viewmodel.CreateGame();
         launcher.launch(intent);
     }
 
