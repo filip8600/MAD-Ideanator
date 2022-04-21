@@ -37,7 +37,18 @@ public class FinalActivity extends FragmentActivity {
         mPager.setAdapter(pagerAdapter);
 
         setupSimpleViewItems();
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
+            @Override
+            public void onPageSelected(int position) {
+                currentNumberTextBox.setText(String.valueOf(position+1));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
 
 
     }
