@@ -25,6 +25,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
 
+import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivityViewModel;
@@ -32,6 +33,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
+import dk.au.mad22spring.appproject.group22.ideanator.voteActivity.VoteActivity;
 
 //https://www.journaldev.com/9896/android-countdowntimer-example TODO: Count down bar on round view + vote view
 
@@ -120,6 +122,8 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
                     theGame.getPlayers().get(vm.repository.playerIndex).getOptions().remove(index);
                     dataRef.setValue(theGame);
 
+                    Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
+                    launcher.launch(intent);
 
                 }
             });
