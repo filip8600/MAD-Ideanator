@@ -19,33 +19,40 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import dk.au.mad22spring.appproject.group22.ideanator.Firebase;
+import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class JoinActivityViewModel extends ViewModel {
 
-    Firebase firebase = new Firebase();
+    Repository repository = Repository.getInstance();
+    ValueEventListener listener;
+    DatabaseReference myRef;
     //public MutableLiveData<Boolean> JoinGame = new MutableLiveData<>();
     //private ActivityResultLauncher<Intent> launcher;
 
 
-    public void JoinGame(String roomid, Context app,Intent intent, ActivityResultLauncher<Intent> launcher){
+    public void JoinGame(String joinCode, Context app,Intent intent, ActivityResultLauncher<Intent> launcher,String playerName){
 
-        DatabaseReference myRef = firebase.getInstance().getReference("Ideainator/Games/"+roomid);
+        myRef = repository.getRealtimeInstance().getReference("Ideainator/Games/"+joinCode);
 
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
 
                 if (task.getResult().getValue() != null) {
-                    myRef.addValueEventListener(new ValueEventListener() {
+                    listener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
-                            firebase.theGame = dataSnapshot.getValue(Game.class);
-                            Log.d("GAME", Integer.toString(firebase.theGame.getPlayers().size()));
+                            repository.theGame.setValue(dataSnapshot.getValue(Game.class));
+                            for (Integer i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
+                                if (repository.theGame.getValue().getPlayers().get(i).getName() == playerName){
+                                    repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
+                                }
+                            }
+                            Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
 
                         }
 
@@ -55,19 +62,22 @@ public class JoinActivityViewModel extends ViewModel {
                             // Log.w("TAG", "Failed to read value.", error.toException());
 
                         }
-                    });
-                    DatabaseReference myRef = firebase.getInstance().getReference("Ideainator/Games/" + roomid + "/players");
+                    };
+                    myRef.addValueEventListener(listener);
+                    DatabaseReference myRef = repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
 
                     myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (firebase.theGame.getState() == Game.gameState.LOBBY) {
+                            if (repository.theGame.getValue().getState() == Game.gameState.LOBBY) {
                                 GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
                                 };
                                 ArrayList<Player> players = task.getResult().getValue(t);
                                 Player player = new Player();
-                                player.setName("Peter");
+                                player.setName(playerName);
                                 players.add(player);
+                                repository.thePlayer = player;
+                                repository.joinCode = joinCode;
                                 myRef.setValue(players);
                                 launcher.launch(intent);
                                 //JoinGame.setValue(true);
@@ -89,5 +99,8 @@ public class JoinActivityViewModel extends ViewModel {
 
     }
 
+    public void removeListener(){
+        if (listener != null) myRef.removeEventListener(listener);
+    }
 
 }

@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import dk.au.mad22spring.appproject.group22.ideanator.Firebase;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
@@ -70,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
                 goToFinal();
             }
         });
+
+        viewmodel.removeListener();
+
     }
 
     private void goToFinal() {
