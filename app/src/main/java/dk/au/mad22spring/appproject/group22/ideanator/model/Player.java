@@ -1,6 +1,6 @@
 package dk.au.mad22spring.appproject.group22.ideanator.model;
 
-import org.checkerframework.checker.nullness.Opt;
+
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ public class Player {
     public Player()
     {
         options = new ArrayList<OptionCard>();
+        isAdmin = false;
     }
 
     public String getImgUrl() {
