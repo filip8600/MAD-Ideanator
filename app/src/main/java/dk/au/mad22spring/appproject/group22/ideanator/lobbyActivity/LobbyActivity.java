@@ -10,11 +10,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
+import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
 public class LobbyActivity extends AppCompatActivity {
     private Button startButton;
+    private TextView txtJoinCode, txtPlayers;
+
+
     private ActivityResultLauncher<Intent> launcher;
 
 
@@ -30,6 +36,8 @@ public class LobbyActivity extends AppCompatActivity {
 
     private void setupUI() {
         startButton=findViewById(R.id.LobbyBtnStart);
+        txtJoinCode=findViewById(R.id.LobbyTxtCode);
+        txtPlayers=findViewById(R.id.LobbyTxtPlayes);
     }
 
     private void setupLauncher() {
@@ -52,6 +60,8 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     private void startGame() {
+        Intent intent = new Intent(this, RoundActivity.class);
+        launcher.launch(intent);
     }
 
 }
