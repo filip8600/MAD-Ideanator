@@ -1,13 +1,12 @@
-package dk.au.mad22spring.appproject.group22.ideanator;
-
-import org.checkerframework.checker.units.qual.A;
+package dk.au.mad22spring.appproject.group22.ideanator.model;
 
 import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Player> players;
-    private ArrayList<String> problems;
-    private ArrayList<String> options;
+    private ArrayList<Round> rounds;
+//    private ArrayList<String> problems;
+//    private ArrayList<String> options;
     //private int RoundCounter??
 
     public enum gameState {
@@ -21,8 +20,8 @@ public class Game {
 
     public Game() {
         players = new ArrayList<>();
-        problems = new ArrayList<>();
-        options = new ArrayList<>();
+       // problems = new ArrayList<>();
+       // options = new ArrayList<>();
     }
 
     public ArrayList<Player> getPlayers() {
@@ -33,21 +32,30 @@ public class Game {
         this.players = players;
     }
 
-    public ArrayList<String> getProblems() {
+    public ArrayList<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(ArrayList<Round> rounds) {
+        this.rounds = rounds;
+    }
+
+
+   /* public ArrayList<String> getProblems() {
         return problems;
     }
 
     public void setProblems(ArrayList<String> problems) {
         this.problems = problems;
-    }
+    }*/
 
-    public ArrayList<String> getOptions() {
+    /*public ArrayList<String> getOptions() {
         return options;
     }
 
     public void setOptions(ArrayList<String> options) {
         this.options = options;
-    }
+    }*/
 
     public gameState getState() {
         return state;
