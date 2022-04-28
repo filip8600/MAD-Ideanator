@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,8 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.Firebase;
-import dk.au.mad22spring.appproject.group22.ideanator.Game;
-import dk.au.mad22spring.appproject.group22.ideanator.Player;
+import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
+import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class JoinActivityViewModel extends ViewModel {
 
