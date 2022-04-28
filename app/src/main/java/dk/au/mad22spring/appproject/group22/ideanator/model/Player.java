@@ -10,6 +10,11 @@ public class Player {
     private ArrayList<OptionCard> options;
     private Boolean isAdmin;
 
+    public Player()
+    {
+        options = new ArrayList<OptionCard>();
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -42,6 +47,5 @@ public class Player {
         this.options = options;
     }
 
-    public Player(){};
 
 }

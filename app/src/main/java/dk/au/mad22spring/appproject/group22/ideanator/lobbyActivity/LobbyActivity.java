@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
+import dk.au.mad22spring.appproject.group22.ideanator.mainActivity.MainActivityViewModel;
 
 public class LobbyActivity extends AppCompatActivity {
     private Button startButton;
@@ -22,12 +24,14 @@ public class LobbyActivity extends AppCompatActivity {
 
 
     private ActivityResultLauncher<Intent> launcher;
+    private LobbyActivityViewModel viewmodel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+        viewmodel = new ViewModelProvider(this).get(LobbyActivityViewModel.class);
 
         setupUI();
         setupListeners();
@@ -60,8 +64,11 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     private void startGame() {
+
         Intent intent = new Intent(this, RoundActivity.class);
-        launcher.launch(intent);
+        viewmodel.StartGame(launcher,intent);
+        //launcher.launch(intent);
+
     }
 
 }
