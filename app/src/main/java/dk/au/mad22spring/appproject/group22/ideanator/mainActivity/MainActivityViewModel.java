@@ -34,16 +34,16 @@ public class MainActivityViewModel extends ViewModel {
         Game theGame = new Game();
 
         ArrayList<Round> rounds = new ArrayList<>();
-        rounds.add(new Round("This be a question 1"));
-        rounds.add(new Round("This be a question 2"));
-        rounds.add(new Round("This be a question 3"));
+        rounds.add(new Round("This be a _ 1"));
+        rounds.add(new Round("This be a _ 2"));
+        rounds.add(new Round("This be a _ 3"));
 
         theGame.setRounds(rounds);
         //      theGame.setProblems(problems);
         //      theGame.setOptions(Options);
 
         Player player = new Player();
-        player.setName("TheAdmin");
+        //player.setName("TheAdmin"); //Name overwritten after API call
         player.setAdmin(true);
         repository.thePlayer = player;
 

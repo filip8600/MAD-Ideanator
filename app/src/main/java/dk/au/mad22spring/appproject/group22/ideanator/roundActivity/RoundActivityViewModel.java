@@ -5,20 +5,22 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
+import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 
 public class RoundActivityViewModel extends ViewModel {
-    //public rep = Repository.getInstance()
+    private Repository repository= Repository.getInstance();
 
     public String getUserName() {
 
         //return rep.player.getUserName()
-        return "The Kinky Horse";
+        return repository.thePlayer.getName();
     }
 
     public String getImageUrl() {
 
-        return "https://i.imgur.com/eROlKpP.png";
+        return repository.thePlayer.getImgUrl();
     }
 
     public String getRoundNumber() {
@@ -26,7 +28,9 @@ public class RoundActivityViewModel extends ViewModel {
     }
 
     public String getProblem() {
-        return "The tooth fairy has forgotten to whom the teeth belong - design a solution using ____";
+        ArrayList<Round> rounds=repository.theGame.getValue().getRounds();
+        if(rounds!= null) return rounds.get(1).getProblems();//Todo fix 1
+        else return "Error codes would be a thing of the past with _";
     }
 
     public List<OptionCard> getOptionCards() {

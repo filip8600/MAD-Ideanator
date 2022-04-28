@@ -70,7 +70,7 @@ public class JoinActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LobbyActivity.class);
         intent.putExtra(getString(R.string.joincode),textBox.getText());
 
-        viewmodel.JoinGame(textBox.getText().toString(),this,intent,launcher,"Peter");
+        viewmodel.JoinGame(textBox.getText().toString(),this,intent,launcher);
 
         /*viewmodel.JoinGame.observe(this, new Observer<Boolean>() {
             @Override

@@ -21,7 +21,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivityV
 public class FinalActivity extends FragmentActivity {
     private FinalActivityViewModel vm;
     private FragmentContainerView container;
-    private static final int NUM_PAGES = 5;
+    private static int NUM_PAGES = 1;
     private ViewPager mPager;     //The pager widget, which handles animation and allows swiping horizontally to access previousand next wizard steps.
     private PagerAdapter pagerAdapter;     // The pager adapter, which provides the pages to the view pager widget.
 
@@ -34,6 +34,7 @@ public class FinalActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final);
         vm = new ViewModelProvider(this).get(FinalActivityViewModel.class);
+        NUM_PAGES=vm.getNumberOfRounds();
 
         setupSimpleViewItems();
         setUpViewPager();

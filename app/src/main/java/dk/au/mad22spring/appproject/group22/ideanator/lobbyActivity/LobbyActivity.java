@@ -51,7 +51,7 @@ public class LobbyActivity extends AppCompatActivity {
                 String text = "";
                 for (Integer i = 0;i<game.getPlayers().size();i++){
                     text += game.getPlayers().get(i).getName();
-                    if (viewmodel.repository.thePlayer.getName() == game.getPlayers().get(i).getName()) text +="*";
+                    if (viewmodel.repository.thePlayer.getName() == game.getPlayers().get(i).getName()) text += getApplicationContext().getResources().getString(R.string.you);
                     text += "\n";
                 }
                 txtPlayers.setText(text);

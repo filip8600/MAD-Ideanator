@@ -10,8 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_smiley_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ideanator">
-        android:name=".IdeainatorApplication">
+        android:theme="@style/Theme.Ideanator"
+        android:name=".IdeainatorApplication"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".voteActivity.VoteActivity"

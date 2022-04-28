@@ -8,8 +8,8 @@ public class IdeainatorApplication extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         instance = this;
+        super.onCreate();
     }
 
     public static Context getAppContext(){

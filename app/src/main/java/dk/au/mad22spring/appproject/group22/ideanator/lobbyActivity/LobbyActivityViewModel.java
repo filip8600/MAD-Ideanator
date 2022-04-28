@@ -37,9 +37,9 @@ public class LobbyActivityViewModel extends ViewModel {
                    ArrayList<Player> players = theGame.getPlayers();
                    for (Integer i = 0;i<players.size();i++)
                    {
-                        players.get(i).getOptions().add(new OptionCard("this be an option 1"));
-                        players.get(i).getOptions().add(new OptionCard("this be an option 2"));
-                        players.get(i).getOptions().add(new OptionCard("this be an option 3"));
+                        players.get(i).getOptions().add(new OptionCard("this be an _ 1"));
+                        players.get(i).getOptions().add(new OptionCard("this be an _ 2"));
+                        players.get(i).getOptions().add(new OptionCard("this be an _ 3"));
                    }
                    theGame.setPlayers(players);
                    theGame.setState(Game.gameState.ROUND);
