@@ -10,7 +10,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 
 public class RoundActivityViewModel extends ViewModel {
-    private Repository repository= Repository.getInstance();
+    public Repository repository= Repository.getInstance();
 
     public String getUserName() {
 

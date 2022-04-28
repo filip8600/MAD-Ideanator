@@ -59,15 +59,15 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
     private void setupRecyclerView() {
         adapter = new OptionAdapter(this);
-        adapter.updateOptionList(vm.rep.thePlayer.getOptions());
+        adapter.updateOptionList(vm.repository.thePlayer.getOptions());
         rc = findViewById(R.id.round_recyclerView);
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
 
-        vm.rep.theGame.observe(this, new Observer<Game>() {
+        vm.repository.theGame.observe(this, new Observer<Game>() {
             @Override
             public void onChanged(Game game) {
-                adapter.updateOptionList(vm.rep.thePlayer.getOptions());
+                adapter.updateOptionList(vm.repository.thePlayer.getOptions());
             }
         });
 
@@ -78,9 +78,9 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         userName = findViewById(R.id.round_txt_username);
         userImage = findViewById(R.id.round_img_avatar);
 
-        userName.setText(vm.rep.thePlayer.getName());
+        userName.setText(vm.repository.thePlayer.getName());
         Glide.with(getApplicationContext())
-                .load((vm.rep.thePlayer.getImgUrl()))
+                .load((vm.repository.thePlayer.getImgUrl()))
                 .placeholder(R.mipmap.ic_smiley_round)
                 .into(userImage);
 
@@ -88,17 +88,17 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         roundNumber = findViewById(R.id.round_txt_number);
         problemText = findViewById(R.id.round_txt_problem);
 
-        roundNumber.setText(Integer.toString(vm.rep.theGame.getValue().getRoundCounter()));
-        problemText.setText(vm.rep.theGame.getValue().getRounds().get((vm.rep.theGame.getValue().getRoundCounter() - 1)).getProblems());
+        roundNumber.setText(Integer.toString(vm.repository.theGame.getValue().getRoundCounter()));
+        problemText.setText(vm.repository.theGame.getValue().getRounds().get((vm.repository.theGame.getValue().getRoundCounter() - 1)).getProblems());
     }
 
     @Override
     public void onOptionClicked(int index) {
         if (hasChosenOption == false) {
-            Toast.makeText(this, "You chose" + vm.rep.thePlayer.getOptions().get(index).getOption(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You chose" + vm.repository.thePlayer.getOptions().get(index).getOption(), Toast.LENGTH_SHORT).show();
             hasChosenOption = true;
 
-            DatabaseReference dataRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + vm.rep.joinCode);
+            DatabaseReference dataRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + vm.repository.joinCode);
 
             dataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -110,9 +110,9 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
                     ArrayList<OptionCard> optionlist = new ArrayList<>();
                     if (theRound.getPlayedOptions() != null)
                         optionlist = theRound.getPlayedOptions();
-                    optionlist.add(vm.rep.thePlayer.getOptions().get(index));
+                    optionlist.add(vm.repository.thePlayer.getOptions().get(index));
                     theRound.setPlayedOptions(optionlist);
-                    theGame.getPlayers().get(vm.rep.playerIndex).getOptions().remove(index);
+                    theGame.getPlayers().get(vm.repository.playerIndex).getOptions().remove(index);
                     dataRef.setValue(theGame);
 
 
