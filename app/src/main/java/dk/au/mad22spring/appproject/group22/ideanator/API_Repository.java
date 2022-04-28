@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DatabaseReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +66,8 @@ public class API_Repository {
 
                         Repository.getInstance().thePlayer.setName(responseName);
                         Repository.getInstance().thePlayer.setImgUrl(AVATAR_URL+responseName+".png");
+                        DatabaseReference dataRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + Repository.getInstance().joinCode + "/players/" + Repository.getInstance().playerIndex);
+                        dataRef.setValue(Repository.getInstance().thePlayer);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

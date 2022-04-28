@@ -59,7 +59,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
     private void setupRecyclerView() {
         adapter = new OptionAdapter(this);
-        adapter.updateOptionList(vm.repository.thePlayer.getOptions());
+        adapter.updateOptionList(vm.getOptionCards());
         rc = findViewById(R.id.round_recyclerView);
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
@@ -68,6 +68,11 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
             @Override
             public void onChanged(Game game) {
                 adapter.updateOptionList(vm.repository.thePlayer.getOptions());
+                userName.setText(vm.getUserName());
+                Glide.with(getApplicationContext())
+                        .load((vm.getImageUrl()))
+                        .placeholder(R.mipmap.ic_smiley_round)
+                        .into(userImage);
             }
         });
 
@@ -78,9 +83,9 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         userName = findViewById(R.id.round_txt_username);
         userImage = findViewById(R.id.round_img_avatar);
 
-        userName.setText(vm.repository.thePlayer.getName());
+        userName.setText(vm.getUserName());
         Glide.with(getApplicationContext())
-                .load((vm.repository.thePlayer.getImgUrl()))
+                .load((vm.getImageUrl()))
                 .placeholder(R.mipmap.ic_smiley_round)
                 .into(userImage);
 
@@ -88,8 +93,8 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         roundNumber = findViewById(R.id.round_txt_number);
         problemText = findViewById(R.id.round_txt_problem);
 
-        roundNumber.setText(Integer.toString(vm.repository.theGame.getValue().getRoundCounter()));
-        problemText.setText(vm.repository.theGame.getValue().getRounds().get((vm.repository.theGame.getValue().getRoundCounter() - 1)).getProblems());
+        roundNumber.setText(vm.getRoundNumber());
+        problemText.setText(vm.getProblem());
     }
 
     @Override
@@ -121,7 +126,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
 
         } else {
-            Toast.makeText(this, "Slow down bucky, you have already chosen an option", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Slow down bucky, you have already chosen an option", Toast.LENGTH_SHORT).show();//Todo translate or delete
         }
 
     }

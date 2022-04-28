@@ -85,7 +85,7 @@ public class JoinActivityViewModel extends ViewModel {
                                 GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
                                 };
                                 ArrayList<Player> players = task.getResult().getValue(t);
-                                Player player = new Player();
+                                Player player = new Player(true);
                                 //player.setName(playerName);
                                 players.add(player);
                                 repository.thePlayer = player;

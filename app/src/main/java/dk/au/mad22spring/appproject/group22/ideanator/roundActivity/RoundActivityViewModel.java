@@ -13,8 +13,6 @@ public class RoundActivityViewModel extends ViewModel {
     public Repository repository= Repository.getInstance();
 
     public String getUserName() {
-
-        //return rep.player.getUserName()
         return repository.thePlayer.getName();
     }
 
@@ -23,21 +21,17 @@ public class RoundActivityViewModel extends ViewModel {
         return repository.thePlayer.getImgUrl();
     }
 
-    public String getRoundNumber() {
-        return "1";
+    public int getRoundNumber() {
+        return repository.theGame.getValue().getRoundCounter();
     }
 
     public String getProblem() {
         ArrayList<Round> rounds=repository.theGame.getValue().getRounds();
-        if(rounds!= null) return rounds.get(1).getProblems();//Todo fix 1
+        if(rounds!= null) return rounds.get(getRoundNumber()-1).getProblems();
         else return "Error codes would be a thing of the past with _";
     }
 
     public List<OptionCard> getOptionCards() {
-        OptionCard card= new OptionCard();
-        card.setOption("Meget god løsning");
-        ArrayList<OptionCard> cards= new ArrayList<OptionCard>();
-        cards.add(card);
-        return cards;
+        return repository.thePlayer.getOptions();
     }
 }
