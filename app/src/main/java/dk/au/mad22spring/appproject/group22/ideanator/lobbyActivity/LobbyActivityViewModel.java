@@ -44,17 +44,17 @@ public class LobbyActivityViewModel extends ViewModel {
                             OptionCard card = new OptionCard(document.get("English",String.class));
                             optionCards.add(card);
                         }
-                        // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
-                        Collections.shuffle(optionCards);
+
 
                         if (theGame.getState() == Game.gameState.LOBBY) {
                             ArrayList<Player> players = theGame.getPlayers();
                             for (Integer i = 0;i<players.size();i++)
                             {
+                                // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
+                                Collections.shuffle(optionCards);
                                 ArrayList<OptionCard> options = new ArrayList<>();
-                                for (int j = 0;j <5;j++){
-                                    options.add(optionCards.get(0));
-                                    optionCards.remove(0);
+                                for (int j = 0;j <15;j++){
+                                    options.add(optionCards.get(j));
                                 }
                                 players.get(i).setOptions(options);
                             }
