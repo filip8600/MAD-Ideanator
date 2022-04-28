@@ -4,6 +4,8 @@ package dk.au.mad22spring.appproject.group22.ideanator.model;
 
 import java.util.ArrayList;
 
+import dk.au.mad22spring.appproject.group22.ideanator.API_Repository;
+
 public class Player {
     private String imgUrl;
     private String name;
@@ -14,6 +16,9 @@ public class Player {
     {
         options = new ArrayList<OptionCard>();
         isAdmin = false;
+
+        API_Repository.getInstance().getRandomName();
+        /* AVATAR */
     }
 
     public String getImgUrl() {
