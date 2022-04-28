@@ -13,6 +13,7 @@ public class Repository {
     //TODO MAKE THIS SINGLETON
     public MutableLiveData<Game> theGame;
     public Player thePlayer;
+    public int playerIndex;
     public String joinCode;
     private FirebaseDatabase FirebaseRealtime;
     private FirebaseFirestore FirebaseStatic;
@@ -22,6 +23,7 @@ public class Repository {
         FirebaseRealtime = FirebaseDatabase.getInstance();
         FirebaseStatic = FirebaseFirestore.getInstance();
         theGame = new MutableLiveData<>();
+        thePlayer = new Player();
     }
 
     public static Repository getInstance(){

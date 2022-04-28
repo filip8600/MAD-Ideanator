@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 
 public class RoundActivityViewModel extends ViewModel {
-    //public rep = Repository.getInstance()
+    public Repository rep = Repository.getInstance();
 
     public String getUserName() {
 

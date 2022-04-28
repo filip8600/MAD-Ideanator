@@ -9,7 +9,7 @@ public class Round {
 
     public Round(String theProblem){
         problem = theProblem;
-        playedOptions=new ArrayList<OptionCard>();
+        playedOptions= new ArrayList<OptionCard>();
     }
 
     public Round (){

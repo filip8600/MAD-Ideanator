@@ -3,6 +3,7 @@ package dk.au.mad22spring.appproject.group22.ideanator.mainActivity;
 import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -14,13 +15,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
+import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
@@ -34,67 +39,82 @@ public class MainActivityViewModel extends ViewModel {
         Game theGame = new Game();
 
         ArrayList<Round> rounds = new ArrayList<>();
-        rounds.add(new Round("This be a question 1"));
-        rounds.add(new Round("This be a question 2"));
-        rounds.add(new Round("This be a question 3"));
 
-        theGame.setRounds(rounds);
-        //      theGame.setProblems(problems);
-        //      theGame.setOptions(Options);
-
-        Player player = new Player();
-        player.setName("TheAdmin");
-        player.setAdmin(true);
-        repository.thePlayer = player;
-
-        theGame.getPlayers().add(player);
-
-        // Generate joinCode here
-        // No great as it only checks if the code exists once.
-        // https://stackoverflow.com/questions/20389890/generating-a-random-number-between-1-and-10-java
-        Random rand = new Random();
-        int randomNum = rand.nextInt((1000 - 100) + 1) + 100;
-        DatabaseReference myJoincodeRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + Integer.toString(randomNum));
-        myJoincodeRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        Repository.getStaticInstance().collection("ProblemCards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.getResult().getValue() == null)
-                    repository.joinCode = Integer.toString(randomNum);
-                else {
-                    int randomNum = rand.nextInt((1000 - 100) + 1) + 100;
-                    repository.joinCode = Integer.toString(randomNum);
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Round round = new Round(document.get("English", String.class));
+                    rounds.add(round);
                 }
+                // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
+                Collections.shuffle(rounds);
 
 
-                DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
-                myRef.setValue(theGame);
+                theGame.setRounds(rounds);
+                //      theGame.setProblems(problems);
+                //      theGame.setOptions(Options);
 
-                listener = new ValueEventListener() {
+                Player player = new Player();
+                player.setName("TheAdmin");
+                player.setAdmin(true);
+                repository.thePlayer = player;
+
+                theGame.getPlayers().add(player);
+
+                // Generate joinCode here
+                // No great as it only checks if the code exists once.
+                // https://stackoverflow.com/questions/20389890/generating-a-random-number-between-1-and-10-java
+                Random rand = new Random();
+                int randomNum = rand.nextInt((1000 - 100) + 1) + 100;
+                DatabaseReference myJoincodeRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + Integer.toString(randomNum));
+                myJoincodeRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        repository.theGame.setValue(snapshot.getValue(Game.class));
-                        for (Integer i = 0; i < repository.theGame.getValue().getPlayers().size(); i++) {
-                            if (repository.theGame.getValue().getPlayers().get(i).getName() == player.getName()) {
-                                repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (task.getResult().getValue() == null)
+                            repository.joinCode = Integer.toString(randomNum);
+                        else {
+                            int randomNum = rand.nextInt((1000 - 100) + 1) + 100;
+                            repository.joinCode = Integer.toString(randomNum);
+                        }
+
+
+                        DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
+                        myRef.setValue(theGame);
+
+                        listener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Game theGame = snapshot.getValue(Game.class);
+
+                                for (Integer i = 0; i < theGame.getPlayers().size(); i++) {
+                                    if (theGame.getPlayers().get(i).getName().equals(player.getName())) {
+                                        repository.thePlayer = theGame.getPlayers().get(i);
+                                        repository.playerIndex = i;
+                                        Log.d("GAME", "PLAYERUPDTAED");
+                                    }
+                                }
+                                repository.theGame.setValue(theGame);
+                                if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.ROUND) {
+                                    Intent intent = new Intent(app, RoundActivity.class);
+                                    launcher.launch(intent);
+                                }
+
+
                             }
-                        }
-                        if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.ROUND){
-                            Intent intent = new Intent(app,RoundActivity.class);
-                            launcher.launch(intent);
-                        }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
+                            }
+                        };
+
+                        myRef.addValueEventListener(listener);
+
+                        launcher.launch(intent);
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                };
-
-                myRef.addValueEventListener(listener);
-
-                launcher.launch(intent);
+                });
             }
         });
     }

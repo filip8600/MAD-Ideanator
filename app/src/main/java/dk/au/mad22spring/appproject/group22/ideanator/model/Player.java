@@ -14,6 +14,7 @@ public class Player {
     {
         options = new ArrayList<OptionCard>();
         isAdmin = false;
+        imgUrl = "https://i.imgur.com/eROlKpP.png";
     }
 
     public String getImgUrl() {

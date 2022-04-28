@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
+import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
+import dk.au.mad22spring.appproject.group22.ideanator.voteActivity.VoteActivity;
 
 public class JoinActivityViewModel extends ViewModel {
 
@@ -48,9 +50,18 @@ public class JoinActivityViewModel extends ViewModel {
                             // whenever data at this location is updated.
                             repository.theGame.setValue(dataSnapshot.getValue(Game.class));
                             for (Integer i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
-                                if (repository.theGame.getValue().getPlayers().get(i).getName() == playerName){
+                                if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)){
                                     repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
+                                    repository.playerIndex = i;
                                 }
+                            }
+                            if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.ROUND){
+                                Intent intent = new Intent(app, RoundActivity.class);
+                                launcher.launch(intent);
+                            }
+                            else if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.VOTE){
+                                Intent intent = new Intent(app, VoteActivity.class);
+                                launcher.launch(intent);
                             }
                             Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
 
