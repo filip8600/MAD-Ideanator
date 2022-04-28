@@ -16,6 +16,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
+import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class MainActivity extends AppCompatActivity {
     private Button joinButton, createButton, debugFinalShortcut;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewmodel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewmodel.repository.thePlayer = new Player(true);
         setupUI();
         setupListeners();
         setupLauncher();

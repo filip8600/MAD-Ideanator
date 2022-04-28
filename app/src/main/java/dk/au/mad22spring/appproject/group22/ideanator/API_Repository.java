@@ -8,11 +8,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.core.Repo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Observer;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,8 +66,6 @@ public class API_Repository {
 
                         Repository.getInstance().thePlayer.setName(responseName);
                         Repository.getInstance().thePlayer.setImgUrl("https://avatars.dicebear.com/api/bottts/:"+responseName+".png");
-                        DatabaseReference dataRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + Repository.getInstance().joinCode + "/players/" + Repository.getInstance().playerIndex);
-                        dataRef.setValue(Repository.getInstance().thePlayer);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -55,12 +55,12 @@ public class MainActivityViewModel extends ViewModel {
                 //      theGame.setProblems(problems);
                 //      theGame.setOptions(Options);
 
-               Player player = new Player(true);
+               //Player player = new Player(true);
                //player.setName("TheAdmin"); //Name overwritten after API call
-               player.setAdmin(true);
-               repository.thePlayer = player;
+               //player.setAdmin(true);
+               repository.thePlayer.setAdmin(true);
 
-        theGame.getPlayers().add(player);
+                theGame.getPlayers().add(repository.thePlayer);
 
                 // Generate joinCode here
                 // No great as it only checks if the code exists once.
@@ -88,7 +88,7 @@ public class MainActivityViewModel extends ViewModel {
                                 Game theGame = snapshot.getValue(Game.class);
 
                                 for (Integer i = 0; i < theGame.getPlayers().size(); i++) {
-                                    if (theGame.getPlayers().get(i).getName().equals(player.getName())) {
+                                    if (theGame.getPlayers().get(i).getName().equals(repository.thePlayer.getName())) {
                                         repository.thePlayer = theGame.getPlayers().get(i);
                                         repository.playerIndex = i;
                                         Log.d("GAME", "PLAYERUPDTAED");
