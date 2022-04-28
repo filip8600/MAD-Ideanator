@@ -92,12 +92,15 @@ public class VoteActivityViewModel extends ViewModel {
     }
 
     private void moveToNextRound() {
+
         DatabaseReference gameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
         gameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 GenericTypeIndicator<Game> gameT =new GenericTypeIndicator<Game>() {};
                 Game game =task.getResult().getValue(gameT);
+                OptionCard winner= determineWinner(game);
+                game.getRounds().get(round-1).setWinner(winner);
                 game.setRoundCounter(round+1);
                 game.setState(Game.gameState.ROUND);
                 gameRef.setValue(game);
@@ -107,5 +110,13 @@ public class VoteActivityViewModel extends ViewModel {
             }
         });
 
+    }
+
+    private OptionCard determineWinner(Game game) {
+        OptionCard currentLeader=game.getRounds().get(round-1).getPlayedOptions().get(0);
+        for (OptionCard optionCard:game.getRounds().get(round-1).getPlayedOptions()) {
+            if(currentLeader.getVotes()<optionCard.getVotes()) currentLeader=optionCard;
+        }
+        return currentLeader;
     }
 }
