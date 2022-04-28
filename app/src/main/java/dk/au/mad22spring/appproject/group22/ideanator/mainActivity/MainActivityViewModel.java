@@ -42,7 +42,7 @@ public class MainActivityViewModel extends ViewModel {
         //      theGame.setProblems(problems);
         //      theGame.setOptions(Options);
 
-        Player player = new Player();
+        Player player = new Player(true);
         //player.setName("TheAdmin"); //Name overwritten after API call
         player.setAdmin(true);
         repository.thePlayer = player;

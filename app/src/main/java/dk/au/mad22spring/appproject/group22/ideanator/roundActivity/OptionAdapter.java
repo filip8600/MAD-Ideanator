@@ -1,6 +1,6 @@
 package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +45,7 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
 
         @NonNull
         @Override
-        public void onBindViewHolder(@NonNull OptionViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull OptionViewHolder holder, @SuppressLint("RecyclerView") int position) {
             OptionCard optionCard = optionList.get(position);
             holder.optionBtn.setText(optionCard.getOption());
             holder.optionBtn.setOnClickListener(new View.OnClickListener() {

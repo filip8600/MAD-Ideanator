@@ -12,12 +12,17 @@ public class Player {
     private ArrayList<OptionCard> options;
     private Boolean isAdmin;
 
-    public Player()
-    {
+    public Player(){
         options = new ArrayList<OptionCard>();
         isAdmin = false;
-
-        API_Repository.getInstance().getRandomName();
+    }
+    public Player(boolean generateNewName)
+    {
+        if(generateNewName=true) {
+            API_Repository.getInstance().getRandomName();
+        }
+        options = new ArrayList<OptionCard>();
+        isAdmin = false;
         /* AVATAR */
     }
 
