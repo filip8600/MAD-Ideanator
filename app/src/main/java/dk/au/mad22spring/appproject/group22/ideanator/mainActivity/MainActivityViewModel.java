@@ -96,6 +96,7 @@ public class MainActivityViewModel extends ViewModel {
                                 }
                                 repository.theGame.setValue(theGame);
                                 if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.ROUND) {
+                                    repository.currentGameState = Game.gameState.ROUND;
                                     Intent intent = new Intent(app, RoundActivity.class);
                                     launcher.launch(intent);
                                 }

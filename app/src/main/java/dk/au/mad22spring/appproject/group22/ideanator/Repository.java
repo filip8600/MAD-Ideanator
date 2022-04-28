@@ -14,6 +14,7 @@ public class Repository {
     public MutableLiveData<Game> theGame;
     public Player thePlayer;
     public int playerIndex;
+    public Game.gameState currentGameState = Game.gameState.LOBBY;
     public String joinCode;
     private FirebaseDatabase FirebaseRealtime;
     private FirebaseFirestore FirebaseStatic;

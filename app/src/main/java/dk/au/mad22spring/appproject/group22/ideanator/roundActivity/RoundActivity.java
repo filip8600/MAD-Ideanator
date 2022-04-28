@@ -121,6 +121,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
                 GenericTypeIndicator<Game> t = new GenericTypeIndicator<Game>() {
                 };
                 Game theGame = task.getResult().getValue(t);
+                theGame.setState(Game.gameState.VOTE);
                 Round theRound = theGame.getRounds().get((theGame.getRoundCounter() - 1));
                 ArrayList<OptionCard> optionlist = new ArrayList<>();
                 if (theRound.getPlayedOptions() != null)
@@ -130,6 +131,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
                 theGame.getPlayers().get(vm.repository.playerIndex).getOptions().remove(index);
                 dataRef.setValue(theGame);
 
+                    //vm.repository.currentGameState = Game.gameState.VOTE;
                     Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
                     launcher.launch(intent);
 

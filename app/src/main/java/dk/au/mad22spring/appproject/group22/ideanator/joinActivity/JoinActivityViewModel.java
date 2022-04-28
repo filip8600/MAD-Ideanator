@@ -57,13 +57,14 @@ public class JoinActivityViewModel extends ViewModel {
                                 }
                             }
                             if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.ROUND){
+                                repository.currentGameState = Game.gameState.ROUND;
                                 Intent intent = new Intent(app, RoundActivity.class);
                                 launcher.launch(intent);
                             }
-                            else if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.VOTE){
+                            /*else if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.VOTE){
                                 Intent intent = new Intent(app, VoteActivity.class);
                                 launcher.launch(intent);
-                            }
+                            }*/
                             Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
 
                         }
