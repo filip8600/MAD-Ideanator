@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
@@ -56,6 +57,7 @@ public class LobbyActivity extends AppCompatActivity {
                 txtPlayers.setText(text);
             }
         });
+
 
         if (viewmodel.repository.thePlayer.getAdmin() == false){
             startButton.setEnabled(false);

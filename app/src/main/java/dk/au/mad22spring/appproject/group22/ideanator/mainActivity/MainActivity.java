@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void createGame() {
         Intent intent = new Intent(this, LobbyActivity.class);
-        viewmodel.CreateGame();
-        launcher.launch(intent);
+        viewmodel.CreateGame(launcher, intent,this);
+
     }
 
     private void joinGame() {
