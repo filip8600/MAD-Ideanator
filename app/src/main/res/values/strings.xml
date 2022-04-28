@@ -11,4 +11,8 @@
     <string name="startButton">Lets Gooo!</string>
     <string name="vote">Vote</string>
     <string name="winnerIdeas">Winner Idea #</string>
+    <string name="players">Players:</string>
+    <string name="ClickHereWhenEveryoneArerRady">Click here when everyone are ready</string>
+    <string name="lobby">Lobby</string>
+    <string name="you"><![CDATA[<-You :)]]></string>
 </resources>
