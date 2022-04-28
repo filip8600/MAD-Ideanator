@@ -44,6 +44,8 @@ public class API_Repository {
     static RequestQueue queue;
     private static final String TAG = "API_REPOSITORY";
     private static final String USERNAME_URL = "http://names.drycodes.com/1?format=text";
+    //https://avatars.dicebear.com/styles/bottts
+    private static final String AVATAR_URL = "https://avatars.dicebear.com/api/bottts/:";
 
 
     /* USERNAMES */
@@ -65,7 +67,7 @@ public class API_Repository {
                         Log.d(TAG, "getRandomNameRequest: "+responseName);
 
                         Repository.getInstance().thePlayer.setName(responseName);
-                        Repository.getInstance().thePlayer.setImgUrl("https://avatars.dicebear.com/api/bottts/:"+responseName+".png");
+                        Repository.getInstance().thePlayer.setImgUrl(AVATAR_URL+responseName+".png");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
