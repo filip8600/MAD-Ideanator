@@ -2,21 +2,25 @@ package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.FirebaseDatabase;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivityViewModel;
 
 //https://www.journaldev.com/9896/android-countdowntimer-example TODO: Count down bar on round view + vote view
 
-public class RoundActivity extends AppCompatActivity {
+public class RoundActivity extends AppCompatActivity implements OptionAdapter.IOptionItemClickedListener {
 
     private RoundActivityViewModel vm;
     private OptionAdapter adapter;
@@ -30,8 +34,19 @@ public class RoundActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round);
+        vm = new ViewModelProvider(this).get(RoundActivityViewModel.class);
 
+        setupRecyclerView();
         setupUI();
+
+    }
+
+    private void setupRecyclerView() {
+        adapter= new OptionAdapter(this);
+        adapter.updateOptionList(vm.getOptionCards());
+        rc=findViewById(R.id.round_recyclerView);
+        rc.setLayoutManager(new LinearLayoutManager(this));
+        rc.setAdapter(adapter);
 
     }
 
@@ -52,5 +67,10 @@ public class RoundActivity extends AppCompatActivity {
 
         roundNumber.setText(vm.getRoundNumber());
         problemText.setText(vm.getProblem());
+    }
+
+    @Override
+    public void onOptionClicked(int index) {
+        Toast.makeText(this, "Godt valg :D", Toast.LENGTH_SHORT).show();
     }
 }

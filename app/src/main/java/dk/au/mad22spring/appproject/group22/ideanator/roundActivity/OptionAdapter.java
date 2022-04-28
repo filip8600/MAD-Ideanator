@@ -19,7 +19,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 //Entire file Derived from AU MAD lecture 3 "PersonAdaptor"
 public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionViewHolder> {
         public interface IOptionItemClickedListener {
-            void onDrinkClicked(int index);
+            void onOptionClicked(int index);
         }
 
         private final IOptionItemClickedListener listener;
@@ -48,6 +48,12 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
         public void onBindViewHolder(@NonNull OptionViewHolder holder, int position) {
             OptionCard optionCard = optionList.get(position);
             holder.optionBtn.setText(optionCard.getOption());
+            holder.optionBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onOptionClicked(position);
+                }
+            });
         }
 
         @Override
@@ -72,7 +78,7 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
             public void onClick(View view) {
                 Log.d("listactivity-log-tag", "option   clicked");
 
-                listener.onDrinkClicked(getAdapterPosition());
+                listener.onOptionClicked(getAdapterPosition());
             }
         }
 
