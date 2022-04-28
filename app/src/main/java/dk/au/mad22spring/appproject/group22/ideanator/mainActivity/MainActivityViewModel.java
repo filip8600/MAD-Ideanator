@@ -100,6 +100,14 @@ public class MainActivityViewModel extends ViewModel {
                                     Intent intent = new Intent(app, RoundActivity.class);
                                     launcher.launch(intent);
                                 }
+                                else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
+                                    Intent intent = new Intent(app, FinalActivity.class);
+                                    launcher.launch(intent);
+                                }
+                               /* else if (repository.theGame.getValue().getRoundCounter()== 10){
+                                    Intent intent = new Intent(app, FinalActivity.class);
+                                    launcher.launch(intent);
+                                }*/
 
 
                             }

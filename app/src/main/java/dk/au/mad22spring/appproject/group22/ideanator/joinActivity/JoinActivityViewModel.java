@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
+import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
@@ -61,10 +62,14 @@ public class JoinActivityViewModel extends ViewModel {
                                 Intent intent = new Intent(app, RoundActivity.class);
                                 launcher.launch(intent);
                             }
-                            /*else if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.VOTE){
-                                Intent intent = new Intent(app, VoteActivity.class);
+                            /*else if (repository.theGame.getValue().getRoundCounter()== 10){
+                                Intent intent = new Intent(app, FinalActivity.class);
                                 launcher.launch(intent);
                             }*/
+                            else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
+                                Intent intent = new Intent(app, FinalActivity.class);
+                                launcher.launch(intent);
+                            }
                             Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
 
                         }
