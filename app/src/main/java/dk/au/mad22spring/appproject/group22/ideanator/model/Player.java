@@ -18,13 +18,12 @@ public class Player {
     }
     public Player(boolean generateNewName)
     {
+        setName("Default");
         if(generateNewName=true) {
             API_Repository.getInstance().getRandomName();
         }
         options = new ArrayList<OptionCard>();
         isAdmin = false;
-        imgUrl = "https://i.imgur.com/eROlKpP.png";
-        
     }
 
     public String getImgUrl() {

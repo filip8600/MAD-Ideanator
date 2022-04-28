@@ -68,6 +68,11 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
             @Override
             public void onChanged(Game game) {
                 adapter.updateOptionList(vm.repository.thePlayer.getOptions());
+                userName.setText(vm.repository.thePlayer.getName());
+                Glide.with(getApplicationContext())
+                        .load((vm.repository.thePlayer.getImgUrl()))
+                        .placeholder(R.mipmap.ic_smiley_round)
+                        .into(userImage);
             }
         });
 
