@@ -60,8 +60,10 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
 
         @Override
         public int getItemCount() {
-            if( optionList!=null) return optionList.size();
-            else return 0;
+            if( optionList==null) return 0;
+            if(optionList.size()>5)return 5;//Only top 5 options are showed to user
+            return optionList.size();
+
         }
 
         public class OptionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
