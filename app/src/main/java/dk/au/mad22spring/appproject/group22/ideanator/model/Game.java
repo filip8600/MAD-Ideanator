@@ -22,6 +22,7 @@ public class Game {
         players = new ArrayList<>();
         setRoundCounter(1);
        // problems = new ArrayList<>();
+        rounds = new ArrayList<Round>();
        // options = new ArrayList<>();
     }
 

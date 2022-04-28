@@ -14,5 +14,5 @@
     <string name="players">Players:</string>
     <string name="ClickHereWhenEveryoneArerRady">Click here when everyone are ready</string>
     <string name="lobby">Lobby</string>
-    <string name="you"><![CDATA[<-You :)]]></string>
+    <string name="you">  ⬅ You :) </string>
 </resources>

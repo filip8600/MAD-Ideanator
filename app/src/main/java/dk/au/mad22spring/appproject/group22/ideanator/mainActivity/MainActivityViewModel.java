@@ -39,7 +39,6 @@ public class MainActivityViewModel extends ViewModel {
         Game theGame = new Game();
 
         ArrayList<Round> rounds = new ArrayList<>();
-
         Repository.getStaticInstance().collection("ProblemCards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -56,12 +55,12 @@ public class MainActivityViewModel extends ViewModel {
                 //      theGame.setProblems(problems);
                 //      theGame.setOptions(Options);
 
-                Player player = new Player();
-                player.setName("TheAdmin");
-                player.setAdmin(true);
-                repository.thePlayer = player;
+               Player player = new Player(true);
+               //player.setName("TheAdmin"); //Name overwritten after API call
+               player.setAdmin(true);
+               repository.thePlayer = player;
 
-                theGame.getPlayers().add(player);
+        theGame.getPlayers().add(player);
 
                 // Generate joinCode here
                 // No great as it only checks if the code exists once.

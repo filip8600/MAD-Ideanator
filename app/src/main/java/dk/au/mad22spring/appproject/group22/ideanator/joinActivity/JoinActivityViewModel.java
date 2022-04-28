@@ -34,7 +34,8 @@ public class JoinActivityViewModel extends ViewModel {
     //private ActivityResultLauncher<Intent> launcher;
 
 
-    public void JoinGame(String joinCode, Context app,Intent intent, ActivityResultLauncher<Intent> launcher,String playerName){
+    public void JoinGame(String joinCode, Context app,Intent intent, ActivityResultLauncher<Intent> launcher){
+        String playerName=Repository.getInstance().thePlayer.getName();
 
         myRef = repository.getRealtimeInstance().getReference("Ideainator/Games/"+joinCode);
 
@@ -85,7 +86,7 @@ public class JoinActivityViewModel extends ViewModel {
                                 };
                                 ArrayList<Player> players = task.getResult().getValue(t);
                                 Player player = new Player();
-                                player.setName(playerName);
+                                //player.setName(playerName);
                                 players.add(player);
                                 repository.thePlayer = player;
                                 repository.joinCode = joinCode;
