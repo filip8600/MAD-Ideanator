@@ -1,6 +1,5 @@
 package dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity;
 
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.util.Log;
 
@@ -16,17 +15,17 @@ import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
 
-import dk.au.mad22spring.appproject.group22.ideanator.Firebase;
+import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class LobbyActivityViewModel extends ViewModel {
 
-    Firebase firebase = new Firebase();
+    Repository repository = Repository.getInstance();
 
     public void StartGame(ActivityResultLauncher<Intent> launcher, Intent intent){
-        DatabaseReference myRef = Firebase.getInstance().getReference("Ideainator/Games/"+"321");
+        DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+ repository.joinCode);
 
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override

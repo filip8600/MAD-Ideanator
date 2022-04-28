@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,9 +15,11 @@ import android.widget.TextView;
 
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivityViewModel;
 
 //Viewpaging based on https://developer.android.com/training/animation/screen-slide.html
 public class FinalActivity extends FragmentActivity {
+    private FinalActivityViewModel vm;
     private FragmentContainerView container;
     private static final int NUM_PAGES = 5;
     private ViewPager mPager;     //The pager widget, which handles animation and allows swiping horizontally to access previousand next wizard steps.
@@ -30,13 +33,19 @@ public class FinalActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final);
+        vm = new ViewModelProvider(this).get(FinalActivityViewModel.class);
 
+        setupSimpleViewItems();
+        setUpViewPager();
+
+
+    }
+
+    private void setUpViewPager() {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager =  findViewById(R.id.FinalFragmentContainerView);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
-
-        setupSimpleViewItems();
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -49,8 +58,6 @@ public class FinalActivity extends FragmentActivity {
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-
-
     }
 
     private void setupSimpleViewItems() {
@@ -78,7 +85,8 @@ public class FinalActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new FinalFragment();
+
+            return new FinalFragment(position);
         }
 
         @Override
