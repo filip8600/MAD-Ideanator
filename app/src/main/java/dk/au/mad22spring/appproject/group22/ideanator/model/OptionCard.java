@@ -8,6 +8,7 @@ public class OptionCard {
 
     public OptionCard(String theOption){
         option = theOption;
+        setVotes(0);
     }
 
     public int getVotes() {

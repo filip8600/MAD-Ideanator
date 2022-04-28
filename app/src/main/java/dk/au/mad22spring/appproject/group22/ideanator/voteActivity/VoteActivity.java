@@ -54,6 +54,6 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
     @Override
     public void onOptionClicked(int index) {
         Toast.makeText(this, "Din stemme er (ikke) gemt!", Toast.LENGTH_SHORT).show();
-        vm.castVote(1,index);//Todo get round number instead of 1
+        vm.castVote(index);
     }
 }
