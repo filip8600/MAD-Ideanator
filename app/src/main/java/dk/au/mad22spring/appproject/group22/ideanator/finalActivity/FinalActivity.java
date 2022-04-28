@@ -86,7 +86,7 @@ public class FinalActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
 
-            return new FinalFragment(position);
+            return new FinalFragment(vm.getSolution(position));
         }
 
         @Override
