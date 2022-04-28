@@ -1,6 +1,9 @@
 package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -56,8 +59,18 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
         setupRecyclerView();
         setupUI();
+        setupLauncher();
 
     }
+
+    private void setupLauncher() {
+        //Launcher - Based on code from MAD lecture 2
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+
+            }
+        });}
 
     private void setupRecyclerView() {
         adapter = new OptionAdapter(this);
@@ -66,16 +79,13 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
 
-        vm.repository.theGame.observe(this, new Observer<Game>() {
-            @Override
-            public void onChanged(Game game) {
-                adapter.updateOptionList(vm.repository.thePlayer.getOptions());
-                userName.setText(vm.getUserName());
-                Glide.with(getApplicationContext())
-                        .load((vm.getImageUrl()))
-                        .placeholder(R.mipmap.ic_smiley_round)
-                        .into(userImage);
-            }
+        vm.repository.theGame.observe(this, game -> {
+            adapter.updateOptionList(vm.repository.thePlayer.getOptions());
+            userName.setText(vm.getUserName());
+            Glide.with(getApplicationContext())
+                    .load((vm.getImageUrl()))
+                    .placeholder(R.mipmap.ic_smiley_round)
+                    .into(userImage);
         });
 
     }
@@ -100,32 +110,29 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
     }
 
     @Override
-    public void onOptionClicked(int index) {
-        if (hasChosenOption == false) {
+    public void onOptionClicked(int index) {//Todo flyt kode til viewmodel
+        if (!hasChosenOption) {
             Toast.makeText(this, "You chose" + vm.repository.thePlayer.getOptions().get(index).getOption(), Toast.LENGTH_SHORT).show();
             hasChosenOption = true;
 
             DatabaseReference dataRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + vm.repository.joinCode);
 
-            dataRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    GenericTypeIndicator<Game> t = new GenericTypeIndicator<Game>() {
-                    };
-                    Game theGame = task.getResult().getValue(t);
-                    Round theRound = theGame.getRounds().get((theGame.getRoundCounter() - 1));
-                    ArrayList<OptionCard> optionlist = new ArrayList<>();
-                    if (theRound.getPlayedOptions() != null)
-                        optionlist = theRound.getPlayedOptions();
-                    optionlist.add(vm.repository.thePlayer.getOptions().get(index));
-                    theRound.setPlayedOptions(optionlist);
-                    theGame.getPlayers().get(vm.repository.playerIndex).getOptions().remove(index);
-                    dataRef.setValue(theGame);
+            dataRef.get().addOnCompleteListener(task -> {
+                GenericTypeIndicator<Game> t = new GenericTypeIndicator<Game>() {
+                };
+                Game theGame = task.getResult().getValue(t);
+                Round theRound = theGame.getRounds().get((theGame.getRoundCounter() - 1));
+                ArrayList<OptionCard> optionlist = new ArrayList<>();
+                if (theRound.getPlayedOptions() != null)
+                    optionlist = theRound.getPlayedOptions();
+                optionlist.add(vm.repository.thePlayer.getOptions().get(index));
+                theRound.setPlayedOptions(optionlist);
+                theGame.getPlayers().get(vm.repository.playerIndex).getOptions().remove(index);
+                dataRef.setValue(theGame);
 
                     Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
                     launcher.launch(intent);
 
-                }
             });
 
 
@@ -134,4 +141,5 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         }
 
     }
+
 }

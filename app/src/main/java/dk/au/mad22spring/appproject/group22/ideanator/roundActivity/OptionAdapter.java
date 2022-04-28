@@ -23,14 +23,14 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
         }
 
         private final IOptionItemClickedListener listener;
-        private List<OptionCard> optionList;
+        private ArrayList<OptionCard> optionList=new ArrayList<>();
 
         public OptionAdapter(IOptionItemClickedListener listener) {
             this.listener = listener;
             optionList = new ArrayList<OptionCard>();
         }
 
-        public void updateOptionList(List<OptionCard> list) {
+        public void updateOptionList(ArrayList<OptionCard> list) {
             optionList = list;
             notifyDataSetChanged();
         }
@@ -46,6 +46,8 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
         @NonNull
         @Override
         public void onBindViewHolder(@NonNull OptionViewHolder holder, @SuppressLint("RecyclerView") int position) {
+            Log.d("adaptor", "onBindViewHolder: tst");
+            //Log.d("adaptor", "onBindViewHolder: "+optionList.size());
             OptionCard optionCard = optionList.get(position);
             holder.optionBtn.setText(optionCard.getOption());
             holder.optionBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +60,8 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
 
         @Override
         public int getItemCount() {
-            return optionList.size();
+            if( optionList!=null) return optionList.size();
+            else return 0;
         }
 
         public class OptionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

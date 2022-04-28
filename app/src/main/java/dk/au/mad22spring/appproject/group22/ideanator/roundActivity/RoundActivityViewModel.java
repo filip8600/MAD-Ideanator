@@ -31,7 +31,7 @@ public class RoundActivityViewModel extends ViewModel {
         else return "Error codes would be a thing of the past with _";
     }
 
-    public List<OptionCard> getOptionCards() {
+    public ArrayList<OptionCard> getOptionCards() {
         return repository.thePlayer.getOptions();
     }
 }

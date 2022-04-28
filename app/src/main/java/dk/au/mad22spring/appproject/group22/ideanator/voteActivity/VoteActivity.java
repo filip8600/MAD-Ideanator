@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,14 +36,19 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
 
     private void setupUI() {
         problemText=findViewById(R.id.vote_txt_problem);
+        problemText.setText(vm.getProblemText());
     }
 
     private void setupRecyclerView() {
         adapter= new OptionAdapter(this);
-        adapter.updateOptionList(vm.getVoteOptions(1));//Todo get round number instead of 1
+        //adapter.updateOptionList(vm.getVoteOptions());
         rc=findViewById(R.id.vote_recyclerView);
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
+        //observe on game
+        vm.observe(this,adapter);
+        Log.d("adaptor", "recycler set up");
+
     }
 
     @Override
