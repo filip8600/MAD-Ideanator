@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_smiley_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ideanator">
+        android:name=".IdeainatorApplication">
+
         <activity
             android:name=".voteActivity.VoteActivity"
             android:exported="false" />

@@ -20,7 +20,7 @@ public class Game {
 
     public Game() {
         players = new ArrayList<>();
-       // problems = new ArrayList<>();
+        rounds = new ArrayList<Round>();
        // options = new ArrayList<>();
     }
 
