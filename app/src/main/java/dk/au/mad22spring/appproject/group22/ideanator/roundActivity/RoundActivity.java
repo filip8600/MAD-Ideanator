@@ -93,7 +93,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         roundNumber = findViewById(R.id.round_txt_number);
         problemText = findViewById(R.id.round_txt_problem);
 
-        roundNumber.setText(vm.getRoundNumber());
+        roundNumber.setText(Integer.toString(vm.getRoundNumber()));
         problemText.setText(vm.getProblem());
     }
 
