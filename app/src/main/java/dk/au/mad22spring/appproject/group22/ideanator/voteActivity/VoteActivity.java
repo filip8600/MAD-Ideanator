@@ -1,6 +1,9 @@
 package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,9 +32,20 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
         setContentView(R.layout.activity_vote);
 
         vm = new ViewModelProvider(this).get(VoteActivityViewModel.class);
-
+        setupLauncher();
         setupRecyclerView();
         setupUI();
+
+    }
+
+    private void setupLauncher() {
+        //Launcher - Based on code from MAD lecture 2
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+
+            }
+        });
     }
 
     private void setupUI() {
@@ -46,7 +60,7 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
         //observe on game
-        vm.observe(this,adapter);
+        vm.observe(this,adapter,launcher);
         Log.d("adaptor", "recycler set up");
 
     }

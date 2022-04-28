@@ -2,8 +2,10 @@ package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -19,13 +21,17 @@ import java.util.List;
 
 import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
+import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.OptionAdapter;
+import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
 public class VoteActivityViewModel extends ViewModel {
 
+    private ActivityResultLauncher<Intent> launcher;
+    private boolean hasVoted=false;
     private Repository repository=Repository.getInstance();
     private int round= repository.theGame.getValue().getRoundCounter();
 
@@ -35,6 +41,8 @@ public class VoteActivityViewModel extends ViewModel {
     }
 
     public void castVote( int voteIndex) {
+        if(hasVoted)return;
+        hasVoted=true;
         OptionCard optionToVote= repository.theGame.getValue().getRounds().get(round-1).getPlayedOptions().get(voteIndex);
 
         DatabaseReference roundRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode+"/rounds/"+(repository.theGame.getValue().getRoundCounter()-1));
@@ -57,16 +65,47 @@ public class VoteActivityViewModel extends ViewModel {
         return repository.theGame.getValue().getRounds().get(round-1).getProblems();
     }
 
-    public void observe(LifecycleOwner owner, OptionAdapter adaptor) {
+    public void observe(LifecycleOwner owner, OptionAdapter adaptor, ActivityResultLauncher<Intent> launcherRef) {
+        launcher=launcherRef;
         repository.theGame.observe(owner, new Observer<Game>() {
             @Override
             public void onChanged(Game game) {
-                Log.d("adaptor", "something new");
+                Log.d("adaptor", "something new has happened");
 
                 adaptor.updateOptionList(game.getRounds().get(round-1).getPlayedOptions());
-                Log.d("adaptor", "something new2");
+                adminCheckVoteCount(game);
 
             }
         });
+    }
+
+    public void adminCheckVoteCount(Game game) {
+       if ( !repository.thePlayer.getAdmin()) return;
+       //else
+        int counter=0;
+        for (OptionCard optionCard:game.getRounds().get(round-1).getPlayedOptions()) {
+            counter+=optionCard.getVotes();
+        }
+        int numberOfPlayers=game.getPlayers().size();
+        if(numberOfPlayers<=counter) moveToNextRound();
+
+    }
+
+    private void moveToNextRound() {
+        DatabaseReference gameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
+        gameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                GenericTypeIndicator<Game> gameT =new GenericTypeIndicator<Game>() {};
+                Game game =task.getResult().getValue(gameT);
+                game.setRoundCounter(round+1);
+                game.setState(Game.gameState.ROUND);
+                gameRef.setValue(game);
+                Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
+                launcher.launch(intent);
+
+            }
+        });
+
     }
 }

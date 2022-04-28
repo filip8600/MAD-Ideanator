@@ -70,7 +70,8 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
             public void onActivityResult(ActivityResult result) {
 
             }
-        });}
+        });
+    }
 
     private void setupRecyclerView() {
         adapter = new OptionAdapter(this);
