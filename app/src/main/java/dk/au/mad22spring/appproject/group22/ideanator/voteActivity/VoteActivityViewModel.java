@@ -92,7 +92,6 @@ public class VoteActivityViewModel extends ViewModel {
     }
 
     private void moveToNextRound() {
-
         DatabaseReference gameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
         gameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -101,16 +100,23 @@ public class VoteActivityViewModel extends ViewModel {
                 Game game =task.getResult().getValue(gameT);
                 OptionCard winner= determineWinner(game);
                 game.getRounds().get(round-1).setWinner(winner);
-                game.setRoundCounter(round+1);
                 game.setState(Game.gameState.ROUND);
-                gameRef.setValue(game);
-                Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
-                launcher.launch(intent);
-
+                if(round>=10) {//End game
+                    game.setState(Game.gameState.FINAL);
+                    gameRef.setValue(game);
+                }
+                else {//continue game
+                    game.setRoundCounter(round+1);
+                    gameRef.setValue(game);
+                    Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
+                    launcher.launch(intent);
+                }
             }
         });
 
     }
+
+
 
     private OptionCard determineWinner(Game game) {
         OptionCard currentLeader=game.getRounds().get(round-1).getPlayedOptions().get(0);
