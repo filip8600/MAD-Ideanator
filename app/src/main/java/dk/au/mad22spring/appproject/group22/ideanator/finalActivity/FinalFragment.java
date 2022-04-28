@@ -12,6 +12,9 @@ import dk.au.mad22spring.appproject.group22.ideanator.R;
 
 public class FinalFragment extends Fragment {
 
+    public FinalFragment(int position) {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

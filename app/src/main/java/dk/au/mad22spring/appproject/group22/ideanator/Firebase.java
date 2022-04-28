@@ -9,7 +9,7 @@ public class Firebase {
 
     //TODO MAKE THIS SINGLETON
     public Game theGame;
-    public Player thePlayer;
+    public Player thePlayer;//Yourself
     private FirebaseDatabase Firebase;
     private static Firebase staticFirebase;
 
