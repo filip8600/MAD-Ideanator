@@ -40,7 +40,7 @@ public class API_Repository {
     //API CONNECTION - Inspireret af eksempel med Rick and Morty-eksemplet fra undervisningen af Kasper Løvborg Jensen
     static RequestQueue queue;
     private static final String TAG = "API_REPOSITORY";
-    private static final String USERNAME_URL = "http://names.drycodes.com/1";
+    private static final String USERNAME_URL = "http://names.drycodes.com/1?format=text";
 
 
     /* USERNAMES */
@@ -58,9 +58,9 @@ public class API_Repository {
                 response -> {
                     Log.d(TAG, "onResponse: " + response);
                     try {
-                        String responseName = response.replace("\"","").replace("[","").replace("]","").replace("_", " ");
+                        String responseName = response.replace("_"," ");
                         Log.d(TAG, "getRandomNameRequest: "+responseName);
-                        
+
                         Repository.getInstance().thePlayer.setName(responseName);
                         Repository.getInstance().thePlayer.setImgUrl("https://avatars.dicebear.com/api/bottts/:"+responseName+".png");
                     } catch (Exception e) {
