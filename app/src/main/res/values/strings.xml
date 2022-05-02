@@ -19,4 +19,5 @@
     <string name="pickYourFavorite">Pick your favorite solution:</string>
     <string name="voteSaved">Your vote has been saved</string>
     <string name="optionAllreadySelected">Slow down bucky, you have already chosen an option</string>
+    <string name="shareCode">🏹 Send code</string>
 </resources>

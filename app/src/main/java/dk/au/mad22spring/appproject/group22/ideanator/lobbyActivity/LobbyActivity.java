@@ -15,7 +15,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
 public class LobbyActivity extends AppCompatActivity {
-    private Button startButton;
+    private Button startButton, shareButton;
     private TextView txtJoinCode, txtPlayers;
 
 
@@ -38,17 +38,11 @@ public class LobbyActivity extends AppCompatActivity {
         startButton=findViewById(R.id.LobbyBtnStart);
         txtJoinCode=findViewById(R.id.LobbyTxtCode);
         txtPlayers=findViewById(R.id.LobbyTxtPlayes);
+        shareButton = findViewById(R.id.lobbyBtnShare);
+
 
         txtJoinCode.setText(viewModel.repository.joinCode);
-        viewModel.repository.theGame.observe(this, game -> {
-            StringBuilder text = new StringBuilder();
-            for (int i = 0; i<game.getPlayers().size(); i++){
-                text.append(game.getPlayers().get(i).getName());
-                if (viewModel.repository.thePlayer.getName().equals(game.getPlayers().get(i).getName())) text.append(getApplicationContext().getResources().getString(R.string.you));
-                text.append("\n");
-            }
-            txtPlayers.setText(text.toString());
-        });
+
 
 
         if (!viewModel.repository.thePlayer.getAdmin()){
@@ -66,6 +60,32 @@ public class LobbyActivity extends AppCompatActivity {
     }
     private void setupListeners() {
         startButton.setOnClickListener(view -> startGame());
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareGameCode();
+            }
+        });
+        viewModel.repository.theGame.observe(this, game -> {
+            StringBuilder text = new StringBuilder();
+            for (int i = 0; i<game.getPlayers().size(); i++){
+                text.append(game.getPlayers().get(i).getName());
+                if (viewModel.repository.thePlayer.getName().equals(game.getPlayers().get(i).getName())) text.append(getApplicationContext().getResources().getString(R.string.you));
+                text.append("\n");
+            }
+            txtPlayers.setText(text.toString());
+        });
+
+    }
+
+    private void shareGameCode() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Gamecode for IdeaIantor: "+ viewModel.repository.joinCode);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
 
     }
 

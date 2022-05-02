@@ -65,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtCode" />
+        app:layout_constraintTop_toBottomOf="@+id/lobbyBtnShare" />
 
     <TextView
         android:id="@+id/LobbyTxtPlayes"
@@ -90,5 +90,15 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LobbyBtnStart" />
+
+    <Button
+        android:id="@+id/lobbyBtnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/shareCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtCode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
