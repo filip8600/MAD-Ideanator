@@ -83,8 +83,9 @@ public class FinalActivity extends FragmentActivity {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-
-            return new FinalFragment(vm.getSolution(position));
+            FinalFragment fragment= new FinalFragment();
+            fragment.setText(vm.getSolution(position));
+            return  fragment;
         }
 
         @Override

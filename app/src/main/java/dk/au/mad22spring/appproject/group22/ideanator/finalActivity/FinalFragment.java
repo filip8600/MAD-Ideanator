@@ -11,13 +11,15 @@ import androidx.fragment.app.Fragment;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 
 public class FinalFragment extends Fragment {
-    private final String solution;
+    private String solution ="";
 
 
-    public FinalFragment(String text) {
+
+    public void setText(String text){
         if(text!=null) solution=text;
         else solution ="Hmm, tom :(";
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
