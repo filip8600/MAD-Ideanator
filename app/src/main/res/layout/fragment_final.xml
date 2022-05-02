@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.2"
             android:padding="16dp"
-            android:textSize="24sp"
+            android:textAlignment="center"
+            android:textSize="34sp"
             tools:text="TestTestTestTestTestTestTestTestTest\nTestTestTestTestTest\nTestTestTest" />
     </ScrollView>
 

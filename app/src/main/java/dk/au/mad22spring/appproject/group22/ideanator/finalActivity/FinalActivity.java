@@ -1,6 +1,9 @@
 package dk.au.mad22spring.appproject.group22.ideanator.finalActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,6 +63,18 @@ public class FinalActivity extends FragmentActivity {
     private void setupSimpleViewItems() {
         currentNumberTextBox=findViewById(R.id.FinalTxtNumber);
         currentNumberTextBox.setText("1");
+        Button shareButton=findViewById(R.id.final_btn_share);
+        shareButton.setOnClickListener(view -> {shareIdea();});
+    }
+
+    private void shareIdea() {//Sharing from https://developer.android.com/training/sharing/send
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, vm.getSolution(mPager.getCurrentItem()));
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareIntent);
     }
 
     @Override
