@@ -1,21 +1,12 @@
 package dk.au.mad22spring.appproject.group22.ideanator;
 
-import android.app.Application;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.core.Repo;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Observer;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,7 +14,7 @@ public class API_Repository {
 
     /* GENERAL */
     private static API_Repository instance;            //for Singleton pattern
-    private static ExecutorService executor;           //for asynch processing
+    private static ExecutorService executor;           //for async processing
 
     public static API_Repository getInstance(){
         if(instance==null){

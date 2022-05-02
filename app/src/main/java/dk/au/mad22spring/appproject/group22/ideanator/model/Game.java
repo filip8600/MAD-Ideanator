@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class Game {
     private ArrayList<Player> players;
     private ArrayList<Round> rounds;
-    //    private ArrayList<String> problems;
-//    private ArrayList<String> options;
     private int RoundCounter;
 
     public enum gameState {
@@ -21,9 +19,7 @@ public class Game {
     public Game() {
         players = new ArrayList<>();
         setRoundCounter(1);
-       // problems = new ArrayList<>();
         rounds = new ArrayList<Round>();
-       // options = new ArrayList<>();
     }
 
     public ArrayList<Player> getPlayers() {
@@ -52,21 +48,7 @@ public class Game {
     }
 
 
-   /* public ArrayList<String> getProblems() {
-        return problems;
-    }
 
-    public void setProblems(ArrayList<String> problems) {
-        this.problems = problems;
-    }*/
-
-    /*public ArrayList<String> getOptions() {
-        return options;
-    }
-
-    public void setOptions(ArrayList<String> options) {
-        this.options = options;
-    }*/
 
     public gameState getState() {
         return state;

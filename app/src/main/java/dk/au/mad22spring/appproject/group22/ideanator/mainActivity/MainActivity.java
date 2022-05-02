@@ -1,7 +1,5 @@
 package dk.au.mad22spring.appproject.group22.ideanator.mainActivity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
@@ -21,15 +18,15 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 public class MainActivity extends AppCompatActivity {
     private Button joinButton, createButton, debugFinalShortcut;
     private ActivityResultLauncher<Intent> launcher;
-    private MainActivityViewModel viewmodel;
+    private MainActivityViewModel viewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewmodel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        viewmodel.repository.thePlayer = new Player(true);
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel.repository.thePlayer = new Player(true);
         setupUI();
         setupListeners();
         setupLauncher();
@@ -37,11 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupLauncher() {
         //Launcher - Based on code from MAD lecture 2
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
-            }
         });
     }
 
@@ -53,26 +47,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        joinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                joinGame();
-            }
-        });
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createGame();
-            }
-        });
-        debugFinalShortcut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToFinal();
-            }
-        });
+        joinButton.setOnClickListener(view -> joinGame());
+        createButton.setOnClickListener(view -> createGame());
+        debugFinalShortcut.setOnClickListener(view -> goToFinal());
 
-        viewmodel.removeListener();
+        viewModel.removeListener();
 
     }
 
@@ -83,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createGame() {
         Intent intent = new Intent(this, LobbyActivity.class);
-        viewmodel.CreateGame(launcher, intent,this);
+        viewModel.CreateGame(launcher, intent,this);
 
     }
 

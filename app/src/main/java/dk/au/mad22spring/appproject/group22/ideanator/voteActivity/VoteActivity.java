@@ -1,20 +1,18 @@
 package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -25,9 +23,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.OptionAdapte
 public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOptionItemClickedListener, VoteActivityViewModel.CanUpdateUI {
     private VoteActivityViewModel vm;
     private OptionAdapter adapter;
-    private RecyclerView rc;
     private ActivityResultLauncher<Intent> launcher;
-    private TextView problemText;
     private ProgressBar progressBar;
 
     @Override
@@ -44,16 +40,12 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
 
     private void setupLauncher() {
         //Launcher - Based on code from MAD lecture 2
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-
-            }
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         });
     }
 
     private void setupUI() {
-        problemText=findViewById(R.id.vote_txt_problem);
+        TextView problemText = findViewById(R.id.vote_txt_problem);
         problemText.setText(vm.getProblemText());
         progressBar=findViewById(R.id.vote_progressBar_countdown);
         progressBar.setMax(vm.getNumberOfPlayers());
@@ -62,11 +54,11 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
     private void setupRecyclerView() {
         adapter= new OptionAdapter(this);
         //adapter.updateOptionList(vm.getVoteOptions());
-        rc=findViewById(R.id.vote_recyclerView);
+        RecyclerView rc = findViewById(R.id.vote_recyclerView);
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
         //observe on game
-        vm.observe(this, this);
+        vm.observe(this, this,launcher);
         Log.d("adaptor", "recycler set up");
 
     }

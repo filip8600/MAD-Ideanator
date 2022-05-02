@@ -1,18 +1,15 @@
 package dk.au.mad22spring.appproject.group22.ideanator.finalActivity;
 
-import android.widget.Toast;
-
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 
-import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 
 public class FinalActivityViewModel extends ViewModel {
-    private Repository repo= Repository.getInstance();
+    private final Repository repo= Repository.getInstance();
 
     public String getSolution(int position) {
         if(repo.theGame.getValue()==null) {

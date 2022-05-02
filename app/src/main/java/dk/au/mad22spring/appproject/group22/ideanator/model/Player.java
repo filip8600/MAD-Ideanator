@@ -19,7 +19,7 @@ public class Player {
     public Player(boolean generateNewName)
     {
         setName("Default");
-        if(generateNewName==true) {
+        if(generateNewName) {
             API_Repository.getInstance().getRandomName();
         }
         options = new ArrayList<OptionCard>();

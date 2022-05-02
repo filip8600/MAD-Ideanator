@@ -24,93 +24,78 @@ import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivit
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
-import dk.au.mad22spring.appproject.group22.ideanator.voteActivity.VoteActivity;
 
 public class JoinActivityViewModel extends ViewModel {
 
     Repository repository = Repository.getInstance();
     ValueEventListener listener;
     DatabaseReference myRef;
-    //public MutableLiveData<Boolean> JoinGame = new MutableLiveData<>();
-    //private ActivityResultLauncher<Intent> launcher;
+
 
 
     public void JoinGame(String joinCode, Context app,Intent intent, ActivityResultLauncher<Intent> launcher){
         String playerName=Repository.getInstance().thePlayer.getName();
         repository.thePlayer.setAdmin(false);
 
-        myRef = repository.getRealtimeInstance().getReference("Ideainator/Games/"+joinCode);
+        myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+joinCode);
 
-        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+        myRef.get().addOnCompleteListener(task -> {
 
-                if (task.getResult().getValue() != null) {
-                    listener = new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
-                            repository.theGame.setValue(dataSnapshot.getValue(Game.class));
-                            for (Integer i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
-                                if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)){
-                                    repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
-                                    repository.playerIndex = i;
-                                }
-                            }
-                            if (repository.thePlayer.getAdmin() == false && repository.theGame.getValue().getState() == Game.gameState.ROUND){
-                                repository.currentGameState = Game.gameState.ROUND;
-                                Intent intent = new Intent(app, RoundActivity.class);
-                                launcher.launch(intent);
-                            }
-                            /*else if (repository.theGame.getValue().getRoundCounter()== 10){
-                                Intent intent = new Intent(app, FinalActivity.class);
-                                launcher.launch(intent);
-                            }*/
-                            else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
-                                Intent intent = new Intent(app, FinalActivity.class);
-                                launcher.launch(intent);
-                            }
-                            Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            // Log.w("TAG", "Failed to read value.", error.toException());
-
-                        }
-                    };
-                    myRef.addValueEventListener(listener);
-                    DatabaseReference myRef = repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
-
-                    myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (repository.theGame.getValue().getState() == Game.gameState.LOBBY) {
-                                GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
-                                };
-                                ArrayList<Player> players = task.getResult().getValue(t);
-                                //Player player = new Player(true);
-                                //player.setName(playerName);
-                                players.add(repository.thePlayer);
-                                //repository.thePlayer = player;
-                                repository.joinCode = joinCode;
-                                myRef.setValue(players);
-                                launcher.launch(intent);
-                                //JoinGame.setValue(true);
-                            }
-                            else {
-                                Toast.makeText(app, "Game already started", Toast.LENGTH_SHORT).show();
+            if (task.getResult().getValue() != null) {
+                listener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        repository.theGame.setValue(dataSnapshot.getValue(Game.class));
+                        for (int i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
+                            if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)){
+                                repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
+                                repository.playerIndex = i;
                             }
                         }
-                    });
-                }
-                else {
-                    Toast.makeText(app, "No such room", Toast.LENGTH_SHORT).show();
-                    //JoinGame.setValue(false);
-                }
+                        if (!repository.thePlayer.getAdmin() && repository.theGame.getValue().getState() == Game.gameState.ROUND){
+                            repository.currentGameState = Game.gameState.ROUND;
+                            Intent intent1 = new Intent(app, RoundActivity.class);
+                            launcher.launch(intent1);
+                        }
+
+                        else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
+                            Intent intent1 = new Intent(app, FinalActivity.class);
+                            launcher.launch(intent1);
+                        }
+                        Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                         Log.w("TAG", "Failed to read value.", error.toException());
+
+                    }
+                };
+                myRef.addValueEventListener(listener);
+                DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
+
+                myRef.get().addOnCompleteListener(task1 -> {
+                    if (repository.theGame.getValue().getState() == Game.gameState.LOBBY) {
+                        GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
+                        };
+                        ArrayList<Player> players = task1.getResult().getValue(t);
+
+                        players.add(repository.thePlayer);
+                        repository.joinCode = joinCode;
+                        myRef.setValue(players);
+                        launcher.launch(intent);
+                    }
+                    else {
+                        Toast.makeText(app, "Game already started", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else {
+                Toast.makeText(app, "No such room", Toast.LENGTH_SHORT).show();
             }
         });
 

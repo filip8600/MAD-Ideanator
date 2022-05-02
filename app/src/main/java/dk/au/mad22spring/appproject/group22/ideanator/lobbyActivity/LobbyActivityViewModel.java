@@ -4,16 +4,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,52 +25,43 @@ public class LobbyActivityViewModel extends ViewModel {
     public void StartGame(ActivityResultLauncher<Intent> launcher, Intent intent){
         DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+ repository.joinCode);
 
-        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                GenericTypeIndicator<Game> t = new GenericTypeIndicator<Game>() {};
-                Game theGame = task.getResult().getValue(t);
-                Repository.getStaticInstance().collection("OptionCards").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<OptionCard> optionCards = new ArrayList<>();
+        myRef.get().addOnCompleteListener(task -> {
+            GenericTypeIndicator<Game> t = new GenericTypeIndicator<Game>() {};
+            Game theGame = task.getResult().getValue(t);
+            Repository.getStaticInstance().collection("OptionCards").get().addOnCompleteListener(task1 -> {
+                ArrayList<OptionCard> optionCards = new ArrayList<>();
 
-                        for (QueryDocumentSnapshot document : task.getResult()){
-                            OptionCard card = new OptionCard(document.get("English",String.class));
-                            optionCards.add(card);
+                for (QueryDocumentSnapshot document : task1.getResult()){
+                    OptionCard card = new OptionCard(document.get("English",String.class));
+                    optionCards.add(card);
+                }
+
+
+                if (theGame.getState() == Game.gameState.LOBBY) {
+                    ArrayList<Player> players = theGame.getPlayers();
+                    for (int i = 0; i<players.size(); i++)
+                    {
+                        // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
+                        Collections.shuffle(optionCards);
+                        ArrayList<OptionCard> options = new ArrayList<>();
+                        for (int j = 0;j <15;j++){
+                            options.add(optionCards.get(j));
                         }
-
-
-                        if (theGame.getState() == Game.gameState.LOBBY) {
-                            ArrayList<Player> players = theGame.getPlayers();
-                            for (Integer i = 0;i<players.size();i++)
-                            {
-                                // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
-                                Collections.shuffle(optionCards);
-                                ArrayList<OptionCard> options = new ArrayList<>();
-                                for (int j = 0;j <15;j++){
-                                    options.add(optionCards.get(j));
-                                }
-                                players.get(i).setOptions(options);
-                            }
-                            theGame.setPlayers(players);
-                            theGame.setState(Game.gameState.ROUND);
-                            myRef.setValue(theGame);
-                            myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                    launcher.launch(intent);
-                                    Log.d("StartofGame",Integer.toString(repository.thePlayer.getOptions().size()));
-                                }
-                            });
-
-                            Log.d("Lobby","Given players their cards");
-                            //JoinGame.setValue(true);
-                        }
-
+                        players.get(i).setOptions(options);
                     }
-                });
-            }
+                    theGame.setPlayers(players);
+                    theGame.setState(Game.gameState.ROUND);
+                    myRef.setValue(theGame);
+                    myRef.get().addOnCompleteListener(task11 -> {
+                        launcher.launch(intent);
+                        Log.d("StartOfGame",Integer.toString(repository.thePlayer.getOptions().size()));
+                    });
+
+                    Log.d("Lobby","Given players their cards");
+                    //JoinGame.setValue(true);
+                }
+
+            });
         });
 
     }

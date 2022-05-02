@@ -2,10 +2,7 @@
 Android game helping generating ideas for engeneering students
 
 Todo:
-fix vote merge fejl firebase
 unikke valgmuligheder
-Forklaring på vote side
-forklaring på round side
 Translate strings
 translate cards
 Auto delete game (when admin leaves)

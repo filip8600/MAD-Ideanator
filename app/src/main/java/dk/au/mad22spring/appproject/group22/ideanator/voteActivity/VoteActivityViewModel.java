@@ -4,14 +4,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ServerValue;
@@ -22,15 +17,14 @@ import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
-import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.OptionAdapter;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
 public class VoteActivityViewModel extends ViewModel {
 
     private ActivityResultLauncher<Intent> launcher;
     private boolean hasVoted=false;
-    private Repository repository=Repository.getInstance();
-    private int round= repository.theGame.getValue().getRoundCounter();
+    private final Repository repository=Repository.getInstance();
+    private final int round= repository.theGame.getValue().getRoundCounter();
 
 
     public ArrayList<OptionCard> getVoteOptions() {
@@ -49,16 +43,14 @@ public class VoteActivityViewModel extends ViewModel {
         return repository.theGame.getValue().getRounds().get(round-1).getProblems();
     }
 
-    public void observe(LifecycleOwner owner, CanUpdateUI caller) {
-        repository.theGame.observe(owner, new Observer<Game>() {
-            @Override
-            public void onChanged(Game game) {
-                Log.d("adaptor", "something new has happened");
-                adminCheckVoteCount(game);
-                caller.updateView(countNumberOfVotes(),getVoteOptions());
+    public void observe(LifecycleOwner owner, CanUpdateUI caller, ActivityResultLauncher<Intent> launcherRef) {
+        launcher=launcherRef;
+        repository.theGame.observe(owner, game -> {
+            Log.d("adaptor", "something new has happened");
+            adminCheckVoteCount(game);
+            caller.updateView(countNumberOfVotes(),getVoteOptions());
 
 
-            }
         });
     }
 
@@ -81,30 +73,27 @@ public class VoteActivityViewModel extends ViewModel {
 
     private void moveToNextRound() {
         DatabaseReference gameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
-        gameRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                GenericTypeIndicator<Game> gameT =new GenericTypeIndicator<Game>() {};
-                Game game =task.getResult().getValue(gameT);
-                OptionCard winner= determineWinner(game);
-                game.getRounds().get(round-1).setWinner(winner);
-                game.setState(Game.gameState.ROUND);
-                if(round>=10) {//End game
-                    game.setState(Game.gameState.FINAL);
-                    gameRef.setValue(game);
-                }
-                else {//continue game
-                    game.setRoundCounter(round+1);
-                    gameRef.setValue(game);
-                    Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
-                    launcher.launch(intent);
-                }
+        gameRef.get().addOnCompleteListener(task -> {
+            GenericTypeIndicator<Game> gameT =new GenericTypeIndicator<Game>() {};
+            Game game =task.getResult().getValue(gameT);
+            OptionCard winner= determineWinner(game);
+            game.getRounds().get(round-1).setWinner(winner);
+            game.setState(Game.gameState.ROUND);
+            if(round>=10) {//End game
+                game.setState(Game.gameState.FINAL);
+                gameRef.setValue(game);
+            }
+            else {//continue game
+                game.setRoundCounter(round+1);
+                gameRef.setValue(game);
+                Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
+                launcher.launch(intent);
             }
         });
 
     }
 
-    ///Look through all playd option, and return first card with highest number of votes
+    ///Look through all played option, and return first card with highest number of votes
     private OptionCard determineWinner(Game game) {
         OptionCard currentLeader=game.getRounds().get(round-1).getPlayedOptions().get(0);
         for (OptionCard optionCard:game.getRounds().get(round-1).getPlayedOptions()) {
@@ -118,6 +107,6 @@ public class VoteActivityViewModel extends ViewModel {
     }
 
     public interface CanUpdateUI{
-        public void updateView(int numberOfPlayers, ArrayList<OptionCard> voteOptions);
+        void updateView(int numberOfPlayers, ArrayList<OptionCard> voteOptions);
     }
 }

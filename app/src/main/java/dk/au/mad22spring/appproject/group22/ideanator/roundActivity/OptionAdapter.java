@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
@@ -43,26 +42,19 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
             return new OptionViewHolder(v, listener);
         }
 
-        @NonNull
         @Override
         public void onBindViewHolder(@NonNull OptionViewHolder holder, @SuppressLint("RecyclerView") int position) {
             Log.d("adaptor", "onBindViewHolder: tst");
             //Log.d("adaptor", "onBindViewHolder: "+optionList.size());
             OptionCard optionCard = optionList.get(position);
             holder.optionBtn.setText(optionCard.getOption());
-            holder.optionBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onOptionClicked(position);
-                }
-            });
+            holder.optionBtn.setOnClickListener(view -> listener.onOptionClicked(position));
         }
 
         @Override
         public int getItemCount() {
             if( optionList==null) return 0;
-            if(optionList.size()>5)return 5;//Only top 5 options are showed to user
-            return optionList.size();
+            return Math.min(optionList.size(), 5);//Only top 5 options are showed to user
 
         }
 
@@ -81,7 +73,7 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
 
             @Override
             public void onClick(View view) {
-                Log.d("listactivity-log-tag", "option   clicked");
+                Log.d("inactivity-log-tag", "option   clicked");
 
                 listener.onOptionClicked(getAdapterPosition());
             }

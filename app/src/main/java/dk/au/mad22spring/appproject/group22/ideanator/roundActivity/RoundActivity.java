@@ -1,29 +1,21 @@
 package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 
 import java.util.ArrayList;
@@ -31,10 +23,8 @@ import java.util.ArrayList;
 import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
-import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivityViewModel;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
-import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 import dk.au.mad22spring.appproject.group22.ideanator.voteActivity.VoteActivity;
 
@@ -65,11 +55,8 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
     private void setupLauncher() {
         //Launcher - Based on code from MAD lecture 2
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
-            }
         });
     }
 
@@ -91,6 +78,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setupUI() {
         //USER
         userName = findViewById(R.id.round_txt_username);
@@ -140,7 +128,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
 
         } else {
-            Toast.makeText(this, "Slow down bucky, you have already chosen an option", Toast.LENGTH_SHORT).show();//Todo translate or delete
+            Toast.makeText(this, getString( R.string.optionAllreadySelected), Toast.LENGTH_SHORT).show();
         }
 
     }

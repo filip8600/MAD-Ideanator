@@ -16,8 +16,8 @@ public class Repository {
     public int playerIndex;
     public Game.gameState currentGameState = Game.gameState.LOBBY;
     public String joinCode;
-    private FirebaseDatabase FirebaseRealtime;
-    private FirebaseFirestore FirebaseStatic;
+    private final FirebaseDatabase FirebaseRealtime;
+    private final FirebaseFirestore FirebaseStatic;
     private static Repository staticFirebase;
 
     private Repository(){

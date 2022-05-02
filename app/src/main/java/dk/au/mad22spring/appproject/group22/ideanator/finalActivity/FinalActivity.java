@@ -1,29 +1,24 @@
 package dk.au.mad22spring.appproject.group22.ideanator.finalActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Bundle;
-import android.widget.TextView;
-
-
 import dk.au.mad22spring.appproject.group22.ideanator.R;
-import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivityViewModel;
 
 //Viewpaging based on https://developer.android.com/training/animation/screen-slide.html
 public class FinalActivity extends FragmentActivity {
     private FinalActivityViewModel vm;
-    private FragmentContainerView container;
     private static int NUM_PAGES = 1;
-    private ViewPager mPager;     //The pager widget, which handles animation and allows swiping horizontally to access previousand next wizard steps.
-    private PagerAdapter pagerAdapter;     // The pager adapter, which provides the pages to the view pager widget.
+    private ViewPager mPager;     //The pager widget, which handles animation and allows swiping horizontally to access previous and next wizard steps.
 
     private TextView currentNumberTextBox;
 
@@ -45,7 +40,8 @@ public class FinalActivity extends FragmentActivity {
     private void setUpViewPager() {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager =  findViewById(R.id.FinalFragmentContainerView);
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        // The pager adapter, which provides the pages to the view pager widget.
+        PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -84,6 +80,7 @@ public class FinalActivity extends FragmentActivity {
             super(fm);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
 
