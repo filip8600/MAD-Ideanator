@@ -33,6 +33,7 @@ public class Round {
     }
 
     public ArrayList<OptionCard> getPlayedOptions() {
+        if(playedOptions==null) playedOptions=new ArrayList<>();
         return playedOptions;
     }
 
