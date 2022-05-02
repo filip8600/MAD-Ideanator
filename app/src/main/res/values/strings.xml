@@ -14,7 +14,7 @@
     <string name="players">Players:</string>
     <string name="ClickHereWhenEveryoneArerRady">Click here when everyone are ready</string>
     <string name="lobby">Lobby</string>
-    <string name="you">  ⬅ You :) </string>
+    <string name="you">   ← You :) </string>
     <string name="SubmitBestOption">Send the best option:</string>
     <string name="pickYourFavorite">Pick your favorite solution:</string>
     <string name="voteSaved">Your vote has been saved</string>

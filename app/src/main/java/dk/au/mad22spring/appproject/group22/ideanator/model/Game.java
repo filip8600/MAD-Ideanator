@@ -23,6 +23,7 @@ public class Game {
     }
 
     public ArrayList<Player> getPlayers() {
+        if(players== null) players=new ArrayList<>();
         return players;
     }
 

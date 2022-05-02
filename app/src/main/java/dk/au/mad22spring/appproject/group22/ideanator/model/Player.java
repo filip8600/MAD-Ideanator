@@ -26,6 +26,12 @@ public class Player {
         isAdmin = false;
     }
 
+    public Player(Player p) {
+        imgUrl=p.imgUrl;
+        name=p.getName();
+        isAdmin=p.isAdmin;
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }

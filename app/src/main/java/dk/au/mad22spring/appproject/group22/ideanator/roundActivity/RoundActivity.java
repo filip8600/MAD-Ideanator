@@ -41,7 +41,6 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
     private ActivityResultLauncher<Intent> launcher;
     private ImageView userImage;
     private ProgressBar progressBar;
-    private boolean hasChosenOption = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +104,9 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
     }
 
     @Override
-    public void onOptionClicked(int index) {//Todo flyt kode til viewmodel
-        if (!hasChosenOption) {
-            Toast.makeText(this, "You chose" + vm.repository.thePlayer.getOptions().get(index).getOption(), Toast.LENGTH_SHORT).show();
-            hasChosenOption = true;
+    public void onOptionClicked(int index) {
+        if (!vm.hasChosenOption) {
+            vm.hasChosenOption = true;
             vm.sendSelectedOption(index);
 
             Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
@@ -123,6 +121,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
     @Override
     public void newOptionPlayed(int numberOfOptionsPlayed) {
+        if(vm.hasChosenOption) return;
         progressBar.setProgress(numberOfOptionsPlayed);
     }
 }

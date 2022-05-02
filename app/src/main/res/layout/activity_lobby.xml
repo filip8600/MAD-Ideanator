@@ -28,8 +28,9 @@
         android:text="@string/startButton"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtPlayes" />
+        app:layout_constraintTop_toBottomOf="@+id/lobby_recycleView" />
 
     <TextView
         android:id="@+id/LobbyTxtGameCode"
@@ -68,17 +69,6 @@
         app:layout_constraintTop_toBottomOf="@+id/lobbyBtnShare" />
 
     <TextView
-        android:id="@+id/LobbyTxtPlayes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtPlayersHeader"
-        tools:text="John\nKurt\nIb" />
-
-    <TextView
         android:id="@+id/LobbyTxtStartHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,9 +86,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:fontFamily="monospace"
         android:text="@string/shareCode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LobbyTxtCode" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lobby_recycleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtPlayersHeader"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_player" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

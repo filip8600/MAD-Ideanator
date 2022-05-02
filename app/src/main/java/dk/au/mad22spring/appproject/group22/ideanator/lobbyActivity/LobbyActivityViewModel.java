@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.database.DatabaseReference;
@@ -13,6 +14,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
+import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
@@ -20,7 +23,9 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class LobbyActivityViewModel extends ViewModel {
 
-    Repository repository = Repository.getInstance();
+    private Repository repository = Repository.getInstance();
+    public final String joinCode=repository.joinCode;
+
 
     public void StartGame(ActivityResultLauncher<Intent> launcher, Intent intent){
         DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+ repository.joinCode);
@@ -64,5 +69,33 @@ public class LobbyActivityViewModel extends ViewModel {
             });
         });
 
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        Game game=repository.theGame.getValue();
+        ArrayList<Player> players=game.getPlayers();
+        if(players==null) players=new ArrayList<>();
+        return players;
+    }
+
+    public boolean isAdmin() {
+        return repository.thePlayer.getAdmin();
+    }
+
+    public void ObservePlayers(LifecycleOwner owner, canHandleNewPlayers lobbyActivity) {
+        repository.theGame.observe(owner, game -> {
+            ArrayList<Player>playerCopy=new ArrayList<>();
+            for (Player p:game.getPlayers()){
+                if (repository.thePlayer.getName().equals(p.getName())) {
+                    Player pCopy= new Player(p);
+                    pCopy.setName(p.getName()+IdeainatorApplication.getAppContext().getResources().getString(R.string.you));
+                    playerCopy.add(pCopy);
+                }else playerCopy.add(p);
+            }
+            lobbyActivity.newPlayerArrived(playerCopy);
+        });
+    }
+    public interface canHandleNewPlayers{
+        void newPlayerArrived(ArrayList<Player> players);
     }
 }

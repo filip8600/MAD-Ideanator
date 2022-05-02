@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
+import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
@@ -90,12 +92,12 @@ public class JoinActivityViewModel extends ViewModel {
                         launcher.launch(intent);
                     }
                     else {
-                        Toast.makeText(app, "Game already started", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(app, IdeainatorApplication.getAppContext().getString( R.string.Gamealreadystarted), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
             else {
-                Toast.makeText(app, "No such room", Toast.LENGTH_SHORT).show();
+                Toast.makeText(app, IdeainatorApplication.getAppContext().getString(R.string.RoomNotFound), Toast.LENGTH_SHORT).show();
             }
         });
 

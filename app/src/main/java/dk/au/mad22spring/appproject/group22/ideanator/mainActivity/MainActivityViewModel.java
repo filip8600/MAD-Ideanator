@@ -16,8 +16,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
 
+import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
+import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
@@ -36,7 +39,9 @@ public class MainActivityViewModel extends ViewModel {
         Repository.getStaticInstance().collection("ProblemCards").get().addOnCompleteListener(task -> {
 
             for (QueryDocumentSnapshot document : task.getResult()) {
-                Round round = new Round(document.get("English", String.class));
+                Round round;
+                if(Locale.getDefault().getDisplayLanguage()== IdeainatorApplication.getAppContext().getString(R.string.Danish)) round= new Round(document.get(IdeainatorApplication.getAppContext().getString(R.string.Danish), String.class));
+                else round= new Round(document.get(IdeainatorApplication.getAppContext().getString(R.string.English), String.class));
                 rounds.add(round);
             }
             // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
