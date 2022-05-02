@@ -1,7 +1,5 @@
 package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -16,15 +14,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ServerValue;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
-import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
-import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.OptionAdapter;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
@@ -36,59 +33,50 @@ public class VoteActivityViewModel extends ViewModel {
     private int round= repository.theGame.getValue().getRoundCounter();
 
 
-    public List<OptionCard> getVoteOptions() {
-        return repository.theGame.getValue().getRounds().get(round).getPlayedOptions();
+    public ArrayList<OptionCard> getVoteOptions() {
+        return repository.theGame.getValue().getRounds().get(round-1).getPlayedOptions();
     }
 
     public void castVote( int voteIndex) {
-        if(hasVoted)return;
+        if(hasVoted) return;
+        DatabaseReference roundRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode+"/rounds/"+(round-1));
+        DatabaseReference countRef=roundRef.child("playedOptions").child(String.valueOf(voteIndex)).child("votes");
+        countRef.setValue(ServerValue.increment(1));//From https://stackoverflow.com/a/63928484
         hasVoted=true;
-        OptionCard optionToVote= repository.theGame.getValue().getRounds().get(round-1).getPlayedOptions().get(voteIndex);
-
-        DatabaseReference roundRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode+"/rounds/"+(repository.theGame.getValue().getRoundCounter()-1));
-        roundRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                GenericTypeIndicator<Round> roundT =new GenericTypeIndicator<Round>() {};
-                Round round =task.getResult().getValue(roundT);
-                int voteAmount=round.getPlayedOptions().get(voteIndex).getVotes();
-                voteAmount++;
-                round.getPlayedOptions().get(voteIndex).setVotes(voteAmount);
-                roundRef.setValue(round);
-            }
-        });
-
-        optionToVote.setVotes(optionToVote.getVotes()+1);//Todo Laurits skal godkende at det virker
     }
 
     public String getProblemText() {
         return repository.theGame.getValue().getRounds().get(round-1).getProblems();
     }
 
-    public void observe(LifecycleOwner owner, OptionAdapter adaptor, ActivityResultLauncher<Intent> launcherRef) {
-        launcher=launcherRef;
+    public void observe(LifecycleOwner owner, CanUpdateUI caller) {
         repository.theGame.observe(owner, new Observer<Game>() {
             @Override
             public void onChanged(Game game) {
                 Log.d("adaptor", "something new has happened");
-
-                adaptor.updateOptionList(game.getRounds().get(round-1).getPlayedOptions());
                 adminCheckVoteCount(game);
+                caller.updateView(countNumberOfVotes(),getVoteOptions());
+
 
             }
         });
     }
 
     public void adminCheckVoteCount(Game game) {
-       if ( !repository.thePlayer.getAdmin()) return;
+       if ( !repository.thePlayer.getAdmin()) return;//Only game admin will check if everyone has voted
        //else
-        int counter=0;
-        for (OptionCard optionCard:game.getRounds().get(round-1).getPlayedOptions()) {
-            counter+=optionCard.getVotes();
-        }
+        int counter = countNumberOfVotes();
         int numberOfPlayers=game.getPlayers().size();
         if(numberOfPlayers<=counter) moveToNextRound();
 
+    }
+
+    private int countNumberOfVotes() {
+        int counter=0;
+        for (OptionCard optionCard:getVoteOptions()) {
+            counter+=optionCard.getVotes();
+        }
+        return counter;
     }
 
     private void moveToNextRound() {
@@ -116,13 +104,20 @@ public class VoteActivityViewModel extends ViewModel {
 
     }
 
-
-
+    ///Look through all playd option, and return first card with highest number of votes
     private OptionCard determineWinner(Game game) {
         OptionCard currentLeader=game.getRounds().get(round-1).getPlayedOptions().get(0);
         for (OptionCard optionCard:game.getRounds().get(round-1).getPlayedOptions()) {
             if(currentLeader.getVotes()<optionCard.getVotes()) currentLeader=optionCard;
         }
         return currentLeader;
+    }
+
+    public int getNumberOfPlayers() {
+        return repository.theGame.getValue().getPlayers().size();
+    }
+
+    public interface CanUpdateUI{
+        public void updateView(int numberOfPlayers, ArrayList<OptionCard> voteOptions);
     }
 }

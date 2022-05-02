@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/round_progressBar_countdown"
+        app:layout_constraintTop_toBottomOf="@+id/round_txt_help"
         app:layout_constraintVertical_bias="1.0"
         tools:itemCount="5"
         tools:listitem="@layout/item_option_round" />
@@ -73,6 +73,15 @@
         app:layout_constraintStart_toEndOf="@+id/round_img_avatar"
         app:layout_constraintTop_toTopOf="@+id/round_img_avatar"
         tools:text="The Kinky Horse" />
+
+    <TextView
+        android:id="@+id/round_txt_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SubmitBestOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/round_progressBar_countdown" />
 
     <TextView
         android:id="@+id/round_txt_number"

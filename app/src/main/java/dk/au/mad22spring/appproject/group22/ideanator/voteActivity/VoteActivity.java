@@ -12,19 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import dk.au.mad22spring.appproject.group22.ideanator.R;
-import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.OptionAdapter;
-import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivityViewModel;
+import java.util.ArrayList;
 
-public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOptionItemClickedListener{
+import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
+import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.OptionAdapter;
+
+public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOptionItemClickedListener, VoteActivityViewModel.CanUpdateUI {
     private VoteActivityViewModel vm;
     private OptionAdapter adapter;
     private RecyclerView rc;
     private ActivityResultLauncher<Intent> launcher;
     private TextView problemText;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
     private void setupUI() {
         problemText=findViewById(R.id.vote_txt_problem);
         problemText.setText(vm.getProblemText());
+        progressBar=findViewById(R.id.vote_progressBar_countdown);
+        progressBar.setMax(vm.getNumberOfPlayers());
     }
 
     private void setupRecyclerView() {
@@ -60,14 +66,21 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
         //observe on game
-        vm.observe(this,adapter,launcher);
+        vm.observe(this, this);
         Log.d("adaptor", "recycler set up");
 
     }
 
     @Override
     public void onOptionClicked(int index) {
-        Toast.makeText(this, "Din stemme er (ikke) gemt!", Toast.LENGTH_SHORT).show();
         vm.castVote(index);
+        Toast.makeText(this, getString(R.string.voteSaved), Toast.LENGTH_SHORT).show();
+
     }
+    public void updateView(int numberOfCastVotes, ArrayList<OptionCard> voteOptions){
+        progressBar.setProgress(numberOfCastVotes);
+        adapter.updateOptionList(voteOptions);
+
+    }
+
 }

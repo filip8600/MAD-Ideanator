@@ -37,6 +37,7 @@ public class JoinActivityViewModel extends ViewModel {
 
     public void JoinGame(String joinCode, Context app,Intent intent, ActivityResultLauncher<Intent> launcher){
         String playerName=Repository.getInstance().thePlayer.getName();
+        repository.thePlayer.setAdmin(false);
 
         myRef = repository.getRealtimeInstance().getReference("Ideainator/Games/"+joinCode);
 

@@ -28,7 +28,7 @@ public class FinalActivityViewModel extends ViewModel {
             else winnerOption="foodProcessor";
 
             //Replace _ with option:
-            return prob.replace("_",winnerOption);
+            return prob.replace("_","\""+winnerOption+"\"");
         }
     }
 
