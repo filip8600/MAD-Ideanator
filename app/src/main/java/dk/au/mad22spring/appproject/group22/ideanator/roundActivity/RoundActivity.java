@@ -68,14 +68,10 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setAdapter(adapter);
 
-        vm.repository.theGame.observe(this, game -> {
-            //adapter.updateOptionList(vm.repository.thePlayer.getOptions());
 
-        });
 
     }
 
-    @SuppressLint("SetTextI18n")
     private void setupUI() {
         //USER
         userName = findViewById(R.id.round_txt_username);

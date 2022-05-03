@@ -1,6 +1,7 @@
 package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,6 +24,7 @@ public class VoteActivityViewModel extends ViewModel {
 
     private ActivityResultLauncher<Intent> launcher;
     private boolean hasVoted=false;
+    private boolean movingToNextRound=false;
     private final Repository repository=Repository.getInstance();
     private final int round= repository.theGame.getValue().getRoundCounter();
 
@@ -72,20 +74,29 @@ public class VoteActivityViewModel extends ViewModel {
     }
 
     private void moveToNextRound() {
+        if (movingToNextRound) return;
+        movingToNextRound=true;//Avoid multiple initiations of this code
         DatabaseReference gameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
         gameRef.get().addOnCompleteListener(task -> {
             GenericTypeIndicator<Game> gameT =new GenericTypeIndicator<Game>() {};
             Game game =task.getResult().getValue(gameT);
             OptionCard winner= determineWinner(game);
-            game.getRounds().get(round-1).setWinner(winner);
-            game.setState(Game.gameState.ROUND);
+            //game.getRounds().get(round-1).setWinner(winner);
+            DatabaseReference winnerRef=gameRef.child("rounds").child(String.valueOf(round-1)).child("winner");
+            winnerRef.setValue(winner);
+            //game.setState(Game.gameState.ROUND);
+            DatabaseReference stateRef=gameRef.child("state");
+
             if(round>=10) {//End game
-                game.setState(Game.gameState.FINAL);
-                gameRef.setValue(game);
+                stateRef.setValue(Game.gameState.FINAL);
+                //gameRef.setValue(game);
             }
             else {//continue game
-                game.setRoundCounter(round+1);
-                gameRef.setValue(game);
+                stateRef.setValue(Game.gameState.ROUND);
+                DatabaseReference roundRef =gameRef.child("roundCounter");
+                roundRef.setValue(ServerValue.increment(1));
+                //game.setRoundCounter(round+1);
+                //gameRef.setValue(game);
                 Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
                 launcher.launch(intent);
             }
