@@ -24,4 +24,7 @@
     <string name="ShareCodeText">Gamecode for IdeaInator: </string>
     <string name="Gamealreadystarted">Game already started</string>
     <string name="RoomNotFound">Sorry, could not find the game</string>
+    <string name="gameIsRunning">IdeaInator Game Is running</string>
+    <string name="tapHereToResume">Tap here to return to the game</string>
+    <string name="longPressToMute">Long press to mute the notification</string>
 </resources>
