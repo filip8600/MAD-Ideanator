@@ -48,26 +48,31 @@ public class JoinActivityViewModel extends ViewModel {
                         // This method is called once with the initial value and again
                         // whenever data at this location is updated.
                         // This will keep the value of game and player updated
-                        repository.theGame.setValue(dataSnapshot.getValue(Game.class));
+                        Game theGame =dataSnapshot.getValue(Game.class);
+
+
+                        // This will open the round view when the admin starts the game
+                        Game.gameState state=theGame.getState();
+                        if(repository.theGame.getValue()==null) {
+                            Log.d("TAG", "onDataChange: øv");
+                        }
+                        else if(repository.theGame.getValue().getState()!=Game.gameState.ROUND && state== Game.gameState.ROUND) {
+                            Intent intent1 = new Intent(app, RoundActivity.class);
+                            launcher.launch(intent1);
+                        }
+                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state== Game.gameState.FINAL){
+                            Intent intent1 = new Intent(app, FinalActivity.class);
+                            launcher.launch(intent1);
+                        }
+                        Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
+
                         for (int i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
                             if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)){
                                 repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
                                 repository.playerIndex = i;
                             }
                         }
-                        // This will open the round view when the admin starts the game
-                        if (!repository.thePlayer.getAdmin() && repository.theGame.getValue().getState() == Game.gameState.ROUND){
-                            repository.currentGameState = Game.gameState.ROUND;
-                            Intent intent1 = new Intent(app, RoundActivity.class);
-                            launcher.launch(intent1);
-                        }
-                        // This will open the final view when all rounds are over
-                        else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
-                            Intent intent1 = new Intent(app, FinalActivity.class);
-                            launcher.launch(intent1);
-                        }
-                        Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
-
+                        repository.theGame.setValue(theGame);
                     }
 
                     @Override

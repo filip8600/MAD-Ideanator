@@ -31,6 +31,8 @@ public class MainActivityViewModel extends ViewModel {
 
     public Repository repository = Repository.getInstance();
     private ValueEventListener listener;
+    private ValueEventListener stateListener;
+
 
     public void CreateGame(ActivityResultLauncher<Intent> launcher, Intent intent, Context app) {
         Game theGame = new Game();
@@ -80,6 +82,20 @@ public class MainActivityViewModel extends ViewModel {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Game theGame1 = snapshot.getValue(Game.class);
 
+                      //Move to correct activity if needed:
+                        Game.gameState state=theGame1.getState();
+                        if(repository.theGame.getValue()==null) {
+                            Log.d("TAG", "onDataChange: øv");
+                        }
+                     //  else if(repository.theGame.getValue().getState()!=Game.gameState.ROUND && state== Game.gameState.ROUND) {
+                     //      Intent intent1 = new Intent(app, RoundActivity.class);
+                     //      launcher.launch(intent1);
+                     //  }
+                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state== Game.gameState.FINAL){
+                            Intent intent1 = new Intent(app, FinalActivity.class);
+                            launcher.launch(intent1);
+                        }
+                        //find "you" among other players
                         for (int i = 0; i < theGame1.getPlayers().size(); i++) {
                             if (theGame1.getPlayers().get(i).getName().equals(repository.thePlayer.getName())) {
                                 repository.thePlayer = theGame1.getPlayers().get(i);
@@ -88,15 +104,6 @@ public class MainActivityViewModel extends ViewModel {
                             }
                         }
                         repository.theGame.setValue(theGame1);
-                        if (!repository.thePlayer.getAdmin() && repository.theGame.getValue().getState() == Game.gameState.ROUND) {
-                            repository.currentGameState = Game.gameState.ROUND;
-                            Intent intent1 = new Intent(app, RoundActivity.class);
-                            launcher.launch(intent1);
-                        }
-                        else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
-                            Intent intent1 = new Intent(app, FinalActivity.class);
-                            launcher.launch(intent1);
-                        }
 
 
                     }
@@ -106,8 +113,30 @@ public class MainActivityViewModel extends ViewModel {
 
                     }
                 };
+                stateListener =new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Game.gameState state=snapshot.getValue(Game.gameState.class);
+                        if(repository.theGame.getValue().getState()!=Game.gameState.ROUND && state== Game.gameState.ROUND) {
+                            Intent intent1 = new Intent(app, RoundActivity.class);
+                            launcher.launch(intent1);
+                        }
+                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state== Game.gameState.FINAL){
+                            Intent intent1 = new Intent(app, FinalActivity.class);
+                            launcher.launch(intent1);
+                        }
+                        repository.theGame.getValue().setState(state);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                };
 
                 myRef.addValueEventListener(listener);
+                DatabaseReference stateRef=myRef.child("state");
+                //stateRef.addValueEventListener(listener2);
 
                 launcher.launch(intent);
             });
