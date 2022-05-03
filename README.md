@@ -2,17 +2,16 @@
 Android game helping generating ideas for engeneering students
 
 Todo:
-unikke valgmuligheder
-Translate strings
-translate cards
-Auto delete game (when admin leaves)
-Fjern eller oversæt toast
-fjern log?
+
+- unikke valgmuligheder
+- Translate strings
+- Auto delete game (when admin leaves)
+- fjern log?
 
 
 Kedlige krav ting:
 
-Landscape
-Tablet
-"Waiting for players to vote"
-Notification
+- Landscape
+- Tablet
+- "Waiting for players to vote"
+- Notification
