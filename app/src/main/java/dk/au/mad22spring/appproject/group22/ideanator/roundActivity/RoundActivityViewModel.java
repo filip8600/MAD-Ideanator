@@ -40,6 +40,10 @@ public class RoundActivityViewModel extends ViewModel {
     }
 
     public int getRoundNumber() {
+        if(repository.theGame.getValue()==null){
+            Log.e("tag", "getRoundNumber: Thats not good :(" );
+            return 1;
+        }
         return repository.theGame.getValue().getRoundCounter();
     }
 
