@@ -107,10 +107,10 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
     public void onOptionClicked(int index) {
         if (!vm.hasChosenOption) {
             vm.hasChosenOption = true;
-            vm.sendSelectedOption(index);
 
-            Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
-            launcher.launch(intent);
+            vm.sendSelectedOption(index,this);
+
+
 
 
         } else {
@@ -123,5 +123,10 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
     public void newOptionPlayed(int numberOfOptionsPlayed) {
         if(vm.hasChosenOption) return;
         progressBar.setProgress(numberOfOptionsPlayed);
+    }
+    @Override
+    public void startIntent(){
+        Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
+        startActivity(intent);
     }
 }

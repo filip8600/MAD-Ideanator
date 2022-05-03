@@ -60,7 +60,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         txtJoinCode.setText(viewModel.joinCode);
 
 
-
+        // Only show button if admin
         if (!viewModel.isAdmin()){
             startButton.setEnabled(false);
             startButton.setVisibility(View.GONE);
