@@ -8,7 +8,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -75,14 +74,11 @@ public class ForegroundService extends Service {
     private void doBackgroundStuff() {
         if(!started) {
             started = true;
-            doRecursiveWork();
+            waitAndKill();
         }
     }
-
-    //method runs recursively (calls itself in the end) as long as started==true
-    private void doRecursiveWork(){
+    private void waitAndKill(){
         //lazy creation of ExecutorService running as a single threaded executor
-        //this executor will allow us to do work off the main thread
         if(execService == null) {
             execService = Executors.newSingleThreadExecutor();
         }
@@ -92,13 +88,12 @@ public class ForegroundService extends Service {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);     //we can sleep, because this code is not run on main thread
+                    Thread.sleep(1000*60*5);     //sleep 5 minutes
                 } catch (InterruptedException e) {
                     Log.e(TAG, "run: EROOR", e);
                 }
-                //the recursive bit - if started still true, call self again
                 if(started) {
-                    doRecursiveWork();
+                    stopSelf();
                 }
             }
         });
@@ -110,7 +105,7 @@ public class ForegroundService extends Service {
         return null;
     }
 
-    //if Service is destroyed
+    //when Service is destroyed
     @Override
     public void onDestroy() {
         started = false;

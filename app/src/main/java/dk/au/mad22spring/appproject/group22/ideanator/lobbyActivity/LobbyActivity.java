@@ -96,6 +96,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
 
         Intent shareIntent = Intent.createChooser(sendIntent, null);
         startActivity(shareIntent);
+        
 
     }
 

@@ -30,7 +30,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivit
 public class MainActivityViewModel extends ViewModel {
 
     public Repository repository = Repository.getInstance();
-    private ValueEventListener listener;
+    private ValueEventListener gameListener;
     private ValueEventListener stateListener;
 
 
@@ -39,14 +39,15 @@ public class MainActivityViewModel extends ViewModel {
 
         ArrayList<Round> rounds = new ArrayList<>();
         Repository.getStaticInstance().collection("ProblemCards").get().addOnCompleteListener(task -> {
-
+            //Determine app language and serve correct problems
+            String language = Locale.getDefault().getLanguage();
+            String danish = IdeainatorApplication.getAppContext().getString(R.string.Danish);
+            String english = IdeainatorApplication.getAppContext().getString(R.string.English);
             for (QueryDocumentSnapshot document : task.getResult()) {
                 Round round;
-                String language=Locale.getDefault().getLanguage();
-                String danish=IdeainatorApplication.getAppContext().getString(R.string.Danish);
-                String english=IdeainatorApplication.getAppContext().getString(R.string.English);
-                if(language.contains("da") ) round= new Round(document.get(danish, String.class));
-                else round= new Round(document.get(english, String.class));
+
+                if (language.contains("da")) round = new Round(document.get(danish, String.class));
+                else round = new Round(document.get(english, String.class));
                 rounds.add(round);
             }
             // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
@@ -55,7 +56,7 @@ public class MainActivityViewModel extends ViewModel {
 
             theGame.setRounds(rounds);
 
-           repository.thePlayer.setAdmin(true);
+            repository.thePlayer.setAdmin(true);
 
             theGame.getPlayers().add(repository.thePlayer);
 
@@ -74,26 +75,23 @@ public class MainActivityViewModel extends ViewModel {
                 }
 
 
-                DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
-                myRef.setValue(theGame);
+                DatabaseReference newGameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
+                newGameRef.setValue(theGame);
 
-                listener = new ValueEventListener() {
+                gameListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Game theGame1 = snapshot.getValue(Game.class);
 
-                      //Move to correct activity if needed:
-                        Game.gameState state=theGame1.getState();
-                        if(repository.theGame.getValue()==null) {
+                        //Move to correct activity if needed:
+                        Game.gameState state = theGame1.getState();
+                        if (repository.theGame.getValue() == null) {
                             Log.d("TAG", "onDataChange: øv");
                         }
-                     //  else if(repository.theGame.getValue().getState()!=Game.gameState.ROUND && state== Game.gameState.ROUND) {
-                     //      Intent intent1 = new Intent(app, RoundActivity.class);
-                     //      launcher.launch(intent1);
-                     //  }
-                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state== Game.gameState.FINAL){
-                            Intent intent1 = new Intent(app, FinalActivity.class);
-                            launcher.launch(intent1);
+                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state == Game.gameState.FINAL) {
+                            Intent finalActivityIntent = new Intent(app, FinalActivity.class);
+                            finalActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Clear callstack - so you cant go back
+                            IdeainatorApplication.getAppContext().startActivity(finalActivityIntent);
                         }
                         //find "you" among other players
                         for (int i = 0; i < theGame1.getPlayers().size(); i++) {
@@ -103,6 +101,7 @@ public class MainActivityViewModel extends ViewModel {
                                 Log.d("GAME", "PLAYER UPDATED");
                             }
                         }
+                        //Update local copy with new online data
                         repository.theGame.setValue(theGame1);
 
 
@@ -110,43 +109,24 @@ public class MainActivityViewModel extends ViewModel {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                };
-                stateListener =new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Game.gameState state=snapshot.getValue(Game.gameState.class);
-                        if(repository.theGame.getValue().getState()!=Game.gameState.ROUND && state== Game.gameState.ROUND) {
-                            Intent intent1 = new Intent(app, RoundActivity.class);
-                            launcher.launch(intent1);
-                        }
-                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state== Game.gameState.FINAL){
-                            Intent intent1 = new Intent(app, FinalActivity.class);
-                            launcher.launch(intent1);
-                        }
-                        repository.theGame.getValue().setState(state);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                        Log.e("createGame", "onCancelled: gameListener encountered an error: ",error.toException() );
                     }
                 };
 
-                myRef.addValueEventListener(listener);
-                DatabaseReference stateRef=myRef.child("state");
-                //stateRef.addValueEventListener(listener2);
 
-                launcher.launch(intent);
+
+                newGameRef.addValueEventListener(gameListener);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                IdeainatorApplication.getAppContext().startActivity(intent);
+                //launcher.launch(intent);
             });
         });
     }
 
     public void removeListener() {
-        if (listener != null) {
+        if (gameListener != null) {
             DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
-            myRef.removeEventListener(listener);
+            myRef.removeEventListener(gameListener);
         }
     }
 }

@@ -93,7 +93,7 @@ public class VoteActivityViewModel extends ViewModel {
 
             if(round>=10) {//End game
                 stateRef.setValue(Game.gameState.FINAL);
-                //gameRef.setValue(game);
+                //listener will notice and start action
             }
             else {//continue game
                 stateRef.setValue(Game.gameState.ROUND);

@@ -1,5 +1,8 @@
 package dk.au.mad22spring.appproject.group22.ideanator;
 
+import android.content.Intent;
+import android.widget.Toast;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.FirebaseDatabase;
@@ -9,8 +12,6 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class Repository {
-
-    //TODO MAKE THIS SINGLETON
     public MutableLiveData<Game> theGame;
     public Player thePlayer;
     public int playerIndex;
@@ -27,6 +28,7 @@ public class Repository {
         thePlayer = new Player();
     }
 
+    //Singleton - only one game
     public static Repository getInstance(){
         if (staticFirebase == null) staticFirebase = new Repository();
         return staticFirebase;
@@ -45,6 +47,5 @@ public class Repository {
         return staticFirebase.FirebaseStatic;
 
     }
-
 
 }
