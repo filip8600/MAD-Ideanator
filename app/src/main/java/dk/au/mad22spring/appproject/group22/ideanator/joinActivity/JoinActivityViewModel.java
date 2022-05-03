@@ -33,8 +33,6 @@ public class JoinActivityViewModel extends ViewModel {
     ValueEventListener listener;
     DatabaseReference myRef;
 
-
-
     public void JoinGame(String joinCode, Context app,Intent intent, ActivityResultLauncher<Intent> launcher){
         String playerName=Repository.getInstance().thePlayer.getName();
         repository.thePlayer.setAdmin(false);
@@ -49,6 +47,7 @@ public class JoinActivityViewModel extends ViewModel {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // This method is called once with the initial value and again
                         // whenever data at this location is updated.
+                        // This will keep the value of game and player updated
                         repository.theGame.setValue(dataSnapshot.getValue(Game.class));
                         for (int i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
                             if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)){
@@ -56,12 +55,13 @@ public class JoinActivityViewModel extends ViewModel {
                                 repository.playerIndex = i;
                             }
                         }
+                        // This will open the round view when the admin starts the game
                         if (!repository.thePlayer.getAdmin() && repository.theGame.getValue().getState() == Game.gameState.ROUND){
                             repository.currentGameState = Game.gameState.ROUND;
                             Intent intent1 = new Intent(app, RoundActivity.class);
                             launcher.launch(intent1);
                         }
-
+                        // This will open the final view when all rounds are over
                         else if (repository.theGame.getValue().getState() == Game.gameState.FINAL){
                             Intent intent1 = new Intent(app, FinalActivity.class);
                             launcher.launch(intent1);
@@ -78,8 +78,9 @@ public class JoinActivityViewModel extends ViewModel {
                     }
                 };
                 myRef.addValueEventListener(listener);
-                DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
 
+                // Adds player to list of players and opens lobby (only if the game is not started)
+                DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
                 myRef.get().addOnCompleteListener(task1 -> {
                     if (repository.theGame.getValue().getState() == Game.gameState.LOBBY) {
                         GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
@@ -104,7 +105,7 @@ public class JoinActivityViewModel extends ViewModel {
 
 
     }
-
+    // Remove database listeners
     public void removeListener(){
         if (listener != null) myRef.removeEventListener(listener);
     }
