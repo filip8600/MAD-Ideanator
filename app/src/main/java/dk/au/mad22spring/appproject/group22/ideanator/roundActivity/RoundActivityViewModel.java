@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.core.ServerValues;
+import com.google.firestore.v1.DocumentTransform;
 
 import java.util.ArrayList;
 
@@ -45,28 +47,26 @@ public class RoundActivityViewModel extends ViewModel {
     }
 
     public void sendSelectedOption(int voteIndex) {
+        // Set chosen option
         DatabaseReference optionsRef = Repository
                 .getRealtimeInstance()
                 .getReference("Ideainator/Games/" + repository.joinCode+"/rounds/"+(getRoundNumber()-1))
-                .child("playedOptions");
+                .child("playedOptions/"+repository.playerIndex);
+        optionsRef.setValue(repository.thePlayer.getOptions().get(voteIndex));
 
-        optionsRef.get().addOnCompleteListener(task -> {
-            GenericTypeIndicator<ArrayList<OptionCard>> t = new GenericTypeIndicator<ArrayList<OptionCard>>() {};
-            ArrayList<OptionCard> options = task.getResult().getValue(t);
+        //Remove chosen option
+        DatabaseReference OwnOptionsRef = Repository
+                .getRealtimeInstance()
+                .getReference("Ideainator/Games/" + repository.joinCode+"/players/"+repository.playerIndex+"/options");
+        ArrayList<OptionCard> options = repository.thePlayer.getOptions();
+        options.remove(voteIndex);
+        OwnOptionsRef.setValue(options);
 
-            if(options==null)options=new ArrayList<>();
-            options.add(repository.thePlayer.getOptions().get(voteIndex));
-
-            optionsRef.setValue(options);
-            //Update game state
-            DatabaseReference gameStateRef = Repository
-                    .getRealtimeInstance()
-                    .getReference("Ideainator/Games/" + repository.joinCode+"/state");
-            gameStateRef.setValue(Game.gameState.VOTE);
-
-
-
-           });
+        //Update game state
+        DatabaseReference gameStateRef = Repository
+                .getRealtimeInstance()
+                .getReference("Ideainator/Games/" + repository.joinCode+"/state");
+        gameStateRef.setValue(Game.gameState.VOTE);
     }
     public void observeOnNumberOfOptionsSent(LifecycleOwner owner, CanHandleOptionsUpdate caller){
         repository.theGame.observe(owner, game -> {
