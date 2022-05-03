@@ -29,6 +29,7 @@ public class LobbyActivityViewModel extends ViewModel {
 
 
     public void StartGame(ActivityResultLauncher<Intent> launcher, Intent intent){
+        // Get game reference
         DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+ repository.joinCode);
 
         myRef.get().addOnCompleteListener(task -> {

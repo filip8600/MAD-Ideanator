@@ -1,10 +1,17 @@
 package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
+import android.app.LauncherActivity;
+import android.content.Intent;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ServerValue;
@@ -46,7 +53,7 @@ public class RoundActivityViewModel extends ViewModel {
         return repository.thePlayer.getOptions();
     }
 
-    public void sendSelectedOption(int voteIndex) {
+    public void sendSelectedOption(int voteIndex, CanHandleOptionsUpdate caller) {
         // Set chosen option
         DatabaseReference optionsRef = Repository
                 .getRealtimeInstance()
@@ -67,6 +74,12 @@ public class RoundActivityViewModel extends ViewModel {
                 .getRealtimeInstance()
                 .getReference("Ideainator/Games/" + repository.joinCode+"/state");
         gameStateRef.setValue(Game.gameState.VOTE);
+        gameStateRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                caller.startIntent();
+            }
+        });
     }
     public void observeOnNumberOfOptionsSent(LifecycleOwner owner, CanHandleOptionsUpdate caller){
         repository.theGame.observe(owner, game -> {
@@ -82,5 +95,6 @@ public class RoundActivityViewModel extends ViewModel {
 
     public interface CanHandleOptionsUpdate{
         void newOptionPlayed(int numberOfOptionsPlayed);
+        void startIntent();
     }
 }
