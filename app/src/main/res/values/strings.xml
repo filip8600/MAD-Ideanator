@@ -21,7 +21,7 @@
     <string name="optionAllreadySelected">Slow down bucky, you have already chosen an option</string>
     <string name="shareCode">🏹 Send code</string>
     <string name="shareWinner">💌 Send idea</string>
-    <string name="ShareCodeText">\"Gamecode for IdeaIantor: \"</string>
+    <string name="ShareCodeText">Gamecode for IdeaInator: </string>
     <string name="Gamealreadystarted">Game already started</string>
     <string name="RoomNotFound">Sorry, could not find the game</string>
 </resources>

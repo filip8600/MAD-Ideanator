@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="joincode">joincode</string>
-    <string name="Danish">Danish</string>
-    <string name="English">English</string>
+    <string name="Danish" translatable="false">Danish</string>
+    <string name="English" translatable="false">English</string>
 </resources>

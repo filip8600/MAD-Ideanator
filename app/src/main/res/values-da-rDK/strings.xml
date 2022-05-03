@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ideainator</string>
+    <string name="welcome">Velkommen til</string>
+    <string name="createGame">Opret spil</string>
+    <string name="joinGame">Deltag i spil</string>
+    <string name="round_txt">"runde nr. "</string>
+    <string name="joinHeadline">Deltag i eksisterende spil...</string>
+    <string name="writeCode">Indsæt spilkode:</string>
+    <string name="startButton">Begynd!</string>
+    <string name="vote">Gennemse svar:</string>
+    <string name="winnerIdeas">"Vinder nr. "</string>
+    <string name="players">Spillere:</string>
+    <string name="ClickHereWhenEveryoneArerRady">Klik her når alle er klar</string>
+    <string name="lobby">Venterum</string>
+    <string name="you">"   ← Dig :)"</string>
+    <string name="SubmitBestOption">Find det bedste svar:</string>
+    <string name="pickYourFavorite">Vælg din favorit:</string>
+    <string name="voteSaved">Din stemme er gemt.</string>
+    <string name="optionAllreadySelected">Tøv en kende. Du har allerede stemt.</string>
+    <string name="shareCode">🏹 Send kode</string>
+    <string name="shareWinner">💌 Send ide</string>
+    <string name="ShareCodeText">Spilkode til IdeaInator</string>
+    <string name="Gamealreadystarted">Spillet er allerede startet</string>
+    <string name="RoomNotFound">Beklager, kunne ikke tilslutte.</string>
+    <string name="joincode">Spilkode</string>
+</resources>
