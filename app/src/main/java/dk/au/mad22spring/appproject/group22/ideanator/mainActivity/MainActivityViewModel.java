@@ -40,8 +40,11 @@ public class MainActivityViewModel extends ViewModel {
 
             for (QueryDocumentSnapshot document : task.getResult()) {
                 Round round;
-                if(Locale.getDefault().getDisplayLanguage()== IdeainatorApplication.getAppContext().getString(R.string.Danish)) round= new Round(document.get(IdeainatorApplication.getAppContext().getString(R.string.Danish), String.class));
-                else round= new Round(document.get(IdeainatorApplication.getAppContext().getString(R.string.English), String.class));
+                String language=Locale.getDefault().getLanguage();
+                String danish=IdeainatorApplication.getAppContext().getString(R.string.Danish);
+                String english=IdeainatorApplication.getAppContext().getString(R.string.English);
+                if(language.contains("da") ) round= new Round(document.get(danish, String.class));
+                else round= new Round(document.get(english, String.class));
                 rounds.add(round);
             }
             // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
