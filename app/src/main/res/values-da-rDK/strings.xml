@@ -24,4 +24,7 @@
     <string name="Gamealreadystarted">Spillet er allerede startet</string>
     <string name="RoomNotFound">Beklager, kunne ikke tilslutte.</string>
     <string name="joincode">Spilkode</string>
+    <string name="gameIsRunning">IdeaInator Spil kører i baggrunden</string>
+    <string name="tapHereToResume">Tryk her for at åbne spillet igen</string>
+    <string name="longPressToMute">Tryk og hold nede for at fjerne beskeden.</string>
 </resources>

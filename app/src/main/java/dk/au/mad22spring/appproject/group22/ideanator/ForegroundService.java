@@ -54,10 +54,10 @@ public class ForegroundService extends Service {
 
         //build the notification
         Notification notification = new NotificationCompat.Builder(this, SERVICE_CHANNEL)
-                .setContentTitle("IdeaInator Game Is running")
-                .setContentText("Tap here to return to the game")
+                .setContentTitle(getString(R.string.gameIsRunning))
+                .setContentText(getString(R.string.tapHereToResume))
                 .setSmallIcon(R.mipmap.ic_smiley_round)
-                .setTicker("Long press to mute the notification")
+                .setTicker(getString(R.string.longPressToMute))
                 .setContentIntent(contentIntent)
                 .build();
 
