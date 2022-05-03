@@ -107,6 +107,6 @@ public class VoteActivityViewModel extends ViewModel {
     }
 
     public interface CanUpdateUI{
-        void updateView(int numberOfPlayers, ArrayList<OptionCard> voteOptions);
+        void updateView(int numberOfVotes, ArrayList<OptionCard> voteOptions);
     }
 }

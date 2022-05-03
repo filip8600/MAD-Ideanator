@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -46,10 +47,10 @@ public class ForegroundService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
         //Configure launching the app:
-     //  PackageManager pm = getPackageManager();
-     //  Intent notificationIntent = pm.getLaunchIntentForPackage("dk.au.mad22spring.appproject.group22.ideanator");
-     //  PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-     //          notificationIntent, 0);
+        PackageManager pm = getPackageManager();
+        Intent notificationIntent = pm.getLaunchIntentForPackage("dk.au.mad22spring.appproject.group22.ideanator");
+        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
         //build the notification
         Notification notification = new NotificationCompat.Builder(this, SERVICE_CHANNEL)
@@ -57,7 +58,7 @@ public class ForegroundService extends Service {
                 .setContentText("Tap here to return to the game")
                 .setSmallIcon(R.mipmap.ic_smiley_round)
                 .setTicker("Long press to mute the notification")
-                //.setContentIntent(contentIntent)
+                .setContentIntent(contentIntent)
                 .build();
 
         //call to startForeground will promote this Service and launch notification
