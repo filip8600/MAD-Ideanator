@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
@@ -36,8 +37,14 @@ public class LobbyActivityViewModel extends ViewModel {
             Repository.getStaticInstance().collection("OptionCards").get().addOnCompleteListener(task1 -> {
                 ArrayList<OptionCard> optionCards = new ArrayList<>();
 
+                String language= Locale.getDefault().getLanguage();
+                String danish=IdeainatorApplication.getAppContext().getString(R.string.Danish);
+                String english=IdeainatorApplication.getAppContext().getString(R.string.English);
+
                 for (QueryDocumentSnapshot document : task1.getResult()){
-                    OptionCard card = new OptionCard(document.get("English",String.class));
+                    OptionCard card;
+                    if(language.contains("da") )  card = new OptionCard(document.get(danish,String.class));
+                    else card = new OptionCard(document.get(english,String.class));
                     optionCards.add(card);
                 }
 
