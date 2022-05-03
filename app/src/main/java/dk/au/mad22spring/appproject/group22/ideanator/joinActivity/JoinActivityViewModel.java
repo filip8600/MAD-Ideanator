@@ -64,15 +64,15 @@ public class JoinActivityViewModel extends ViewModel {
                             Intent intent1 = new Intent(app, FinalActivity.class);
                             launcher.launch(intent1);
                         }
-                        Log.d("GAME", Integer.toString(repository.theGame.getValue().getPlayers().size()));
 
+                        repository.theGame.setValue(theGame);
                         for (int i = 0; i < repository.theGame.getValue().getPlayers().size(); i++){
                             if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)){
                                 repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
                                 repository.playerIndex = i;
                             }
                         }
-                        repository.theGame.setValue(theGame);
+
                     }
 
                     @Override

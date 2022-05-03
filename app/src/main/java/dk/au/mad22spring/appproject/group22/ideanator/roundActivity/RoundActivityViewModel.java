@@ -54,7 +54,11 @@ public class RoundActivityViewModel extends ViewModel {
     }
 
     public ArrayList<OptionCard> getOptionCards() {
-        return repository.thePlayer.getOptions();
+        ArrayList<OptionCard> options= new ArrayList<>();
+        for (OptionCard option:repository.thePlayer.getOptions()){
+            if (option !=null) options.add(option);
+        }
+        return options;
     }
 
     public void sendSelectedOption(int voteIndex, CanHandleOptionsUpdate caller) {

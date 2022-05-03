@@ -30,7 +30,11 @@ public class VoteActivityViewModel extends ViewModel {
 
 
     public ArrayList<OptionCard> getVoteOptions() {
-        return repository.theGame.getValue().getRounds().get(round-1).getPlayedOptions();
+        ArrayList<OptionCard> options= new ArrayList<>();
+        for (OptionCard option:repository.theGame.getValue().getRounds().get(round-1).getPlayedOptions()){
+            if (option !=null) options.add(option);
+        }
+        return options;
     }
 
     public void castVote( int voteIndex) {
@@ -68,7 +72,7 @@ public class VoteActivityViewModel extends ViewModel {
     private int countNumberOfVotes() {
         int counter=0;
         for (OptionCard optionCard:getVoteOptions()) {
-            counter+=optionCard.getVotes();
+            if(optionCard != null) counter+=optionCard.getVotes();
         }
         return counter;
     }
