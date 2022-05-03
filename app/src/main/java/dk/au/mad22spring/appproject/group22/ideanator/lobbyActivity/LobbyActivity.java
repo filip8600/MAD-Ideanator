@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import dk.au.mad22spring.appproject.group22.ideanator.ForegroundService;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
@@ -40,6 +41,12 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         setupUI();
         setupListeners();
         setupLauncher();
+        startGameService();
+    }
+
+    private void startGameService() {
+        Intent foregroundServiceIntent = new Intent(this, ForegroundService.class);
+        startService(foregroundServiceIntent);
     }
 
     private void setupRecyclerView() {
