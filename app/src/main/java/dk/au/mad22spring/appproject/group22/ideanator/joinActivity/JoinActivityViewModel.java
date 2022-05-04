@@ -2,6 +2,7 @@ package dk.au.mad22spring.appproject.group22.ideanator.joinActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.RestrictionEntry;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -48,7 +49,15 @@ public class JoinActivityViewModel extends ViewModel {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
                     // This will keep the value of game and player updated
-                    Game theGame = dataSnapshot.getValue(Game.class);
+                    Game theGame;
+                    try{
+                        theGame = dataSnapshot.getValue(Game.class);
+                    }
+                    catch (Error e){
+                        Log.e("joinActivity", "onDataChange: error parsing game update - perhaps hash/list error?",e );
+                        Toast.makeText(app, "Bad data downloaded :(", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
 
                     // This will open the round view when the admin starts the game
