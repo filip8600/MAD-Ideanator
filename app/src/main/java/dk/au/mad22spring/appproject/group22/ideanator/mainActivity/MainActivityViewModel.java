@@ -44,8 +44,8 @@ public class MainActivityViewModel extends ViewModel {
             String danish = IdeainatorApplication.getAppContext().getString(R.string.Danish);
             String english = IdeainatorApplication.getAppContext().getString(R.string.English);
             for (QueryDocumentSnapshot document : task.getResult()) {
+                if(rounds.size()>=theGame.numberOfRounds) break;
                 Round round;
-
                 if (language.contains("da")) round = new Round(document.get(danish, String.class));
                 else round = new Round(document.get(english, String.class));
                 rounds.add(round);

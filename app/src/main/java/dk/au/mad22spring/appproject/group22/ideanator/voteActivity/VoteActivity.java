@@ -65,9 +65,11 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
 
     @Override
     public void onOptionClicked(int index) {
-        vm.castVote(index);
-        Toast.makeText(this, getString(R.string.voteSaved), Toast.LENGTH_SHORT).show();
-
+        if (vm.hasVoted) Toast.makeText(this, getString(R.string.optionAllreadySelected), Toast.LENGTH_SHORT).show();
+        else {
+            vm.castVote(index);
+            Toast.makeText(this, getString(R.string.voteSaved), Toast.LENGTH_SHORT).show();
+        }
     }
     public void updateView(int numberOfCastVotes, ArrayList<OptionCard> voteOptions){
         progressBar.setProgress(numberOfCastVotes);

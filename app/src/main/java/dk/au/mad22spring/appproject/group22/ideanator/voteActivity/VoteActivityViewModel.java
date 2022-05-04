@@ -23,7 +23,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivit
 public class VoteActivityViewModel extends ViewModel {
 
     private ActivityResultLauncher<Intent> launcher;
-    private boolean hasVoted=false;
+    public boolean hasVoted=false;
     private boolean movingToNextRound=false;
     private final Repository repository=Repository.getInstance();
     private final int round= repository.theGame.getValue().getRoundCounter();
@@ -91,7 +91,7 @@ public class VoteActivityViewModel extends ViewModel {
             //game.setState(Game.gameState.ROUND);
             DatabaseReference stateRef=gameRef.child("state");
 
-            if(round>=10) {//End game
+            if(round>=repository.theGame.getValue().numberOfRounds) {//End game
                 stateRef.setValue(Game.gameState.FINAL);
                 //listener will notice and start action
             }

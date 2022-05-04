@@ -6,6 +6,7 @@ public class Game {
     private ArrayList<Player> players;
     private ArrayList<Round> rounds;
     private int RoundCounter;
+    public int numberOfRounds;
 
     public enum gameState {
         LOBBY,
@@ -17,6 +18,10 @@ public class Game {
     private gameState state = gameState.LOBBY;
 
     public Game() {
+        this(5);
+    }
+    public Game(int numberOfRounds){
+        this.numberOfRounds=numberOfRounds;
         players = new ArrayList<>();
         setRoundCounter(1);
         rounds = new ArrayList<Round>();
