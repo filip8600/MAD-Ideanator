@@ -2,11 +2,8 @@ package dk.au.mad22spring.appproject.group22.ideanator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,34 +24,64 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
 public class GameManager {
-    //Singleton Mechanism
+    //Singleton:
     private static GameManager gameManager;
-    static public GameManager getInstance(){
-        if(gameManager==null)gameManager=new GameManager();
+    //Class attributes:
+    private final Repository repository = Repository.getInstance();
+    private final Context app = IdeainatorApplication.getAppContext();
+    private DatabaseReference joinRef;
+    private ValueEventListener listener;
+
+    //Singleton:
+    static public GameManager getInstance() {
+        if (gameManager == null) gameManager = new GameManager();
         return gameManager;
     }
 
-    //Class atributes:
-    private Repository repository = Repository.getInstance();
-    private Context app =IdeainatorApplication.getAppContext();
-    private DatabaseReference joinRef;
-    private ValueEventListener joinListener;
-
-
-
-
     public void startNewGame() {
+        // Generate joinCode here
+        // No great as it only checks if the code exists once.
+        // https://stackoverflow.com/questions/20389890/generating-a-random-number-between-1-and-10-java
+        Random rand = new Random();
+        int randomNum = rand.nextInt((1000 - 100) + 1) + 100;
+        joinRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + randomNum);
+        joinRef.get().addOnCompleteListener(task1 -> {
+            if (task1.getResult().getValue() == null) {
+                repository.joinCode = Integer.toString(randomNum);
+                finishCreatingGame();
+            } else {
+                int randomNum1 = rand.nextInt((10000 - 1000) + 1) + 1000;
+                repository.joinCode = Integer.toString(randomNum1);
+                joinRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + randomNum1);
+                finishCreatingGame();
+            }
+        });
 
-        Game theGame = new Game();
+    }
 
+    private void finishCreatingGame() {
+        String playerName = Repository.getInstance().thePlayer.getName();
+        Game newLocalGame = new Game();
+
+        repository.thePlayer.setAdmin(true);
+
+        newLocalGame.getPlayers().add(repository.thePlayer);
+        addProblemcardsToRemote();
+        joinRef.setValue(newLocalGame);
+
+        addGameListener(playerName);
+    }
+
+    private void addProblemcardsToRemote() {
         ArrayList<Round> rounds = new ArrayList<>();
         Repository.getStaticInstance().collection("ProblemCards").get().addOnCompleteListener(task -> {
             //Determine app language and serve correct problems
             String language = Locale.getDefault().getLanguage();
             String danish = IdeainatorApplication.getAppContext().getString(R.string.Danish);
             String english = IdeainatorApplication.getAppContext().getString(R.string.English);
+            //todo: start a random spot in the array
             for (QueryDocumentSnapshot document : task.getResult()) {
-                if(rounds.size()>=theGame.numberOfRounds) break;
+                if (rounds.size() >= repository.theGame.getValue().numberOfRounds) break;
                 Round round;
                 if (language.contains("da")) round = new Round(document.get(danish, String.class));
                 else round = new Round(document.get(english, String.class));
@@ -64,76 +91,11 @@ public class GameManager {
             // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
             Collections.shuffle(rounds);
 
-
-            theGame.setRounds(rounds);
-
-            repository.thePlayer.setAdmin(true);
-
-            theGame.getPlayers().add(repository.thePlayer);
-
-            // Generate joinCode here
-            // No great as it only checks if the code exists once.
-            // https://stackoverflow.com/questions/20389890/generating-a-random-number-between-1-and-10-java
-            Random rand = new Random();
-            int randomNum = rand.nextInt((1000 - 100) + 1) + 100;
-            DatabaseReference myJoinCodeRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + randomNum);
-            myJoinCodeRef.get().addOnCompleteListener(task1 -> {
-                if (task1.getResult().getValue() == null)
-                    repository.joinCode = Integer.toString(randomNum);
-                else {
-                    int randomNum1 = rand.nextInt((1000 - 100) + 1) + 100;
-                    repository.joinCode = Integer.toString(randomNum1);
-                }
-
-
-                DatabaseReference newGameRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + repository.joinCode);
-                newGameRef.setValue(theGame);
-
-                ValueEventListener gameListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Game theGame1 = snapshot.getValue(Game.class);
-
-                        //Move to correct activity if needed:
-                        Game.gameState state = theGame1.getState();
-                        if (repository.theGame.getValue() == null) {
-                            Log.d("TAG", "onDataChange: øv");
-                        }
-                        else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state == Game.gameState.FINAL) {
-                            Intent finalActivityIntent = new Intent(app, FinalActivity.class);
-                            finalActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Clear callstack - so you cant go back
-                            app.startActivity(finalActivityIntent);
-                        }
-                        //find "you" among other players
-                        for (int i = 0; i < theGame1.getPlayers().size(); i++) {
-                            if (theGame1.getPlayers().get(i).getName().equals(repository.thePlayer.getName())) {
-                                repository.thePlayer = theGame1.getPlayers().get(i);
-                                repository.playerIndex = i;
-                                Log.d("GAME", "PLAYER UPDATED");
-                            }
-                        }
-                        //Update local copy with new online data
-                        repository.theGame.setValue(theGame1);
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e("createGame", "onCancelled: gameListener encountered an error: ",error.toException() );
-                    }
-                };
-
-
-
-                newGameRef.addValueEventListener(gameListener);
-                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //IdeainatorApplication.getAppContext().startActivity(intent);
-                //launcher.launch(intent);
-            });
+            joinRef.child("rounds").setValue(rounds);
         });
     }
-    public void joinExistingGame(String joinCode){
+
+    public void joinExistingGame(String joinCode) {
         String playerName = Repository.getInstance().thePlayer.getName();
         repository.thePlayer.setAdmin(false);
         repository.joinCode = joinCode;
@@ -147,72 +109,83 @@ public class GameManager {
                 Toast.makeText(app, IdeainatorApplication.getAppContext().getString(R.string.RoomNotFound), Toast.LENGTH_SHORT).show();
                 return;
             }
-            joinListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
-                    // This will keep the value of game and player updated
-                    Game theGame;
-                    try{
-                        theGame = dataSnapshot.getValue(Game.class);
-                    }
-                    catch (Error e){
-                        Log.e("joinActivity", "onDataChange: error parsing game update - perhaps hash/list error?",e );
-                        Toast.makeText(app, "Bad data downloaded :(", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-
-                    // This will open the round view when the admin starts the game
-                    Game.gameState state = theGame.getState();
-                    if (repository.theGame.getValue() == null) {
-                        Log.d("TAG", "onDataChange: øv");
-                    } else if (repository.theGame.getValue().getState() != Game.gameState.ROUND && state == Game.gameState.ROUND) {
-                        Intent roundIntent = new Intent(app, RoundActivity.class);
-                        roundIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Clear top of callstack - so you cant go back
-                        app.startActivity(roundIntent);
-                    } else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && state == Game.gameState.FINAL) {
-                        Intent finalActivityIntent = new Intent(app, FinalActivity.class);
-                        finalActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Clear callstack - so you cant go back
-                        app.startActivity(finalActivityIntent);
-                    }
-
-                    repository.theGame.setValue(theGame);
-                    for (int i = 0; i < repository.theGame.getValue().getPlayers().size(); i++) {
-                        if (repository.theGame.getValue().getPlayers().get(i).getName().equals(playerName)) {
-                            repository.thePlayer = repository.theGame.getValue().getPlayers().get(i);
-                            repository.playerIndex = i;
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w("TAG", "Failed to read value.", error.toException());
-
-                }
-            };
-            joinRef.addValueEventListener(joinListener);
+            addGameListener(playerName);
 
             // Adds player to list of players and opens lobby (only if the game is not started)
-            DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
-            myRef.get().addOnCompleteListener(task1 -> {
-                if (repository.theGame.getValue().getState() == Game.gameState.LOBBY) {
-                    GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
-                    };
-                    ArrayList<Player> players = task1.getResult().getValue(t);
-
-                    players.add(repository.thePlayer);
-                    myRef.setValue(players);
-                } else {
-                    Toast.makeText(app, IdeainatorApplication.getAppContext().getString(R.string.Gamealreadystarted), Toast.LENGTH_SHORT).show();
-                }
-            });
-
+            addLocalPlayerToRemote(joinCode);
         });
 
+    }
+
+    private void addGameListener(String playerName) {
+        listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                // This will keep the value of game and player updated
+                Game remoteGame = dataSnapshot.getValue(Game.class);
+                // This will open the round view when the admin starts the game:
+                progressToCorrectActivity(remoteGame);
+
+                repository.theGame.setValue(remoteGame);
+                getPlayerIndex(playerName, remoteGame);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        };
+        joinRef.addValueEventListener(listener);
+    }
+
+    private void progressToCorrectActivity(Game remoteGame) {
+        if (repository.theGame.getValue() == null) return;
+        Game.gameState remoteState = remoteGame.getState();
+        Game.gameState localState = repository.theGame.getValue().getState();
+
+        if (!repository.thePlayer.getAdmin() &&
+                localState != Game.gameState.ROUND &&
+                remoteState == Game.gameState.ROUND) {
+            Intent roundIntent = new Intent(app, RoundActivity.class);
+            roundIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Clear top of callstack - so you cant go back
+            app.startActivity(roundIntent);
+        } else if (repository.theGame.getValue().getState() != Game.gameState.FINAL && remoteState == Game.gameState.FINAL) {
+            Intent finalActivityIntent = new Intent(app, FinalActivity.class);
+            finalActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Clear callstack - so you cant go back
+            app.startActivity(finalActivityIntent);
+        }
+    }
+
+    private void addLocalPlayerToRemote(String joinCode) {
+        DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode + "/players");
+        myRef.get().addOnCompleteListener(task1 -> {
+            if (repository.theGame.getValue().getState() == Game.gameState.LOBBY) {
+                GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {
+                };
+                ArrayList<Player> players = task1.getResult().getValue(t);
+
+                players.add(repository.thePlayer);
+                myRef.setValue(players);
+            } else {
+            }
+        });
+    }
+
+    private void getPlayerIndex(String playerName, Game remoteGame) {
+        int i = 0;
+        for (Player remotePlayer : remoteGame.getPlayers()) {
+            if (remotePlayer.getName().equals(playerName)) {
+                repository.thePlayer = remotePlayer;
+                repository.playerIndex = i;
+            }
+            i++;
+        }
+    }
+
+    public void removeListeners() {
+        if (listener != null) joinRef.removeEventListener(listener);
     }
 }

@@ -1,7 +1,6 @@
 package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -86,10 +85,8 @@ public class VoteActivityViewModel extends ViewModel {
             GenericTypeIndicator<Game> gameT =new GenericTypeIndicator<Game>() {};
             Game game =task.getResult().getValue(gameT);
             OptionCard winner= determineWinner(game);
-            //game.getRounds().get(round-1).setWinner(winner);
             DatabaseReference winnerRef=gameRef.child("rounds").child(String.valueOf(round-1)).child("winner");
             winnerRef.setValue(winner);
-            //game.setState(Game.gameState.ROUND);
             DatabaseReference stateRef=gameRef.child("state");
 
             if(round>=repository.theGame.getValue().numberOfRounds) {//End game
@@ -100,8 +97,7 @@ public class VoteActivityViewModel extends ViewModel {
                 stateRef.setValue(Game.gameState.ROUND);
                 DatabaseReference roundRef =gameRef.child("roundCounter");
                 roundRef.setValue(ServerValue.increment(1));
-                //game.setRoundCounter(round+1);
-                //gameRef.setValue(game);
+
                 Intent intent = new Intent(IdeainatorApplication.getAppContext(), RoundActivity.class);
                 launcher.launch(intent);
             }
@@ -125,8 +121,7 @@ public class VoteActivityViewModel extends ViewModel {
     public boolean checkOption(int index) {
         if (getVoteOptions().get(index)==null) return false;
         if (getVoteOptions().get(index).getOption()==null) return false;
-        if (getVoteOptions().get(index).getOption()==IdeainatorApplication.getAppContext().getString(R.string.waiting)) return false;
-        return  true;
+        return !getVoteOptions().get(index).getOption().equals(IdeainatorApplication.getAppContext().getString(R.string.waiting));
 
     }
 
