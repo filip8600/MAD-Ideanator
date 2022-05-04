@@ -23,14 +23,13 @@
         android:id="@+id/LobbyBtnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:fontFamily="monospace"
         android:text="@string/startButton"
         android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/LobbyTxtStartHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lobby_recycleView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/LobbyTxtGameCode"
@@ -53,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LobbyTxtGameCode"
-        tools:text="1234" />
+        tools:text="123" />
 
     <TextView
         android:id="@+id/LobbyTxtPlayersHeader"
@@ -72,14 +71,13 @@
         android:id="@+id/LobbyTxtStartHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="casual"
         android:text="@string/ClickHereWhenEveryoneArerRady"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyBtnStart" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/lobbyBtnShare"

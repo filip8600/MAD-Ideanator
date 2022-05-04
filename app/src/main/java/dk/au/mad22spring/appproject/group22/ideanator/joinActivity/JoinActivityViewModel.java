@@ -3,6 +3,7 @@ package dk.au.mad22spring.appproject.group22.ideanator.joinActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.RestrictionEntry;
+import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -118,4 +119,18 @@ public class JoinActivityViewModel extends ViewModel {
         if (listener != null) myRef.removeEventListener(listener);
     }
 
+    public void isCodeValid(canHandleResult caller,String joinCode) {
+        if(joinCode==null)caller.isCodeValidResult(false);
+        else if(joinCode.length()<3) caller.isCodeValidResult(false);
+        myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/" + joinCode+"/state");
+        myRef.get().addOnCompleteListener(task -> {
+            String state= (String) task.getResult().getValue();
+            if(state==null) caller.isCodeValidResult(false);
+            else if(state.contains("LOBBY")) caller.isCodeValidResult(true);
+            else caller.isCodeValidResult(false);
+        });
+    }
+    public interface canHandleResult{
+        void isCodeValidResult(boolean isValid);
+    }
 }

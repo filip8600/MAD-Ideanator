@@ -27,6 +27,7 @@ public class LobbyActivityViewModel extends ViewModel {
 
     private Repository repository = Repository.getInstance();
     public final String joinCode=repository.joinCode;
+    public boolean joinCodeReady = false;
 
 
     public void StartGame(ActivityResultLauncher<Intent> launcher, Intent intent){
@@ -98,8 +99,9 @@ public class LobbyActivityViewModel extends ViewModel {
         return repository.thePlayer.getAdmin();
     }
 
-    public void ObservePlayers(LifecycleOwner owner, canHandleNewPlayers lobbyActivity) {
+    public void ObservePlayers(LifecycleOwner owner, canHandleGameUpdates lobbyActivity) {
         repository.theGame.observe(owner, game -> {
+            if(!joinCodeReady) checkJoinCode(lobbyActivity);
             ArrayList<Player>playerCopy=new ArrayList<>();
             for (Player p:game.getPlayers()){
                 if (repository.thePlayer.getName().equals(p.getName())) {
@@ -111,7 +113,15 @@ public class LobbyActivityViewModel extends ViewModel {
             lobbyActivity.newPlayerArrived(playerCopy);
         });
     }
-    public interface canHandleNewPlayers{
+
+    private void checkJoinCode(canHandleGameUpdates lobbyActivity) {
+        if(repository.joinCode==null) return;
+        joinCodeReady=true;
+        lobbyActivity.gameCodeReady(repository.joinCode, isAdmin());
+    }
+
+    public interface canHandleGameUpdates {
         void newPlayerArrived(ArrayList<Player> players);
+        void gameCodeReady(String joinCode, boolean isAdmin);
     }
 }

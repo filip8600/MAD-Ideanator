@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import dk.au.mad22spring.appproject.group22.ideanator.GameManager;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.finalActivity.FinalActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void createGame() {
         Intent intent = new Intent(this, LobbyActivity.class);
-        viewModel.CreateGame(launcher, intent,this);
+        launcher.launch(intent);
+        //viewModel.CreateGame(launcher, intent,this);
+        GameManager.getInstance().startNewGame();
 
     }
 

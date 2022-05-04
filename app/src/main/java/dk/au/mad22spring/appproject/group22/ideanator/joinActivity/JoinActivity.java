@@ -4,16 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import dk.au.mad22spring.appproject.group22.ideanator.GameManager;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivity;
 
-public class JoinActivity extends AppCompatActivity {
+public class JoinActivity extends AppCompatActivity implements JoinActivityViewModel.canHandleResult {
     private Button joinButton;
     private EditText textBox;
     private ActivityResultLauncher<Intent> launcher;
@@ -52,12 +54,15 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private void joinGame() {
-        //Todo: Check validity
-        Intent intent = new Intent(this, LobbyActivity.class);
-        intent.putExtra(getString(R.string.joincode),textBox.getText());
-
-        viewModel.JoinGame(textBox.getText().toString(),this,intent,launcher);
-
+        viewModel.isCodeValid(this,String.valueOf(textBox.getText()));
+    }
+    public void isCodeValidResult(boolean isValid){
+        if(isValid) {
+            GameManager.getInstance().joinExistingGame(String.valueOf(textBox.getText()));
+            Intent intent = new Intent(this, LobbyActivity.class);
+            startActivity(intent);
+        }
+        else Toast.makeText(this, getString(R.string.RoomNotFound), Toast.LENGTH_SHORT).show();
     }
 
     @Override
