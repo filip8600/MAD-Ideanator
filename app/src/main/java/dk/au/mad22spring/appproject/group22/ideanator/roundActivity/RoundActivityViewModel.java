@@ -1,11 +1,7 @@
 package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
-import android.app.LauncherActivity;
-import android.content.Intent;
-import android.graphics.Path;
 import android.util.Log;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModel;
@@ -14,10 +10,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.core.ServerValues;
-import com.google.firestore.v1.DocumentTransform;
 
 import java.util.ArrayList;
 

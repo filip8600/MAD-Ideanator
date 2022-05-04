@@ -16,7 +16,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.lobbyActivity.LobbyActivit
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 
 public class MainActivity extends AppCompatActivity {
-    private Button joinButton, createButton, debugFinalShortcut;
+    private Button joinButton, createButton;
     private ActivityResultLauncher<Intent> launcher;
     private MainActivityViewModel viewModel;
 
@@ -43,13 +43,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupUI() {
         joinButton=findViewById(R.id.mainBtnJoin);
         createButton=findViewById(R.id.mainBtnCreate);
-        debugFinalShortcut=findViewById(R.id.MainBtnFinal);
     }
 
     private void setupListeners() {
         joinButton.setOnClickListener(view -> joinGame());
         createButton.setOnClickListener(view -> createGame());
-        debugFinalShortcut.setOnClickListener(view -> goToFinal());
 
         viewModel.removeListener();
 

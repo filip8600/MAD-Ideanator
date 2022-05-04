@@ -91,7 +91,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
     private void shareGameCode() {//Sharing from https://developer.android.com/training/sharing/send
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.ShareCodeText)+ viewModel.joinCode);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.ShareCodeText)+" "+ viewModel.joinCode);
         sendIntent.setType("text/plain");
 
         Intent shareIntent = Intent.createChooser(sendIntent, null);

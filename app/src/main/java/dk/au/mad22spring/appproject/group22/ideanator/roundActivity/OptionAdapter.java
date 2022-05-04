@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 
@@ -47,6 +48,7 @@ public class OptionAdapter extends RecyclerView.Adapter<OptionAdapter.OptionView
             Log.d("adaptor", "onBindViewHolder: tst");
             //Log.d("adaptor", "onBindViewHolder: "+optionList.size());
             OptionCard optionCard = optionList.get(position);
+            if(optionCard.getOption()==null) optionCard.setOption(IdeainatorApplication.getAppContext().getString(R.string.waiting));
             holder.optionBtn.setText(optionCard.getOption());
             holder.optionBtn.setOnClickListener(view -> listener.onOptionClicked(position));
         }

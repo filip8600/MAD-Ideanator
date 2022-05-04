@@ -7,7 +7,7 @@
     <string name="round_txt">Round #</string>
     <string name="joinHeadline">Join an existing game....</string>
     <string name="writeCode">Insert the game code:</string>
-    <string name="CodeHint" translatable="false">1234</string>
+    <string name="CodeHint" translatable="false">123</string>
     <string name="startButton">Lets Gooo!</string>
     <string name="vote">Review Results:</string>
     <string name="winnerIdeas">Winner Idea #</string>
@@ -28,4 +28,6 @@
     <string name="tapHereToResume">Tap here to return to the game</string>
     <string name="longPressToMute">Long press to mute the notification</string>
     <string name="endGame">End Game</string>
+    <string name="waiting">Waiting...</string>
+    <string name="havePatience">Patience, you must have.</string>
 </resources>

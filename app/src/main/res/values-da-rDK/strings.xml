@@ -27,4 +27,7 @@
     <string name="gameIsRunning">IdeaInator Spil kører i baggrunden</string>
     <string name="tapHereToResume">Tryk her for at åbne spillet igen</string>
     <string name="longPressToMute">Tryk og hold nede for at fjerne beskeden.</string>
+    <string name="endGame">Afslut spil</string>
+    <string name="waiting">Venter...</string>
+    <string name="havePatience">Tålmodighed er en dyd.</string>
 </resources>

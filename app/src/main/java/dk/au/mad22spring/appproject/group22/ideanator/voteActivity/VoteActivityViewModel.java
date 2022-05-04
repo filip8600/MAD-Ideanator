@@ -15,6 +15,7 @@ import com.google.firebase.database.ServerValue;
 import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
+import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
@@ -119,6 +120,14 @@ public class VoteActivityViewModel extends ViewModel {
 
     public int getNumberOfPlayers() {
         return repository.theGame.getValue().getPlayers().size();
+    }
+
+    public boolean checkOption(int index) {
+        if (getVoteOptions().get(index)==null) return false;
+        if (getVoteOptions().get(index).getOption()==null) return false;
+        if (getVoteOptions().get(index).getOption()==IdeainatorApplication.getAppContext().getString(R.string.waiting)) return false;
+        return  true;
+
     }
 
     public interface CanUpdateUI{
