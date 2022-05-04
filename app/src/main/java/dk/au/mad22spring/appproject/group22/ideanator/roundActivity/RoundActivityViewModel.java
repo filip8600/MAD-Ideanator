@@ -2,6 +2,7 @@ package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
 import android.app.LauncherActivity;
 import android.content.Intent;
+import android.graphics.Path;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -92,9 +93,18 @@ public class RoundActivityViewModel extends ViewModel {
     public void observeOnNumberOfOptionsSent(LifecycleOwner owner, CanHandleOptionsUpdate caller){
         repository.theGame.observe(owner, game -> {
             Log.d("adaptor", "something new has happened");
-            int options=game.getRounds().get(getRoundNumber()-1).getPlayedOptions().size();
-            caller.newOptionPlayed(options);
+            int numberOfOptions = getNumberOfOptions(game);
+            caller.newOptionPlayed(numberOfOptions);
         });
+    }
+
+    private int getNumberOfOptions(Game game) {
+        ArrayList<OptionCard> Options= game.getRounds().get(getRoundNumber()-1).getPlayedOptions();
+        int numberOfOptions =0;
+        for(OptionCard card: Options){
+            if(card!=null&&card.getOption()!=null)numberOfOptions++;
+        }
+        return numberOfOptions;
     }
 
     public int getNumberOfPlayers() {

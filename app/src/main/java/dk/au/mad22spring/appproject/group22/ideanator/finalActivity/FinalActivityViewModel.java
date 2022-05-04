@@ -2,6 +2,8 @@ package dk.au.mad22spring.appproject.group22.ideanator.finalActivity;
 
 import androidx.lifecycle.ViewModel;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.Repository;
@@ -33,5 +35,9 @@ public class FinalActivityViewModel extends ViewModel {
         ArrayList<Round> rounds=Repository.getInstance().theGame.getValue().getRounds();
         if(rounds!=null) return rounds.size();
         else return 1;
+    }
+
+    public void deleteGame() {
+        Repository.deleteGame();
     }
 }

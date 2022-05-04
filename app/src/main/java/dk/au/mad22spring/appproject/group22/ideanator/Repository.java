@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -48,4 +49,10 @@ public class Repository {
 
     }
 
+    public static void deleteGame() {
+        DatabaseReference gameRef= getRealtimeInstance()
+                .getReference("Ideainator/Games/" + Repository.getInstance().joinCode);
+        gameRef.removeValue();
+        staticFirebase=null;
+    }
 }

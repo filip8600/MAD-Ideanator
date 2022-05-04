@@ -21,6 +21,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.Repository;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
 import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
+import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 
 public class LobbyActivityViewModel extends ViewModel {
 
@@ -57,10 +58,11 @@ public class LobbyActivityViewModel extends ViewModel {
                         // https://www.geeksforgeeks.org/shuffle-elements-of-arraylist-in-java/
                         Collections.shuffle(optionCards);
                         ArrayList<OptionCard> options = new ArrayList<>();
-                        for (int j = 0;j <15;j++){
+                        for (int j = 0;j <(5+theGame.numberOfRounds);j++){
                             options.add(optionCards.get(j));
                         }
                         players.get(i).setOptions(options);
+                        addEmptyAnswers(theGame);
                     }
                     theGame.setPlayers(players);
                     theGame.setState(Game.gameState.ROUND);
@@ -77,6 +79,12 @@ public class LobbyActivityViewModel extends ViewModel {
             });
         });
 
+    }
+
+    private void addEmptyAnswers(Game game) {
+        for(Round round:game.getRounds()){
+            round.getPlayedOptions().add(new OptionCard());
+        }
     }
 
     public ArrayList<Player> getPlayerList() {

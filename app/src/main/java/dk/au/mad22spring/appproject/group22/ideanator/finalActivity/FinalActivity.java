@@ -16,6 +16,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.joinActivity.JoinActivity;
+import dk.au.mad22spring.appproject.group22.ideanator.mainActivity.MainActivity;
 
 //Viewpaging based on https://developer.android.com/training/animation/screen-slide.html
 public class FinalActivity extends FragmentActivity {
@@ -65,6 +67,15 @@ public class FinalActivity extends FragmentActivity {
         currentNumberTextBox.setText("1");
         Button shareButton=findViewById(R.id.final_btn_share);
         shareButton.setOnClickListener(view -> {shareIdea();});
+        Button endGameButton=findViewById(R.id.final_btn_endGame);
+        endGameButton.setOnClickListener(view -> endGame());
+    }
+
+    private void endGame() {
+        vm.deleteGame();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Kill stack
+        startActivity(intent);
     }
 
     private void shareIdea() {//Sharing from https://developer.android.com/training/sharing/send
