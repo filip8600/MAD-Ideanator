@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.ForegroundService;
+import dk.au.mad22spring.appproject.group22.ideanator.GameManager;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
+import dk.au.mad22spring.appproject.group22.ideanator.mainActivity.MainActivity;
 import dk.au.mad22spring.appproject.group22.ideanator.model.Player;
 import dk.au.mad22spring.appproject.group22.ideanator.roundActivity.RoundActivity;
 
@@ -118,5 +120,14 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         startActivity(intent);
         finish();//Kill lobby activity
 
+    }
+    @Override
+    public void onBackPressed() {
+        GameManager.getInstance().removeListeners();
+        GameManager.getInstance().LeaveGame();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

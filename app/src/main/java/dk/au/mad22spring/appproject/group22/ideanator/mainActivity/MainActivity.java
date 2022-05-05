@@ -61,4 +61,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, JoinActivity.class);
         launcher.launch(intent);
     }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

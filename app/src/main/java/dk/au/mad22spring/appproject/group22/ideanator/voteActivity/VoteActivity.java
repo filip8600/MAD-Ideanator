@@ -77,5 +77,9 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
         adapter.updateOptionList(voteOptions);
 
     }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
 }

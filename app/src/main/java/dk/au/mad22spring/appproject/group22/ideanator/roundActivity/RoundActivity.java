@@ -104,4 +104,8 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         startActivity(intent);
         finish();
     }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

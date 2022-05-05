@@ -54,5 +54,9 @@ public class JoinActivity extends AppCompatActivity implements JoinActivityViewM
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    public void onBackPressed() {
+    moveTaskToBack(true);
+    }
 
 }
