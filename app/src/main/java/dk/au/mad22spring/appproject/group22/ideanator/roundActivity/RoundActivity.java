@@ -2,6 +2,7 @@ package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
         //Round-specifics
         roundNumber = findViewById(R.id.round_txt_number);
         problemText = findViewById(R.id.round_txt_problem);
+        problemText.setMovementMethod(new ScrollingMovementMethod());
         progressBar=findViewById(R.id.round_progressBar_countdown);
 
         roundNumber.setText(Integer.toString(vm.getRoundNumber()));

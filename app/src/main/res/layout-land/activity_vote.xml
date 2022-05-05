@@ -24,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pickYourFavorite"
-        app:layout_constraintBottom_toTopOf="@+id/vote_recyclerView"
         app:layout_constraintEnd_toEndOf="@+id/vote_recyclerView"
         app:layout_constraintStart_toEndOf="@+id/vote_txt_problem"
         app:layout_constraintTop_toBottomOf="@+id/vote_progressBar_countdown" />
@@ -32,28 +31,33 @@
     <TextView
         android:id="@+id/vote_txt_problem"
         android:layout_width="359dp"
-        android:layout_height="211dp"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="casual"
+        android:scrollbars="vertical"
         android:text="TextView"
         android:textAlignment="textStart"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vote_recyclerView"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vote_progressBar_countdown"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="How will Santa ever deliver all the gift without a ______." />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vote_recyclerView"
-        android:layout_width="363dp"
-        android:layout_height="209dp"
+        android:layout_width="319dp"
+        android:layout_height="283dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/vote_txt_problem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vote_txt_problem"
-        app:layout_constraintTop_toTopOf="@+id/vote_txt_problem"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/VoteTxtHelp"
         tools:itemCount="5"
         tools:listitem="@layout/item_option_round" />
 

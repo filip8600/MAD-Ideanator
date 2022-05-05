@@ -2,6 +2,7 @@ package dk.au.mad22spring.appproject.group22.ideanator.voteActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
     private void setupUI() {
         TextView problemText = findViewById(R.id.vote_txt_problem);
         problemText.setText(vm.getProblemText());
+        problemText.setMovementMethod(new ScrollingMovementMethod());
         progressBar=findViewById(R.id.vote_progressBar_countdown);
         progressBar.setMax(vm.getNumberOfPlayers());
     }
