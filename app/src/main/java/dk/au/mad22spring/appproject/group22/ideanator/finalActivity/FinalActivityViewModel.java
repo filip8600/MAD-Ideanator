@@ -11,12 +11,14 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 
 public class FinalActivityViewModel extends ViewModel {
     private final Repository repo = Repository.getInstance();
+    private ArrayList<String> winners;
 
     public FinalActivityViewModel() {
         GameManager.getInstance().removeListeners();
     }
 
     public String getSolution(int position) {
+        if(winners==null) winners=new ArrayList<>();
         if (repo.theGame.getValue() == null) {
             return "Game is missing :(";
         } else {

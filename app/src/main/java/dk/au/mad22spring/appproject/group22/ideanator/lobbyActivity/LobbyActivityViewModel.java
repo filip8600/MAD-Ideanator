@@ -26,7 +26,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 public class LobbyActivityViewModel extends ViewModel {
 
     private Repository repository = Repository.getInstance();
-    public final String joinCode=repository.joinCode;
+    public String joinCode="";
     public boolean joinCodeReady = false;
 
 
@@ -116,8 +116,9 @@ public class LobbyActivityViewModel extends ViewModel {
 
     private void checkJoinCode(canHandleGameUpdates lobbyActivity) {
         if(repository.joinCode==null) return;
+        joinCode=repository.joinCode;
         joinCodeReady=true;
-        lobbyActivity.gameCodeReady(repository.joinCode, isAdmin());
+        lobbyActivity.gameCodeReady(joinCode, isAdmin());
     }
 
     public interface canHandleGameUpdates {

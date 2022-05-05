@@ -27,7 +27,7 @@ public class GameManager {
     //Singleton:
     private static GameManager gameManager;
     //Class attributes:
-    private final Repository repository = Repository.getInstance();
+    private Repository repository = Repository.getInstance();
     private final Context app = IdeainatorApplication.getAppContext();
     private DatabaseReference joinRef;
     private ValueEventListener listener;
@@ -39,6 +39,8 @@ public class GameManager {
     }
 
     public void startNewGame() {
+        repository=Repository.getInstance();
+
         // Generate joinCode here
         // No great as it only checks if the code exists once.
         // https://stackoverflow.com/questions/20389890/generating-a-random-number-between-1-and-10-java
@@ -96,6 +98,7 @@ public class GameManager {
     }
 
     public void joinExistingGame(String joinCode) {
+        repository=Repository.getInstance();
         String playerName = Repository.getInstance().thePlayer.getName();
         repository.thePlayer.setAdmin(false);
         repository.joinCode = joinCode;
@@ -187,5 +190,8 @@ public class GameManager {
 
     public void removeListeners() {
         if (listener != null) joinRef.removeEventListener(listener);
+    }
+    public void resetGame(){
+        repository=Repository.getInstance();
     }
 }
