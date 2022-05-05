@@ -8,30 +8,31 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/round_recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="346dp"
+        android:layout_height="237dp"
+        android:layout_marginStart="16dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/round_txt_problem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/round_txt_help"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/round_txt_problem"
+        app:layout_constraintTop_toTopOf="@+id/round_txt_problem"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="5"
         tools:listitem="@layout/item_option_round" />
 
     <TextView
         android:id="@+id/round_txt_problem"
-        android:layout_width="544dp"
-        android:layout_height="133dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="330dp"
+        android:layout_height="229dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="casual"
         android:text="TextView"
         android:textAlignment="center"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/round_img_avatar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/round_progressBar_countdown"
         tools:text="How will Santa ever deliver all the gift without a ______." />
 
     <ImageView
@@ -48,25 +49,23 @@
         android:id="@+id/round_txt_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="12dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/round_img_avatar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/round_img_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/round_img_avatar"
+        app:layout_constraintStart_toEndOf="@+id/round_img_avatar"
+        app:layout_constraintTop_toTopOf="@+id/round_img_avatar"
         tools:text="The Kinky Horse" />
 
     <TextView
         android:id="@+id/round_txt_roundnumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="monospace"
         android:text="@string/round_txt"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/round_img_avatar"
+        app:layout_constraintEnd_toEndOf="@+id/round_txt_username"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/round_img_avatar"
+        app:layout_constraintStart_toStartOf="@+id/round_txt_username"
         app:layout_constraintTop_toBottomOf="@+id/round_txt_username"
         tools:text="Round #" />
 
@@ -87,20 +86,24 @@
         android:id="@+id/round_txt_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/SubmitBestOption"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/round_progressBar_countdown" />
+        app:layout_constraintBottom_toTopOf="@+id/round_recyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/round_recyclerView"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="@+id/round_recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/round_progressBar_countdown"
+        app:layout_constraintVertical_bias="0.157" />
 
     <ProgressBar
         android:id="@+id/round_progressBar_countdown"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_width="449dp"
+        android:layout_height="10dp"
         android:layout_marginEnd="24dp"
         android:progressTint="#F60202"
+        app:layout_constraintBottom_toBottomOf="@+id/round_txt_roundnumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/round_txt_problem" />
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toEndOf="@+id/round_txt_number" />
 </androidx.constraintlayout.widget.ConstraintLayout>
