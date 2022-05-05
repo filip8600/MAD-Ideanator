@@ -23,14 +23,13 @@
         android:id="@+id/LobbyBtnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
         android:fontFamily="monospace"
         android:text="@string/startButton"
         android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/LobbyTxtStartHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lobby_recycleView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/LobbyTxtGameCode"
@@ -72,13 +71,14 @@
         android:id="@+id/LobbyTxtStartHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="casual"
         android:text="@string/ClickHereWhenEveryoneArerRady"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/LobbyBtnStart"
-        app:layout_constraintStart_toStartOf="@+id/LobbyBtnStart"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyBtnStart" />
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="@+id/LobbyBtnStart" />
 
     <Button
         android:id="@+id/lobbyBtnShare"
@@ -94,7 +94,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lobby_recycleView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/LobbyBtnStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LobbyTxtPlayersHeader"
