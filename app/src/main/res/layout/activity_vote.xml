@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VoteTxtHelp"
         tools:itemCount="5"
-        tools:listitem="@layout/item_option_vote" />
+        tools:listitem="@layout/item_option_round" />
 
     <ProgressBar
         android:id="@+id/vote_progressBar_countdown"
