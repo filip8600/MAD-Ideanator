@@ -68,8 +68,8 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         if(!viewModel.isAdmin()){
             startButton.setEnabled(false);
             startButton.setVisibility(View.GONE);
+            findViewById(R.id.LobbyTxtStartHint).setVisibility(View.GONE);
         }
-        findViewById(R.id.LobbyTxtStartHint).setVisibility(View.GONE);
 
     }
 

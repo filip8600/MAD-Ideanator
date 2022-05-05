@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.PagerAdapter;
@@ -38,6 +39,7 @@ public class FinalActivity extends FragmentActivity {
 
         setupSimpleViewItems();
         setUpViewPager();
+
 
 
     }
@@ -102,11 +104,15 @@ public class FinalActivity extends FragmentActivity {
     }
 
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        @Override //needed to enable rotate https://stackoverflow.com/a/40038942
+        public long getItemId(int position) {
+            return System.currentTimeMillis();
+        }
         @NonNull
         @Override
         public Fragment getItem(int position) {
@@ -114,6 +120,7 @@ public class FinalActivity extends FragmentActivity {
             fragment.setText(vm.getSolution(position));
             return  fragment;
         }
+
 
         @Override
         public int getCount() {
