@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mainActivity.MainActivity">
+
+    <TextView
+        android:id="@+id/main_txtName"
+        android:layout_width="426dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:text="@string/app_name_Split"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="@+id/main_txtWelcome"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="@+id/main_txtWelcome"
+        app:layout_constraintTop_toBottomOf="@+id/main_txtWelcome" />
+
+    <TextView
+        android:id="@+id/main_txtWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="casual"
+        android:text="@string/welcome"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/mainBtnJoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="72dp"
+        android:fontFamily="monospace"
+        android:text="@string/joinGame"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/main_txtName"
+        app:layout_constraintTop_toTopOf="@+id/main_txtName" />
+
+    <Button
+        android:id="@+id/mainBtnCreate"
+        android:layout_width="239dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="monospace"
+        android:text="@string/createGame"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="@+id/mainBtnJoin"
+        app:layout_constraintStart_toStartOf="@+id/mainBtnJoin"
+        app:layout_constraintTop_toBottomOf="@+id/mainBtnJoin" />
+
+    <ImageView
+        android:id="@+id/main_img_logo"
+        android:layout_width="138dp"
+        android:layout_height="119dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="@+id/main_txtName"
+        app:layout_constraintStart_toStartOf="@+id/main_txtName"
+        app:layout_constraintTop_toBottomOf="@+id/main_txtName"
+        app:srcCompat="@mipmap/ic_smiley" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
