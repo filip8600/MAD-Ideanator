@@ -50,8 +50,8 @@
 
     <Button
         android:id="@+id/mainBtnCreate"
-        android:layout_width="239dp"
-        android:layout_height="64dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="monospace"
         android:text="@string/createGame"

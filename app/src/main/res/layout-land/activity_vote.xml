@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/vote_txt_problem"
-        android:layout_width="359dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
@@ -50,11 +50,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vote_recyclerView"
-        android:layout_width="319dp"
-        android:layout_height="283dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vote_txt_problem"
         app:layout_constraintTop_toBottomOf="@+id/VoteTxtHelp"
