@@ -108,10 +108,10 @@ public class LobbyActivityViewModel extends ViewModel {
                     Player pCopy= new Player(p);
                     pCopy.setName(p.getName()+IdeainatorApplication.getAppContext().getResources().getString(R.string.you));
                     playerCopy.add(pCopy);
+                    lobbyActivity.updateAdminButton(pCopy.getAdmin());
                 }else playerCopy.add(p);
             }
             lobbyActivity.newPlayerArrived(playerCopy);
-            lobbyActivity.updateAdminButton(repository.thePlayer.getAdmin());
         });
     }
 
