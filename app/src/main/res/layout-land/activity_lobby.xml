@@ -10,93 +10,95 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="casual"
         android:text="@string/lobby"
-        android:textSize="34sp"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/LobbyBtnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:fontFamily="monospace"
-        android:text="@string/startButton"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lobby_recycleView" />
 
     <TextView
         android:id="@+id/LobbyTxtGameCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="monospace"
         android:text="@string/joincode"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/LobbyTxtCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtGameCode"
-        tools:text="123" />
-
-    <TextView
-        android:id="@+id/LobbyTxtPlayersHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:fontFamily="monospace"
-        android:text="@string/players"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lobbyBtnShare" />
-
-    <TextView
-        android:id="@+id/LobbyTxtStartHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="casual"
-        android:text="@string/ClickHereWhenEveryoneArerRady"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/LobbyBtnStart"
-        app:layout_constraintStart_toStartOf="@+id/LobbyBtnStart"
-        app:layout_constraintTop_toBottomOf="@+id/LobbyBtnStart" />
 
     <Button
         android:id="@+id/lobbyBtnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="monospace"
         android:text="@string/shareCode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/LobbyTxtCode"
+        app:layout_constraintStart_toStartOf="@+id/LobbyTxtCode"
         app:layout_constraintTop_toBottomOf="@+id/LobbyTxtCode" />
+
+    <TextView
+        android:id="@+id/LobbyTxtCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="monospace"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/LobbyTxtGameCode"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="@+id/LobbyTxtGameCode"
+        app:layout_constraintTop_toBottomOf="@+id/LobbyTxtGameCode"
+        tools:text="123" />
+
+    <Button
+        android:id="@+id/LobbyBtnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:text="@string/startButton"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/lobbyBtnShare"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/lobbyBtnShare"
+        app:layout_constraintTop_toBottomOf="@+id/lobbyBtnShare" />
+
+    <TextView
+        android:id="@+id/LobbyTxtStartHint"
+        android:layout_width="259dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="casual"
+        android:text="@string/ClickHereWhenEveryoneArerRady"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LobbyBtnStart" />
+
+    <TextView
+        android:id="@+id/LobbyTxtPlayersHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="monospace"
+        android:text="@string/players"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.298"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lobby_recycleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/LobbyTxtPlayersHeader"
         app:layout_constraintTop_toBottomOf="@+id/LobbyTxtPlayersHeader"
         tools:itemCount="3"
         tools:listitem="@layout/item_player" />

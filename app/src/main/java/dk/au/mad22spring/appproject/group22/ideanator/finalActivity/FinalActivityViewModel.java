@@ -18,7 +18,11 @@ public class FinalActivityViewModel extends ViewModel {
     }
 
     public String getSolution(int position) {
-        if(winners==null) winners=new ArrayList<>();
+        if(winners==null) {
+            winners=new ArrayList<String>();
+            for (int i=0;i<getNumberOfRounds();i++) winners.add(null);
+        }
+        if(winners.get(position)!=null) return winners.get(position);
         if (repo.theGame.getValue() == null) {
             return "Game is missing :(";
         } else {
@@ -31,7 +35,8 @@ public class FinalActivityViewModel extends ViewModel {
             else winnerOption = "foodProcessor";
 
             //Replace _ with option:
-            return prob.replace("_", "\"" + winnerOption + "\"");
+            winners.set(position,prob.replace("_", "\"" + winnerOption + "\""));
+            return winners.get(position);
         }
     }
 
