@@ -122,7 +122,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
     }
     @Override
     public void onBackPressed() {
-        GameManager.getInstance().removeListeners();
         GameManager.getInstance().LeaveGame();
 
         Intent intent = new Intent(this, MainActivity.class);

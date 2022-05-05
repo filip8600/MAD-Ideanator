@@ -196,6 +196,7 @@ public class GameManager {
     }
 
     public void LeaveGame(){
+        removeListeners();
         // Remove Player, if Admin set new player admin otherwise remove game.
         if(repository.theGame.getValue().getPlayers().size() == 1) Repository.deleteGame();
         else {
