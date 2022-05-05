@@ -1,6 +1,5 @@
 package dk.au.mad22spring.appproject.group22.ideanator.roundActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -8,29 +7,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.GenericTypeIndicator;
-
-import java.util.ArrayList;
 
 import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
-import dk.au.mad22spring.appproject.group22.ideanator.Repository;
-import dk.au.mad22spring.appproject.group22.ideanator.model.Game;
-import dk.au.mad22spring.appproject.group22.ideanator.model.OptionCard;
-import dk.au.mad22spring.appproject.group22.ideanator.model.Round;
 import dk.au.mad22spring.appproject.group22.ideanator.voteActivity.VoteActivity;
 
 //https://www.journaldev.com/9896/android-countdowntimer-example TODO: Count down bar on round view + vote view
 
+@SuppressWarnings("FieldCanBeLocal")
 public class RoundActivity extends AppCompatActivity implements OptionAdapter.IOptionItemClickedListener, RoundActivityViewModel.CanHandleOptionsUpdate {
 
     private RoundActivityViewModel vm;
@@ -38,7 +28,6 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
     private TextView userName, roundNumber, problemText;
     private RecyclerView rc;
-    private ActivityResultLauncher<Intent> launcher;
     private ImageView userImage;
     private ProgressBar progressBar;
 
@@ -50,16 +39,9 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
         setupRecyclerView();
         setupUI();
-        setupLauncher();
 
     }
 
-    private void setupLauncher() {
-        //Launcher - Based on code from MAD lecture 2
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-
-        });
-    }
 
     private void setupRecyclerView() {
         adapter = new OptionAdapter(this);
@@ -120,5 +102,6 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
     public void startIntent(){
         Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);
         startActivity(intent);
+        finish();
     }
 }

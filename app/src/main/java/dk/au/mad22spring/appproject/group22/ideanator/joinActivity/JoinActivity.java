@@ -48,6 +48,7 @@ public class JoinActivity extends AppCompatActivity implements JoinActivityViewM
             GameManager.getInstance().joinExistingGame(String.valueOf(textBox.getText()));
             Intent intent = new Intent(this, LobbyActivity.class);
             startActivity(intent);
+            finish();//Kill joinActivity
         } else {
             if (errorMessage == null) errorMessage = getString(R.string.RoomNotFound);
             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();

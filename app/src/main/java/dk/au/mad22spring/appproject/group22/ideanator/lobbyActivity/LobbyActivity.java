@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,7 +25,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
     private RecyclerView rc;
 
 
-    private ActivityResultLauncher<Intent> launcher;
     private LobbyActivityViewModel viewModel;
 
 
@@ -40,7 +37,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         setupRecyclerView();
         setupUI();
         setupListeners();
-        setupLauncher();
         startGameService();
     }
 
@@ -74,13 +70,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
 
     }
 
-    private void setupLauncher() {
-        //Launcher - Based on code from MAD lecture 2
-        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-
-        });
-    }
-
     private void setupListeners() {
         startButton.setOnClickListener(view -> startGame());
         shareButton.setOnClickListener(view -> shareGameCode());
@@ -101,11 +90,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
     }
 
     private void startGame() {
-
-        Intent intent = new Intent(this, RoundActivity.class);
-        viewModel.StartGame(launcher, intent);
-        //launcher.launch(intent);
-
+        viewModel.StartGame(this);
     }
 
     @Override
@@ -122,5 +107,13 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
             startButton.setVisibility(View.VISIBLE);
             findViewById(R.id.LobbyTxtStartHint).setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void goToRoundActivity() {//Only used for admin
+        Intent intent = new Intent(this, RoundActivity.class);
+        startActivity(intent);
+        finish();//Kill lobby activity
+
     }
 }

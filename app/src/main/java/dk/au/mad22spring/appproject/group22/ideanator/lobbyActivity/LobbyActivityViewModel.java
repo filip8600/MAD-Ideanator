@@ -30,7 +30,7 @@ public class LobbyActivityViewModel extends ViewModel {
     public boolean joinCodeReady = false;
 
 
-    public void StartGame(ActivityResultLauncher<Intent> launcher, Intent intent){
+    public void StartGame(canHandleGameUpdates caller){
         // Get game reference
         DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+ repository.joinCode);
 
@@ -69,7 +69,7 @@ public class LobbyActivityViewModel extends ViewModel {
                     theGame.setState(Game.gameState.ROUND);
                     myRef.setValue(theGame);
                     myRef.get().addOnCompleteListener(task11 -> {
-                        launcher.launch(intent);
+                        caller.goToRoundActivity();
                         Log.d("StartOfGame",Integer.toString(repository.thePlayer.getOptions().size()));
                     });
 
@@ -123,5 +123,6 @@ public class LobbyActivityViewModel extends ViewModel {
     public interface canHandleGameUpdates {
         void newPlayerArrived(ArrayList<Player> players);
         void gameCodeReady(String joinCode, boolean isAdmin);
+        void goToRoundActivity();
     }
 }
