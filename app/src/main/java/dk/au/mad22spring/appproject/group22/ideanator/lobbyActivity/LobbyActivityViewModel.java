@@ -111,6 +111,7 @@ public class LobbyActivityViewModel extends ViewModel {
                 }else playerCopy.add(p);
             }
             lobbyActivity.newPlayerArrived(playerCopy);
+            lobbyActivity.updateAdminButton(repository.thePlayer.getAdmin());
         });
     }
 
@@ -125,5 +126,6 @@ public class LobbyActivityViewModel extends ViewModel {
         void newPlayerArrived(ArrayList<Player> players);
         void gameCodeReady(String joinCode, boolean isAdmin);
         void goToRoundActivity();
+        void updateAdminButton(boolean isAdmin);
     }
 }

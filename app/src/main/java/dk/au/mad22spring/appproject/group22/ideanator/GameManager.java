@@ -197,15 +197,15 @@ public class GameManager {
 
     public void LeaveGame(){
         // Remove Player, if Admin set new player admin otherwise remove game.
-        if(repository.theGame.getValue().getPlayers().size() == 1) joinRef.setValue(null);
-       /* else {
+        if(repository.theGame.getValue().getPlayers().size() == 1) Repository.deleteGame();
+        else {
             //Remove player and set a new player as admin
             ArrayList<Player> players = repository.theGame.getValue().getPlayers();
             boolean wasAdmin = players.get(repository.playerIndex).getAdmin();
-            //players.remove(repository.playerIndex);
+            players.remove(repository.playerIndex);
             if (wasAdmin) players.get(0).setAdmin(true);
             joinRef.child("players").setValue(players);
-        }*/
-        Repository.deleteGame();
+        }
+        Repository.resetGame();
     }
 }

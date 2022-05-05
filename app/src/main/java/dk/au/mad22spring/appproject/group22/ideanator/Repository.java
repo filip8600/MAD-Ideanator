@@ -60,4 +60,10 @@ public class Repository {
         staticFirebase=new Repository();
 
     }
+    public static void resetGame(){
+        staticFirebase.joinCode=null;
+        staticFirebase.theGame=null;
+        staticFirebase.thePlayer=null;
+        staticFirebase=new Repository();
+    }
 }

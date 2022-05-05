@@ -79,7 +79,6 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         startButton.setOnClickListener(view -> startGame());
         shareButton.setOnClickListener(view -> shareGameCode());
 
-
     }
 
     private void shareGameCode() {//Sharing from https://developer.android.com/training/sharing/send
@@ -129,5 +128,18 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+    @Override
+    public void updateAdminButton(boolean isAdmin){
+        if (isAdmin){
+            startButton.setEnabled(true);
+            startButton.setVisibility(View.VISIBLE);
+            findViewById(R.id.LobbyTxtStartHint).setVisibility(View.VISIBLE);
+        }
+        else{
+            startButton.setEnabled(false);
+            startButton.setVisibility(View.INVISIBLE);
+            findViewById(R.id.LobbyTxtStartHint).setVisibility(View.INVISIBLE);
+        }
     }
 }
