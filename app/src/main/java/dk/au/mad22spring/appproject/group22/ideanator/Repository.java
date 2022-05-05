@@ -54,6 +54,10 @@ public class Repository {
         DatabaseReference gameRef= getRealtimeInstance()
                 .getReference("Ideainator/Games/" + Repository.getInstance().joinCode);
         gameRef.removeValue();
-        staticFirebase=null;
+        staticFirebase.joinCode=null;
+        staticFirebase.theGame=null;
+        staticFirebase.thePlayer=null;
+        staticFirebase=new Repository();
+
     }
 }

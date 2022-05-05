@@ -60,12 +60,15 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         shareButton = findViewById(R.id.lobbyBtnShare);
 
 
-        txtJoinCode.setText("Loading...");
+        if(viewModel.joinCodeReady) txtJoinCode.setText(viewModel.joinCode);
+        else txtJoinCode.setText("Loading...");
 
 
         // Only show button if admin
-        startButton.setEnabled(false);
-        startButton.setVisibility(View.GONE);
+        if(!viewModel.isAdmin()){
+            startButton.setEnabled(false);
+            startButton.setVisibility(View.GONE);
+        }
         findViewById(R.id.LobbyTxtStartHint).setVisibility(View.GONE);
 
     }

@@ -74,8 +74,9 @@ public class FinalActivity extends FragmentActivity {
     private void endGame() {
         vm.deleteGame();
         Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Kill stack
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
     private void shareIdea() {//Sharing from https://developer.android.com/training/sharing/send
@@ -93,7 +94,7 @@ public class FinalActivity extends FragmentActivity {
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
+            moveTaskToBack(true);
         } else {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
