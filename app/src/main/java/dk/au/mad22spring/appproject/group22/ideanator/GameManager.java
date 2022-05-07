@@ -73,7 +73,7 @@ public class GameManager {
 
         addGameListener(playerName);
     }
-
+    // Adds problem cards to the game rounds
     private void addProblemcardsToRemote() {
         ArrayList<Round> rounds = new ArrayList<>();
         Repository.getStaticInstance().collection("ProblemCards").get().addOnCompleteListener(task -> {
@@ -143,7 +143,7 @@ public class GameManager {
         };
         joinRef.addValueEventListener(listener);
     }
-
+    // Opens activities based on the game state, this ensures that the players are on the same round and correct activity.
     private void progressToCorrectActivity(Game remoteGame) {
         if (repository.theGame.getValue() == null) return;
         Game.gameState remoteState = remoteGame.getState();

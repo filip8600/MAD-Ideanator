@@ -17,6 +17,7 @@ public class FinalActivityViewModel extends ViewModel {
         GameManager.getInstance().removeListeners();
     }
 
+    // Gets winnercard and creates string containing problem and its solution
     public String getSolution(int position) {
         if(winners==null) {
             winners=new ArrayList<String>();

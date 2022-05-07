@@ -97,11 +97,13 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         viewModel.StartGame(this);
     }
 
+
     @Override
     public void newPlayerArrived(ArrayList<Player> players) {
         adapter.updatePlayerList(players);
     }
 
+    // Sets gamecode when it is ready, also activates button if admin.
     @Override
     public void gameCodeReady(String gameCode, boolean isAdmin) {
         txtJoinCode.setText(gameCode);
@@ -128,6 +130,7 @@ public class LobbyActivity extends AppCompatActivity implements LobbyActivityVie
         startActivity(intent);
         finish();
     }
+    // hides or shows start button based on admin state
     @Override
     public void updateAdminButton(boolean isAdmin){
         if (isAdmin){

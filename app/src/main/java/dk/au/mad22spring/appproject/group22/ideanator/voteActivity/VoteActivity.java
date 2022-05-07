@@ -64,7 +64,7 @@ public class VoteActivity extends AppCompatActivity implements OptionAdapter.IOp
         Log.d("adaptor", "recycler set up");
 
     }
-
+    // checks if the option can be clicked. Gives toast based on status
     @Override
     public void onOptionClicked(int index) {
         if(!vm.checkOption(index)) Toast.makeText(this, getString(R.string.havePatience), Toast.LENGTH_SHORT).show();

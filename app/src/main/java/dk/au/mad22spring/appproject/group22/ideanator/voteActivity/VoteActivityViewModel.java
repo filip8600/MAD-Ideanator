@@ -49,6 +49,7 @@ public class VoteActivityViewModel extends ViewModel {
         return repository.theGame.getValue().getRounds().get(round-1).getProblems();
     }
 
+    // Observes the Game, updates view and if admin move the game forward when everyone has voted.
     public void observe(LifecycleOwner owner, CanUpdateUI caller, ActivityResultLauncher<Intent> launcherRef) {
         launcher=launcherRef;
         repository.theGame.observe(owner, game -> {
@@ -59,7 +60,7 @@ public class VoteActivityViewModel extends ViewModel {
 
         });
     }
-
+    // if admin and everyone has voted set game state, which makes it go to the next round.
     public void adminCheckVoteCount(Game game) {
        if ( !repository.thePlayer.getAdmin()) return;//Only game admin will check if everyone has voted
        //else
@@ -77,6 +78,7 @@ public class VoteActivityViewModel extends ViewModel {
         return counter;
     }
 
+    // moves to the next round, which could be a normal round(continue) or final(end game)
     private void moveToNextRound() {
         if (movingToNextRound) return;
         movingToNextRound=true;//Avoid multiple initiations of this code

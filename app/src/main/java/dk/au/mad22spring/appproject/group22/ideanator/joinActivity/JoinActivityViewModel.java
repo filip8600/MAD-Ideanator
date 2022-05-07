@@ -14,7 +14,7 @@ public class JoinActivityViewModel extends ViewModel {
 
     DatabaseReference myRef;
 
-
+    // checks if the joincode is valid
     public void isCodeValid(canHandleResult caller, String joinCode) {
         if (joinCode == null) caller.isCodeValidResult(false, null);
         else if (joinCode.length() < 3) caller.isCodeValidResult(false, null);
@@ -27,7 +27,7 @@ public class JoinActivityViewModel extends ViewModel {
                 caller.isCodeValidResult(false, IdeainatorApplication.getAppContext().getString(R.string.Gamealreadystarted));
         });
     }
-
+    // Interface used to create callback for error messages
     public interface canHandleResult {
         void isCodeValidResult(boolean isValid, @Nullable String errorMessage);
     }

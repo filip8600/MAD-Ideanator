@@ -43,6 +43,7 @@ public class JoinActivity extends AppCompatActivity implements JoinActivityViewM
         viewModel.isCodeValid(this, String.valueOf(textBox.getText()));
     }
 
+    // callback used for error messages based on the joincode
     public void isCodeValidResult(boolean isValid, String errorMessage) {
         if (isValid) {
             GameManager.getInstance().joinExistingGame(String.valueOf(textBox.getText()));

@@ -86,20 +86,19 @@ public class RoundActivity extends AppCompatActivity implements OptionAdapter.IO
 
             vm.sendSelectedOption(index,this);
 
-
-
-
         } else {
             Toast.makeText(this, getString( R.string.optionAllreadySelected), Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    // updates progressbar
     @Override
     public void newOptionPlayed(int numberOfOptionsPlayed) {
         if(vm.hasChosenOption) return;
         progressBar.setProgress(numberOfOptionsPlayed);
     }
+    // starts Voteactivity
     @Override
     public void startIntent(){
         Intent intent = new Intent(IdeainatorApplication.getAppContext(),VoteActivity.class);

@@ -34,6 +34,7 @@ public class LobbyActivityViewModel extends ViewModel {
         // Get game reference
         DatabaseReference myRef = Repository.getRealtimeInstance().getReference("Ideainator/Games/"+ repository.joinCode);
 
+        // Gets option cards
         myRef.get().addOnCompleteListener(task -> {
             GenericTypeIndicator<Game> t = new GenericTypeIndicator<Game>() {};
             Game theGame = task.getResult().getValue(t);
@@ -51,7 +52,7 @@ public class LobbyActivityViewModel extends ViewModel {
                     optionCards.add(card);
                 }
 
-
+                // Adds option cards to each player
                 if (theGame.getState() == Game.gameState.LOBBY) {
                     ArrayList<Player> players = theGame.getPlayers();
                     for (int i = 0; i<players.size(); i++)
@@ -99,6 +100,7 @@ public class LobbyActivityViewModel extends ViewModel {
         return repository.thePlayer.getAdmin();
     }
 
+    // Observes the players in the game, adds and removes players when they join and leave
     public void ObservePlayers(LifecycleOwner owner, canHandleGameUpdates lobbyActivity) {
         repository.theGame.observe(owner, game -> {
             if(!joinCodeReady) checkJoinCode(lobbyActivity);
@@ -121,7 +123,7 @@ public class LobbyActivityViewModel extends ViewModel {
         joinCodeReady=true;
         lobbyActivity.gameCodeReady(joinCode, isAdmin());
     }
-
+    // interface used to callback methods in activity.
     public interface canHandleGameUpdates {
         void newPlayerArrived(ArrayList<Player> players);
         void gameCodeReady(String joinCode, boolean isAdmin);
