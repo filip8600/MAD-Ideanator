@@ -19,7 +19,7 @@ import dk.au.mad22spring.appproject.group22.ideanator.IdeainatorApplication;
 import dk.au.mad22spring.appproject.group22.ideanator.R;
 import dk.au.mad22spring.appproject.group22.ideanator.voteActivity.VoteActivity;
 
-//https://www.journaldev.com/9896/android-countdowntimer-example TODO: Count down bar on round view + vote view
+//https://www.journaldev.com/9896/android-countdowntimer-example
 
 @SuppressWarnings("FieldCanBeLocal")
 public class RoundActivity extends AppCompatActivity implements OptionAdapter.IOptionItemClickedListener, RoundActivityViewModel.CanHandleOptionsUpdate {

@@ -14,7 +14,6 @@ public class API_Repository {
 
     /* GENERAL */
     private static API_Repository instance;            //for Singleton pattern
-    private static ExecutorService executor;           //for async processing
 
     public static API_Repository getInstance(){
         if(instance==null){
@@ -25,7 +24,6 @@ public class API_Repository {
 
     //Constructor
     private API_Repository(){
-        executor = Executors.newSingleThreadExecutor();                //executor for background processing
     }
 
 

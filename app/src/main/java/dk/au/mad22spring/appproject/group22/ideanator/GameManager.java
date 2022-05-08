@@ -81,7 +81,6 @@ public class GameManager {
             String language = Locale.getDefault().getLanguage();
             String danish = IdeainatorApplication.getAppContext().getString(R.string.Danish);
             String english = IdeainatorApplication.getAppContext().getString(R.string.English);
-            //todo: start a random spot in the array
             for (QueryDocumentSnapshot document : task.getResult()) {
                 if (rounds.size() >= repository.theGame.getValue().numberOfRounds) break;
                 Round round;
